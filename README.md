@@ -15,9 +15,11 @@ Please Join https://trello.com/invite/b/ZuH9QSyJ/a27cbb4953bc57392b88f75b208d488
 
 # Git Commands to be used:
 1) Git status
-2) git add * or git add .
-3) git commit -m "commit msg"
-4) git push 
+2) Git checkout -b branchname
+3) git add * or git add .
+4) git commit -m "commit msg"
+5) git push 
+
 
 # Fetch the latest version from Git
 1) git fetch origin
