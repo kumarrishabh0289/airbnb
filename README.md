@@ -1,4 +1,4 @@
-# airbnb
+# Airbnb OpenHome
 Airbnb Prototype for Group Project CMPE 275 (OpenHome)
 
 #Commit Rules
