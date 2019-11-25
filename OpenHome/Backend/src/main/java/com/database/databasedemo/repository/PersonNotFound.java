@@ -1,4 +1,4 @@
-package com.database.databasedemo;
+package com.database.databasedemo.repository;
 
 public class PersonNotFound extends RuntimeException {
     public PersonNotFound(String exception) {

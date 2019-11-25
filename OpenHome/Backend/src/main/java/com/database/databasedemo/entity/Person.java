@@ -1,4 +1,4 @@
-package com.database.databasedemo;
+package com.database.databasedemo.entity;
 
 import javax.persistence.*;
 
