@@ -1,6 +1,6 @@
-package com.database.databasedemo;
+package com.database.databasedemo.repository;
 
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import com.database.databasedemo.entity.Person;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

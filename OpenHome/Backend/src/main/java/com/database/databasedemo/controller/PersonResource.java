@@ -1,7 +1,9 @@
-package com.database.databasedemo;
+package com.database.databasedemo.controller;
 
+import com.database.databasedemo.repository.PersonNotFound;
+import com.database.databasedemo.service.PersonSpringDataRepo;
+import com.database.databasedemo.entity.Person;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
