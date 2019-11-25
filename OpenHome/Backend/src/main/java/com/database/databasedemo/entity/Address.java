@@ -2,7 +2,7 @@ package com.database.databasedemo.entity;
 
 import javax.persistence.*;
 
-@Entity
+//@Entity
 @Table(name="address")
 public class Address {
 

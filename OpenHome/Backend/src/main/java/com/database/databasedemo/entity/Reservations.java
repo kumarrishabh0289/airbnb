@@ -3,7 +3,7 @@ package com.database.databasedemo.entity;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity
+//@Entity
 @Table(name="reservations")
 public class Reservations {
 

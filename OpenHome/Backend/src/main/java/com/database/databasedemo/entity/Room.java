@@ -2,7 +2,7 @@ package com.database.databasedemo.entity;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
+//@Entity
 @Table(name = "room")
 public class Room {
 
@@ -33,8 +33,7 @@ public class Room {
     @OneToMany(mappedBy="room", targetEntity = Reservations.class, fetch = FetchType.EAGER)
     private List<Reservations> reservationList;
 
-    @ManyToOne
-    private Property property;
+
 
     public Room() {
         super();
