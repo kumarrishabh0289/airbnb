@@ -9,11 +9,52 @@ public class Property {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private int apartmentId;
+    @Column(name = "property_id", nullable = false)
+    private int propertyId;
 
-    @Column(name = "apartment_description", nullable = false, length = 100)
-    private String apartmentDescription;
+    @Column(name = "property_description", nullable = false, length = 100)
+    private String propertyDescription;
+
+    public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage,Person owner) {
+        this.propertyDescription = propertyDescription;
+        this.streetName = streetName;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+        this.propertyType = propertyType;
+        this.sharingType = sharingType;
+        this.numberOfRooms = numberOfRooms;
+        this.totalSquareFootage = totalSquareFootage;
+        this.owner = owner;
+    }
+
+    public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage, boolean parking, float parkingFee, boolean wifi, boolean laundry, String view, boolean smoking, boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat, boolean sun, String picture, Person owner, List<Room> roomList) {
+        this.propertyDescription = propertyDescription;
+        this.streetName = streetName;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+        this.propertyType = propertyType;
+        this.sharingType = sharingType;
+        this.numberOfRooms = numberOfRooms;
+        this.totalSquareFootage = totalSquareFootage;
+        this.parking = parking;
+        this.parkingFee = parkingFee;
+        this.wifi = wifi;
+        this.laundry = laundry;
+        this.view = view;
+        this.smoking = smoking;
+        this.mon = mon;
+        this.tue = tue;
+        this.wed = wed;
+        this.thu = thu;
+        this.fri = fri;
+        this.sat = sat;
+        this.sun = sun;
+        this.picture = picture;
+        this.owner = owner;
+        this.roomList = roomList;
+    }
 
     @Column(name="street_name")
     private String streetName;
@@ -84,7 +125,7 @@ public class Property {
     @ManyToOne
     private Person owner;
 
-    @OneToMany(mappedBy="apartment", targetEntity = Room.class, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="roomId", targetEntity = Room.class, fetch = FetchType.EAGER)
     private List<Room> roomList;
 
 
@@ -92,20 +133,20 @@ public class Property {
         super();
     }
 
-    public int getApartmentId() {
-        return apartmentId;
+    public int getPropertyId() {
+        return propertyId;
     }
 
-    public void setApartmentId(int apartmentId) {
-        this.apartmentId = apartmentId;
+    public void setPropertyId(int propertyId) {
+        this.propertyId = propertyId;
     }
 
-    public String getApartmentDescription() {
-        return apartmentDescription;
+    public String getPropertyDescription() {
+        return propertyDescription;
     }
 
-    public void setApartmentDescription(String apartmentDescription) {
-        this.apartmentDescription = apartmentDescription;
+    public void setPropertyDescription(String propertyDescription) {
+        this.propertyDescription = propertyDescription;
     }
 
     public String getStreetName() {

@@ -17,6 +17,12 @@ public class Reservations {
     @Column(name="booking_date")
     private Date bookingDate;
 
+    @Column(name="start_date")
+    private Date startDate;
+
+    @Column(name="end_date")
+    private Date endDate;
+
     @Column(name="check_in_date")
     private Date checkInDate;
 
