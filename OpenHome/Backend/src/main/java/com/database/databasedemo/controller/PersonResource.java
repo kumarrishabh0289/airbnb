@@ -1,8 +1,8 @@
 package com.database.databasedemo.controller;
 
 import com.database.databasedemo.repository.PersonNotFound;
-import com.database.databasedemo.service.PersonSpringDataRepo;
 import com.database.databasedemo.entity.Person;
+import com.database.databasedemo.repository.PersonSpringDataRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
