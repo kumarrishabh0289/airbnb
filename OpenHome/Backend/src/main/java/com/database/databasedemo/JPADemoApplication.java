@@ -46,8 +46,10 @@ public class JPADemoApplication implements CommandLineRunner {
         logger.info("Insert  Property-> {}");
 
         propertyService.createProperty(newProp);
-
+        logger.info("Find property with property id 1{} ->",propertyService.getProperty(1).toString());
         logger.info("Find All -> {}", propertyService.getAllProperties());
+
+        logger.info("Find properties for owner with id 5->{}",propertyService.getHostProperties(p));
 
 
     }

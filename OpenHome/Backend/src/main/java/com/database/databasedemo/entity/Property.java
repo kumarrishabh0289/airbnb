@@ -123,7 +123,10 @@ public class Property {
     private String picture;
 
     @ManyToOne
+    @JoinColumn(name = "owner_id")
     private Person owner;
+//    @Column(name="owner_id")
+//    private int owner_id;
 
     @OneToMany(mappedBy="roomId", targetEntity = Room.class, fetch = FetchType.EAGER)
     private List<Room> roomList;
@@ -339,5 +342,14 @@ public class Property {
 
     public void setRoomList(List<Room> roomList) {
         this.roomList = roomList;
+    }
+
+    @Override
+    public String toString() {
+        return "\nProperty{" +
+                "city=" + city +
+                ", street='" + state + '\'' +
+                ", zipcode='" + zipcode + '\'' +
+                '}';
     }
 }
