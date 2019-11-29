@@ -2,7 +2,7 @@ package com.database.databasedemo.entity;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
+//@Entity
 @Table(name = "room")
 public class Room {
 
@@ -100,6 +100,7 @@ public class Room {
     @JoinColumn(name="property_id",nullable=false,insertable = true, updatable = true)
     @ManyToOne(optional=false,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Property property;
+
 
     public Room() {
         super();
