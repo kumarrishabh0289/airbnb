@@ -2,7 +2,7 @@ package com.database.databasedemo.entity;
 import javax.persistence.*;
 import java.util.List;
 
-//@Entity
+@Entity
 @Table(name = "room")
 public class Room {
 
