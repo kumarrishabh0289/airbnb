@@ -1,6 +1,7 @@
 package com.database.databasedemo.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,7 +16,7 @@ public class Property {
     @Column(name = "property_description", nullable = false, length = 100)
     private String propertyDescription;
 
-    public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage,Person owner) {
+    public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String picture,String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage,Person owner) {
         this.propertyDescription = propertyDescription;
         this.streetName = streetName;
         this.city = city;
@@ -26,6 +27,7 @@ public class Property {
         this.numberOfRooms = numberOfRooms;
         this.totalSquareFootage = totalSquareFootage;
         this.owner = owner;
+        this.picture = picture;
     }
 
     public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage, boolean parking, float parkingFee, boolean wifi, boolean laundry, String view, boolean smoking, boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat, boolean sun, String picture, Person owner, List<Room> roomList) {
@@ -128,9 +130,12 @@ public class Property {
 //    @Column(name="owner_id")
 //    private int owner_id;
 
-    @OneToMany(mappedBy="roomId", targetEntity = Room.class, fetch = FetchType.EAGER)
-    private List<Room> roomList;
-
+    @OneToMany(mappedBy="property", targetEntity = Room.class, fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Room> roomList=new ArrayList<>();;
+    @PrePersist
+    private void prePersist() {
+        roomList.forEach( c -> c.setProperty(this));
+    }
 
     public Property() {
         super();
@@ -340,10 +345,13 @@ public class Property {
         return roomList;
     }
 
-    public void setRoomList(List<Room> roomList) {
+    private void setRoomList(List<Room> roomList) {
         this.roomList = roomList;
     }
-
+    public void addRoom(Room room){
+        roomList.add(room);
+        room.setProperty(this);
+    }
     @Override
     public String toString() {
         return "\nProperty{" +

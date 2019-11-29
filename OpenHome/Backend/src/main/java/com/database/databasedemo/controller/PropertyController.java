@@ -19,6 +19,7 @@ public class PropertyController {
     @PostMapping("/property/add")
     @ResponseStatus(value = HttpStatus.CREATED)
     public ResponseEntity<?> createProperty(@RequestBody Property property) {
+            System.out.println("Request from frontend: "+property.getRoomList());
             propertyService.createProperty(property);
             return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -34,8 +35,10 @@ public class PropertyController {
     }
 
     @GetMapping("/property/owner/{ownerId}")
-    public List<Property> getOwnerProperties(@PathVariable Person ownerId) {
+    public List<Property> getOwnerProperties(@PathVariable String ownerId) {
         System.out.println(ownerId);
-        return propertyService.getHostProperties(ownerId);
+        Person person=new Person();
+        person.setId((Integer.parseInt(ownerId)));
+        return propertyService.getHostProperties(person);
     }
 }
