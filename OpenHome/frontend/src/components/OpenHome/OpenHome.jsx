@@ -7,6 +7,7 @@ import HeaderComponent from './HeaderComponent.jsx'
 import FooterComponent from './FooterComponent.jsx'
 import LogoutComponent from './LogoutComponent.jsx'
 import WelcomeComponent from './WelcomeComponent.jsx'
+import SearchResults from './SearchResults/SearchResults'
 import FrontPage from './FrontPage.jsx'
 
 
@@ -19,6 +20,7 @@ class OpenHome extends Component {
                         <HeaderComponent/>
                         <Switch>
                             <Route path="/" exact component={FrontPage}/>
+                            <Route path="/search/searchResults" component={SearchResults}/>
                             <Route path="/login" component={LoginComponent}/>
                             <AuthenticatedRoute path="/welcome/:name" component={WelcomeComponent}/>
                           

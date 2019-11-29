@@ -28,6 +28,11 @@ public class Property {
         this.owner = owner;
     }
 
+    public Property(String city,String sharingType){
+        this.city=city;
+        this.sharingType=sharingType;
+    }
+
     public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage, boolean parking, float parkingFee, boolean wifi, boolean laundry, String view, boolean smoking, boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat, boolean sun, String picture, Person owner, List<Room> roomList) {
         this.propertyDescription = propertyDescription;
         this.streetName = streetName;
@@ -340,4 +345,15 @@ public class Property {
     public void setRoomList(List<Room> roomList) {
         this.roomList = roomList;
     }
+
+    @Override
+    public String toString() {
+        return "\nProperty{" +
+                "city=" + city +
+                ", street='" + state + '\'' +
+                ", zipcode='" + zipcode + '\'' +
+                '}';
+    }
 }
+
+

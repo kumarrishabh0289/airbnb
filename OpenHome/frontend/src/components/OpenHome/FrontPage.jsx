@@ -1,22 +1,138 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import AuthenticationForApiService from './AuthenticationForApiService.js'
+import { Redirect } from 'react-router';
+//import { Link } from 'react-router-dom'
+import axios from 'axios';
+//import AuthenticationForApiService from './AuthenticationForApiService.js'
 
 class FrontPage extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
-
+            location: '',
+            endDate: '',
+            startDate:'',
+            sharingType:'Full',
+            propertyType:'Apartment',
+            propertyDescription: '',
+            wifi : 'true',
+            priceRange : '1 to 100',
+            responseData: ''
         }
+        this.ChangeHandler = this.ChangeHandler.bind(this);
+        this.SearchButton = this.SearchButton.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleChangePropertyType = this.handleChangePropertyType.bind(this);
+        this.handleChangeWifi = this.handleChangeWifi.bind(this);
+        this.handleChangePricerange = this.handleChangePricerange.bind(this);
     }
 
     componentWillMount() {
 
     }
 
+    SearchButton = (e) => {
+        //var headers = new Headers();
+        e.preventDefault();
+        if(this.state.location === "")
+            alert("Address is Empty");
+        else if(this.state.startDate === "")
+            alert("CHECK-IN Date is Empty");
+        else if(this.state.endDate === "")
+            alert("CHECKOUT Date is Empty");
+        else{
+                console.log(new Date());
+            const data = {
+                city : this.state.location,
+                endDate : this.state.endDate,
+                startDate : this.state.startDate,
+                sharingType : this.state.sharingType,
+                propertyType: this.state.propertyType,
+                propertyDescription: this.state.propertyDescription,
+                wifi : this.state.wifi,
+                priceRange : this.state.priceRange
+            }
+           // alert('Your favorite flavor is: ' + this.state.priceRange);
+            console.log(data);
+            // axios.defaults.withCredentials = true;
+      //      axios.get(`${PROPERTY_URL}/search/property`,data)
+            axios.post(`http://localhost:8181/search/property`,data, data)
+                .then(response => {
+                    console.log("Status Code : ",response.status);
+                    if(response.status === 200){
+                        this.setState({
+                           // flag : true,
+                            responseData:response.data//,
+                            // startDate:stringStartDate,
+                            // endDate:stringEndDate
+                        })
+                       // this.props.history.push(`/search/searchResults`)
+                        console.log(response);
+                        if(!response.data){
+                            alert("No Available Properties")
+                        }
+                    }
+                    else{
+                        this.setState({
+                            flag : false
+                        })
+                    }
+                })
+                .catch(err =>{
+                    alert(err);
+                });
+
+
+        }
+    }
+
+    handleChange(event) {
+        this.setState({sharingType: event.target.value});
+    }
+
+    handleChangePropertyType(event) {
+        this.setState({propertyType: event.target.value});
+    }
+
+    handleChangeWifi(event) {
+        this.setState({wifi: event.target.value});
+    }
+
+    handleChangePricerange(event) {
+        this.setState({priceRange: event.target.value});
+    }
+
+    ChangeHandler(e) {
+        let change = {}
+        change[e.target.name] = e.target.value
+        this.setState(change)
+    }
+    
+
     render() {
+        // console.log(this.state.location);
+        // console.log(this.state.startDate);
+        // console.log(this.state.sharingType);
+
+        let redirectvar = null
+        // console.log("Username is : "+this.state.username)
+        if(this.state.responseData){
+            console.log("should redirect")
+            console.log(this.state.responseData);
+            redirectvar = <Redirect to= {{
+                pathname: '/search/searchResults',
+                state:{
+                    responseData: this.state.responseData//,
+                    // location : this.state.location,
+                    // startDate : this.state.startDate,
+                    // endDate : this.state.endDate,
+                    // guests : this.state.guests
+                }
+            }}/>
+        }
+
         return (
             <div>
+                {redirectvar}
                 <div class="container-fluid">
                     <br />
                     <br />
@@ -24,24 +140,21 @@ class FrontPage extends Component {
                         <div class="col-sm-1 col-md-1"></div>
 
                         <div class="col-sm-5 col-md-5" style={{ backgroundColor: "white", opacity: 1, filter: "Alpha(opacity=50)", borderRadius: '10px' }}>
+                            <br/>
+                            <h2>
+                                Book homes, hotels, and more on <mark class="red">Open Home</mark>
+                                </h2>
 
-                            <h1>
-                                Book homes, hotels, and more on Airbnb
-                                </h1>
-
-                            <form>
+                            <form >
                                 <div class="row" >
 
                                     <div class="col-sm-12 col-md-12">
                                         <br />
-                                        <div class="form-group">
+                                        <div class="form-group required">
                                             <label for="where"><h5>WHERE</h5></label>
-                                            <input type="text" class="form-control" id="where" placeholder="Anywhere" />
+                                            <input type="text" onChange = {this.ChangeHandler} class="form-control" placeholder="Anywhere" name="location" id="location"/>
 
                                         </div>
-
-                                    </div>
-                                    <div class="col-sm-1 col-md-1">
 
                                     </div>
 
@@ -50,70 +163,119 @@ class FrontPage extends Component {
 
                                     <div class="col-sm-6 col-md-6">
 
-                                        <div class="form-group">
-                                            <label for="where"><h5>CHECK-OUT</h5></label>
-                                            <input type="text" class="form-control" id="where" placeholder="Check-Out" />
-
-                                        </div>
-
-                                    </div>
-                                    <div class="col-sm-6 col-md-6">
-
-                                        <div class="form-group">
+                                        <div class="col-sm-8 col-md-8 required">
                                             <label for="where"><h5>CHECK-IN</h5></label>
-                                            <input type="text" class="form-control" id="where" placeholder="Check-In" />
+                                            <input onChange = {this.ChangeHandler} type="date" name="startDate" id="startDate" class="form-control js-Date" />
+                                            <i class="icon-calendar form-control-icon" aria-hidden="true">
+                                            </i>
+                                        </div>
+
+                                    </div>
+                                    
+                                    <div class="col-sm-6 col-md-6">
+
+                                        <div class="col-sm-8 col-md-8 required">
+                                            <label for="where"><h5>CHECKOUT</h5></label>
+                                            <input onChange = {this.ChangeHandler} type="date" name="endDate" id="endDate" class="form-control js-Date"/>
+                                        </div>
+                                        
+                                    </div>
+                       
+
+                                </div>
+                                <br/>
+
+                                 <div class="row" >
+
+                                    <div class="col-sm-6 col-md-6">
+
+                                        <div class="form-group">
+                                            <label for="where"><h5>Sharing Type</h5></label>
+                                            <div class="form-group">
+
+                                                <select class="form-control" value={this.state.value} onChange = {this.handleChange} >
+                                                    <option value="Full">Full</option>
+                                                    <option value="Partial">Partial</option>
+                                                </select>
+                                                
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="col-sm-6 col-md-6">
+
+                                        <div class="form-group">
+                                            <label for="where"><h5>Property Type</h5></label>
+                                            <div class="form-group">
+
+                                                <select class="form-control" value={this.state.value} onChange = {this.handleChangePropertyType}>
+                                                    <option value="Apartment">Apartment</option>
+                                                    <option value="Condo">Condo</option>
+                                                    <option value="Bed and Breakfast">Bed and Breakfast</option>
+                                                    <option value="Hostel">Hostel</option>
+                                                    <option value="House">House</option>
+                                                    <option value="TownHouse">TownHouse</option>
+                                                    <option value="Villa">Villa</option>
+                                                    <option value="Farmhouse">Farmhouse</option>
+                                                    <option value="Cottage">Cottage</option>
+                                                    <option value="PentHouse">PentHouse</option>
+                                                </select>
+
+                                            </div>
 
                                         </div>
                                     </div>
 
                                 </div>
+
 
                                 <div class="row" >
-
                                     <div class="col-sm-6 col-md-6">
-
                                         <div class="form-group">
-                                            <label for="where"><h5>ADULTS</h5></label>
+                                         <label for="where"><h5>Price Range</h5></label>
                                             <div class="form-group">
-
-                                                <select class="form-control" id="sel1">
-                                                    <option>0</option>
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
+                                                <select class="form-control" value={this.state.value} onChange = {this.handleChangePricerange}>
+                                                <option value="1 to 100"> 1 to 100</option>
+                                                    <option value="101 to 1000"> 101 to 1000</option>
+                                                    <option value="1001 to 2000">1001 to 2000</option>
+                                                    <option value="2001 to 3000">2001 to 3000</option>
                                                 </select>
                                             </div>
-
-                                        </div>
-
-                                    </div>
-                                    <div class="col-sm-6 col-md-6">
-
-                                        <div class="form-group">
-                                            <label for="where"><h5>CHILDREN</h5></label>
-                                            <div class="form-group">
-
-                                                <select class="form-control" id="sel1">
-                                                    <option>0</option>
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                </select>
-                                            </div>
-
                                         </div>
                                     </div>
 
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                         <label for="where"><h5>Wifi Required</h5></label>
+                                            <div class="form-group">
+                                                <select class="form-control" value={this.state.value} onChange = {this.handleChangeWifi}>
+                                                    <option value="true">Yes</option>
+                                                    <option value="false">No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+
+
+                                <div class="row" >
+                                    <div class="col-sm-12 col-md-12">
+                                        <br />
+                                        <div class="form-group">
+                                            <label for="where"><h5>Description</h5></label>
+                                            <textarea type="noter-text-area" onChange = {this.ChangeHandler} class="form-control" placeholder="Describe the Place Here!" name="propertyDescription" id="propertyDescription" >
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="row" >
 
                                     <div class="col-sm-12 col-md-12">
                                         <div class="form-group">
-                                        
                                             <br/>
-                                            <input type="submit" class="form-control btn btn-danger" />
+                                            <input type="submit" onClick={this.SearchButton} class="form-control btn btn-danger" />
                                             <br/>
                                             <br/>
                                         </div>
