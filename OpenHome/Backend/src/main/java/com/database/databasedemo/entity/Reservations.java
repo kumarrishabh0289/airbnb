@@ -3,7 +3,7 @@ package com.database.databasedemo.entity;
 import javax.persistence.*;
 import java.util.Date;
 
-//@Entity
+@Entity
 @Table(name="reservations")
 public class Reservations {
 
@@ -16,6 +16,12 @@ public class Reservations {
 
     @Column(name="booking_date")
     private Date bookingDate;
+
+    @Column(name="start_date")
+    private Date startDate;
+
+    @Column(name="end_date")
+    private Date endDate;
 
     @Column(name="check_in_date")
     private Date checkInDate;
