@@ -25,15 +25,16 @@ public class PropertyService {
         return propertyRepo.findAll();
     }
 
-    public List<Property> getHostProperties(Person guest){
-        List<Property> allProperties=propertyRepo.findAll();
-        List<Property> hostProperties=new ArrayList<>();
-        for(Property p: allProperties){
-            if(p.getOwner().getId()==guest.getId()){
-                hostProperties.add(p);
-            }
-        }
-        return hostProperties;
+    public List<Property> getHostProperties(Person ownerId){
+//        List<Property> allProperties=propertyRepo.findAll();
+//        List<Property> hostProperties=new ArrayList<>();
+//        for(Property p: allProperties){
+//            if(p.getOwner().getId()==guest.getId()){
+//                hostProperties.add(p);
+//            }
+//        }
+//        return hostProperties;
+        return propertyRepo.findByOwner(ownerId);
     }
 
     public void createProperty(Property property){

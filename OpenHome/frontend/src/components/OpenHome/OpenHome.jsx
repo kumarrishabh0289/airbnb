@@ -9,6 +9,7 @@ import LogoutComponent from './LogoutComponent.jsx'
 import WelcomeComponent from './WelcomeComponent.jsx'
 import SearchResults from './SearchResults/SearchResults'
 import FrontPage from './FrontPage.jsx'
+import AssetDisplay from './AssetDisplay.jsx'
 
 
 class OpenHome extends Component {
@@ -25,6 +26,7 @@ class OpenHome extends Component {
                             <AuthenticatedRoute path="/welcome/:name" component={WelcomeComponent}/>
                           
                             <AuthenticatedRoute path="/logout" component={LogoutComponent}/>
+                            <Route path="/asset" component={AssetDisplay} />
                             
                             <Route component={ErrorComponent}/>
                         </Switch>
