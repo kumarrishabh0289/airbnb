@@ -7,6 +7,7 @@ import com.database.databasedemo.service.PropertyService;
 
 import com.database.databasedemo.service.SearchPropertyService;
 
+
 //import com.database.databasedemo.repository.AssetSpringDataRepo;
 
 

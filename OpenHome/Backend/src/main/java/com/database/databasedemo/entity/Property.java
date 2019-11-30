@@ -193,7 +193,7 @@ public class Property {
 //    @Column(name="owner_id")
 //    private int owner_id;
 
-    @OneToMany(mappedBy="property", targetEntity = Reservations.class, fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="propertyId", targetEntity = Reservations.class, fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Reservations> reservations=new ArrayList<>();;
 //    @PrePersist
 //    private void prePersist() {
@@ -407,7 +407,8 @@ public class Property {
 
     public void addReservation(Reservations reservation){
         reservations.add(reservation);
-        reservation.setProperty(this);
+        //reservation.setProperty(this);
+        reservation.setPropertyId(this.propertyId);
     }
 
     @Override
