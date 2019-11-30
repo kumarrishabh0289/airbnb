@@ -7,10 +7,9 @@ import HeaderComponent from "./HeaderComponent.jsx";
 import FooterComponent from "./FooterComponent.jsx";
 import LogoutComponent from "./LogoutComponent.jsx";
 import WelcomeComponent from "./WelcomeComponent.jsx";
+import SearchResults from "./SearchResults/SearchResults";
 import FrontPage from "./FrontPage.jsx";
-import PropertiesDashboard from "../OwnerProperty/PropertiesDashboard.jsx";
-import PropertyDetails from "../OwnerProperty/PropertyDetails.jsx";
-import CreateProperty from "../OwnerProperty/CreateProperty.jsx";
+import AssetDisplay from "./AssetDisplay.jsx";
 
 class OpenHome extends Component {
   render() {
@@ -21,6 +20,7 @@ class OpenHome extends Component {
             <HeaderComponent />
             <Switch>
               <Route path="/" exact component={FrontPage} />
+              <Route path="/search/searchResults" component={SearchResults} />
               <Route path="/login" component={LoginComponent} />
               <AuthenticatedRoute
                 path="/welcome/:name"
@@ -28,13 +28,11 @@ class OpenHome extends Component {
               />
 
               <AuthenticatedRoute path="/logout" component={LogoutComponent} />
-              <Route path="/dashboard" component={PropertiesDashboard} />
-              <Route path="/property/new" component={CreateProperty} />
-              <Route path="/property/:propertyId" component={PropertyDetails} />
+              <Route path="/asset" component={AssetDisplay} />
 
               <Route component={ErrorComponent} />
             </Switch>
-            <FooterComponent class="footer" />
+            <FooterComponent />
           </>
         </Router>
       </div>
