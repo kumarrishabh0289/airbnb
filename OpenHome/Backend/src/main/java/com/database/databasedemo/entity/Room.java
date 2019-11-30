@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
+//@Entity
 @Table(name = "room")
 public class Room {
 
@@ -106,6 +106,7 @@ public class Room {
     @ManyToOne(optional=false,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonIgnore
     private Property property;
+
 
     public Room() {
         super();
