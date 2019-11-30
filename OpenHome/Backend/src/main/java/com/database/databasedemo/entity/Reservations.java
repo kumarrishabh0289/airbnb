@@ -95,19 +95,29 @@ public class Reservations {
         this.guest = guest;
     }
 
-    public Property getProperty() {
-        return property;
+//    public Property getProperty() {
+//        return property;
+//    }
+//
+
+    public int getPropertyId() {
+        return propertyId;
     }
 
-    public void setProperty(Property property) {
-        this.property = property;
+    public void setPropertyId(int propertyId) {
+        this.propertyId = propertyId;
     }
+//    public void setProperty(Property property) {
+//        this.property = property;
+//    }
 
     @ManyToOne
     private Person guest;
 
+//    @JoinColumn(name="property_id",nullable=false,insertable = true, updatable = true)
+//    @ManyToOne(optional=false,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+//    @JsonIgnore
+//    private Property property;
     @JoinColumn(name="property_id",nullable=false,insertable = true, updatable = true)
-    @ManyToOne(optional=false,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Property property;
+    int propertyId;
 }

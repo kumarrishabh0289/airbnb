@@ -7,9 +7,7 @@ import com.database.databasedemo.service.PropertyService;
 
 import com.database.databasedemo.service.SearchPropertyService;
 
-import com.database.databasedemo.entity.Asset;
-import com.database.databasedemo.repository.AssetSpringDataRepo;
-import com.database.databasedemo.repository.PersonSpringDataRepo;
+
 
 
 import org.slf4j.Logger;
