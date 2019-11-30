@@ -367,6 +367,47 @@ public class Property {
                 ", zipcode='" + zipcode + '\'' +
                 '}';
     }
+
+
+
+    //below fields are added just for try and error as insert in room is pending
+//    @Column(name="weekdayprice")
+//    private int weekdayprice;
+//
+//    @Column(name="weekendprice")
+//    private int weekendprice;
+//
+//    public int getweekdayprice() {
+//        return weekdayprice;
+//    }
+//
+//    public void setweekdayprice(int weekdayprice) {
+//        this.weekdayprice = weekdayprice;
+//    }
+//
+//    public int getweekendprice() {
+//        return weekendprice;
+//    }
+//
+//    public void setweekendprice(int weekendprice) {
+//        this.weekendprice = weekendprice;
+//    }
+//
+//    public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String picture,String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage,int weekdayprice,int weekendprice,Person owner) {
+//        this.propertyDescription = propertyDescription;
+//        this.streetName = streetName;
+//        this.city = city;
+//        this.state = state;
+//        this.zipcode = zipcode;
+//        this.propertyType = propertyType;
+//        this.sharingType = sharingType;
+//        this.numberOfRooms = numberOfRooms;
+//        this.totalSquareFootage = totalSquareFootage;
+//        this.owner = owner;
+//        this.picture = picture;
+//        this.weekdayprice = weekdayprice;
+//        this.weekendprice = weekendprice;
+//    }
 }
 
 

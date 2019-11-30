@@ -4,6 +4,7 @@ import { Redirect } from 'react-router';
 import axios from 'axios';
 //import AuthenticationForApiService from './AuthenticationForApiService.js'
 
+
 class FrontPage extends Component {
     constructor(props) {
         super(props);
@@ -41,10 +42,17 @@ class FrontPage extends Component {
             alert("CHECKOUT Date is Empty");
         else{
                 console.log(new Date());
+
+
+                console.log(new Date(this.state.startDate));
+
+                var doo = new Date(this.state.startDate);
+                console.log(doo.toUTCString());
+
             const data = {
                 city : this.state.location,
                 endDate : this.state.endDate,
-                startDate : this.state.startDate,
+                startDate : doo.toUTCString(),
                 sharingType : this.state.sharingType,
                 propertyType: this.state.propertyType,
                 propertyDescription: this.state.propertyDescription,
@@ -55,7 +63,7 @@ class FrontPage extends Component {
             console.log(data);
             // axios.defaults.withCredentials = true;
       //      axios.get(`${PROPERTY_URL}/search/property`,data)
-            axios.post(`http://localhost:8181/search/property`,data, data)
+            axios.post(`http://localhost:8181/search/property`,data)
                 .then(response => {
                     console.log("Status Code : ",response.status);
                     if(response.status === 200){
@@ -142,7 +150,7 @@ class FrontPage extends Component {
                         <div class="col-sm-5 col-md-5" style={{ backgroundColor: "white", opacity: 1, filter: "Alpha(opacity=50)", borderRadius: '10px' }}>
                             <br/>
                             <h2>
-                                Book homes, hotels, and more on <mark class="red">Open Home</mark>
+                                Book homes, hotels, and more on <mark class="red">OpenHome</mark>
                                 </h2>
 
                             <form >
@@ -180,8 +188,6 @@ class FrontPage extends Component {
                                         </div>
                                         
                                     </div>
-                       
-
                                 </div>
                                 <br/>
 
