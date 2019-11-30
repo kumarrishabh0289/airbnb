@@ -4,11 +4,11 @@ import com.database.databasedemo.entity.Property;
 import com.database.databasedemo.repository.PersonSpringDataRepo;
 import com.database.databasedemo.service.PropertyService;
 
+
 import com.database.databasedemo.service.SearchPropertyService;
 
-import com.database.databasedemo.entity.Asset;
-import com.database.databasedemo.repository.AssetSpringDataRepo;
-import com.database.databasedemo.repository.PersonSpringDataRepo;
+//import com.database.databasedemo.repository.AssetSpringDataRepo;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,8 +26,7 @@ public class JPADemoApplication implements CommandLineRunner {
     PersonSpringDataRepo repo;
 
 
-    @Autowired
-    AssetSpringDataRepo assetRepo;
+
     //PersonJPARepo repo;
 
     @Autowired
@@ -94,10 +93,9 @@ public class JPADemoApplication implements CommandLineRunner {
         propertyService.createProperty(new Property("San Jose both greater Property","North First","San Jose State","California",95112,"https://photos.zillowstatic.com/p_e/ISynct0mwkakxh0000000000.jpg","Condo","Full",2,900,400,500,p));
         propertyService.createProperty(new Property("San Jose weekend greater Property","North First","San Jose State","California",95112,"https://photos.zillowstatic.com/p_e/ISynct0mwkakxh0000000000.jpg","Condo","Full",2,900,40,500,p));
 
-        assetRepo.save(new Asset("33 S 3rd Street", "San Jose", "http://media.graytvinc.com/images/wcjb_apartment-living-room.jpg", 3));
-        assetRepo.save(new Asset("101 San Fernando", "San Jose", "http://media.graytvinc.com/images/wcjb_apartment-living-room.jpg", 3));
-        logger.info("Find All -> {}", assetRepo.findByOwner(3));
-
+//        assetRepo.save(new Asset("33 S 3rd Street", "San Jose", "http://media.graytvinc.com/images/wcjb_apartment-living-room.jpg", 3));
+//        assetRepo.save(new Asset("101 San Fernando", "San Jose", "http://media.graytvinc.com/images/wcjb_apartment-living-room.jpg", 3));
+//        logger.info("Find All -> {}", assetRepo.findByOwner(3));
 
 
     }
