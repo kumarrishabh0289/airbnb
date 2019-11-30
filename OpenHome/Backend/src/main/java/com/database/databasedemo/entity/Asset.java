@@ -27,6 +27,8 @@ public class Asset {
         this.owner = owner;
     }
 
+
+
     public int getId() {
         return id;
     }

@@ -48,7 +48,7 @@ public class SearchController {
 //        System.out.println(property.isWifi());
 
             System.out.println(property.getPropertyType());
-            System.out.println(property.getPriceRange());
+                System.out.println(property.getPriceRange());
             System.out.println(property.getSharingType());
             System.out.println(property.getCity());
             System.out.println(property.getEndDate());
