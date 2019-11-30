@@ -5,8 +5,8 @@ import com.database.databasedemo.entity.Property;
 import com.database.databasedemo.repository.PropertyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,5 +39,9 @@ public class PropertyService {
 
     public void createProperty(Property property){
         propertyRepo.save(property);
+    }
+
+    public void removeProperty(int id){
+        propertyRepo.deleteById(id);
     }
 }

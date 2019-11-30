@@ -24,8 +24,15 @@ public class PropertyController {
             return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @RequestMapping(value="/property/remove/{property}",method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
+    public ResponseEntity<?> removeProperty(@PathVariable("property") int property) {
+        propertyService.removeProperty(property);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping("/property/all")
-    public List<Property> getAllProperties(@RequestBody Property property) {
+    public List<Property> getAllProperties() {
         return propertyService.getAllProperties();
     }
 
