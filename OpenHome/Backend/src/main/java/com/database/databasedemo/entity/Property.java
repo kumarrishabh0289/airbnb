@@ -409,6 +409,7 @@ public class Property {
         reservations.add(reservation);
         reservation.setProperty(this);
     }
+
     @Override
     public String toString() {
         return "\nProperty{" +
@@ -418,3 +419,5 @@ public class Property {
                 '}';
     }
 }
+
+

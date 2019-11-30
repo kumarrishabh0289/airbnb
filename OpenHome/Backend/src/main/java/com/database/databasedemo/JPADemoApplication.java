@@ -3,6 +3,15 @@ import com.database.databasedemo.entity.Person;
 import com.database.databasedemo.entity.Property;
 import com.database.databasedemo.repository.PersonSpringDataRepo;
 import com.database.databasedemo.service.PropertyService;
+
+
+import com.database.databasedemo.service.SearchPropertyService;
+
+import com.database.databasedemo.entity.Asset;
+import com.database.databasedemo.repository.AssetSpringDataRepo;
+import com.database.databasedemo.repository.PersonSpringDataRepo;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +33,9 @@ public class JPADemoApplication implements CommandLineRunner {
 
     @Autowired
     PropertyService propertyService;
+
+    @Autowired
+    SearchPropertyService searchPropertyService;
     public static void main(String[] args) {
         SpringApplication.run(JPADemoApplication.class, args);
     }
@@ -45,7 +57,6 @@ public class JPADemoApplication implements CommandLineRunner {
         logger.info("Find All -> {}", repo.findAll());
         Person p=new Person("Prachi", "123");
         repo.save(p);
-
 
 
 

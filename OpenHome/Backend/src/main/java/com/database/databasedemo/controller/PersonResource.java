@@ -114,8 +114,6 @@ public class PersonResource {
                 System.out.println("Password inValid");
                 throw new PersonNotFound("Password Wrong");
             }
-
-
         }
 
     }
