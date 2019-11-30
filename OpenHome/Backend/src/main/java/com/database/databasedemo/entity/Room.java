@@ -1,4 +1,6 @@
 package com.database.databasedemo.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -17,14 +19,14 @@ public class Room {
     @Column(name = "weekend_price", nullable = false)
     private int weekendPrice;
 
-    @Column(name="square_footage")
-    private int squareFootage;
+    @Column(name="room_square_footage")
+    private int roomSquareFootage;
 
     @Column(name="bath_included")
     private boolean bathIncluded;
 
     @Column(name="shower_included")
-    private boolean shower_included;
+    private boolean showerIncluded;
 
     public int getRoomId() {
         return roomId;
@@ -42,12 +44,21 @@ public class Room {
         this.weekendPrice = weekendPrice;
     }
 
-    public int getSquareFootage() {
-        return squareFootage;
+
+    public int getRoomsquareFootage() {
+        return roomSquareFootage;
     }
 
-    public void setSquareFootage(int squareFootage) {
-        this.squareFootage = squareFootage;
+    public void setRoomSquareFootage(int roomSquareFootage) {
+        this.roomSquareFootage = roomSquareFootage;
+    }
+
+    public boolean isShowerIncluded() {
+        return showerIncluded;
+    }
+
+    public void setShowerIncluded(boolean showerIncluded) {
+        this.showerIncluded = showerIncluded;
     }
 
     public boolean isBathIncluded() {
@@ -58,13 +69,7 @@ public class Room {
         this.bathIncluded = bathIncluded;
     }
 
-    public boolean isShower_included() {
-        return shower_included;
-    }
 
-    public void setShower_included(boolean shower_included) {
-        this.shower_included = shower_included;
-    }
 
     public float getWeekdayPrice() {
         return weekdayPrice;
@@ -99,6 +104,7 @@ public class Room {
 
     @JoinColumn(name="property_id",nullable=false,insertable = true, updatable = true)
     @ManyToOne(optional=false,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JsonIgnore
     private Property property;
 
     public Room() {
