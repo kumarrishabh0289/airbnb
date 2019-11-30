@@ -89,17 +89,17 @@ class CreateProperty extends Component {
     e.preventDefault();
     var header = { "Content-Type": "application/JSON" };
     let user = 5;
-    var i;
-    let rooms = [];
-    for (i = 0; i < this.state.numberOfRooms; i++) {
-      rooms.push({
-        weekdayPrice: this.state.weekdayPrice,
-        weekendPrice: this.state.weekendPrice,
-        roomSquareFootage: this.state.roomSquareFootage,
-        showerIncluded: this.state.showerIncluded,
-        bathIncluded: this.state.bathIncluded
-      });
-    }
+    // var i;
+    // let rooms = [];
+    // for (i = 0; i < this.state.numberOfRooms; i++) {
+    //   rooms.push({
+    //     weekdayPrice: this.state.weekdayPrice,
+    //     weekendPrice: this.state.weekendPrice,
+    //     roomSquareFootage: this.state.roomSquareFootage,
+    //     showerIncluded: this.state.showerIncluded,
+    //     bathIncluded: this.state.bathIncluded
+    //   });
+    //}
     const data = {
       owner: { id: user },
       propertyType: this.state.propertyType,
@@ -111,12 +111,16 @@ class CreateProperty extends Component {
       phone: this.state.phone,
       totalSquareFootage: this.state.totalSquareFootage,
       numberOfRooms: this.state.numberOfRooms,
-      roomList: rooms,
       picture: this.state.picture,
       propertyDescription: this.state.propertyDescription,
       parking: this.state.parking,
       parkingFee: this.state.parkingFee,
       wifi: this.state.wifi,
+      weekdayPrice: this.state.weekdayPrice,
+      weekendPrice: this.state.weekendPrice,
+      roomSquareFootage: this.state.roomSquareFootage,
+      showerIncluded: this.state.showerIncluded,
+      bathIncluded: this.state.bathIncluded,
       sun: this.state.sun,
       mon: this.state.mon,
       tue: this.state.tue,
