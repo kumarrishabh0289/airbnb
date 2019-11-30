@@ -60,6 +60,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-width: thin;
 }
 
+.pull-right {
+  float: right;
+}
+
+.footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
