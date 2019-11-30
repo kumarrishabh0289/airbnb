@@ -63,7 +63,7 @@ class AssetDisplay extends Component {
                                                     </div>
                                                     <div class="card-body ">
                                                         <p class="card-text">
-                                                        <img src={asset.image} height="200" width="250"/>
+                                                        <img src={asset.image} height="200" width="250" alt="description"/>
                                                             <table>
                                                           
                                                                 <tr>
