@@ -129,10 +129,10 @@ class FrontPage extends Component {
             redirectvar = <Redirect to= {{
                 pathname: '/search/searchResults',
                 state:{
-                    responseData: this.state.responseData//,
+                    responseData: this.state.responseData,
                     // location : this.state.location,
-                    // startDate : this.state.startDate,
-                    // endDate : this.state.endDate,
+                     startDate : this.state.startDate,
+                     endDate : this.state.endDate,
                     // guests : this.state.guests
                 }
             }}/>

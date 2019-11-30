@@ -1,7 +1,10 @@
 package com.database.databasedemo;
 import com.database.databasedemo.entity.Person;
 import com.database.databasedemo.entity.Property;
+import com.database.databasedemo.entity.Reservations;
+import com.database.databasedemo.entity.Room;
 import com.database.databasedemo.repository.PersonSpringDataRepo;
+import com.database.databasedemo.repository.ReservationsSpringDataRepo;
 import com.database.databasedemo.service.PropertyService;
 
 
@@ -16,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.Date;
 
 
 @SpringBootApplication
@@ -34,6 +39,10 @@ public class JPADemoApplication implements CommandLineRunner {
 
     @Autowired
     SearchPropertyService searchPropertyService;
+    @Autowired
+    ReservationsSpringDataRepo reservationRepo;
+
+
     public static void main(String[] args) {
         SpringApplication.run(JPADemoApplication.class, args);
     }
@@ -66,6 +75,8 @@ public class JPADemoApplication implements CommandLineRunner {
         Property newProp=new Property("San Jose Property","North First","San Jose","California",95112,"https://photos.zillowstatic.com/p_e/ISynct0mwkakxh0000000000.jpg","Condo","Full",2,900,p);
         Property newProp1=new Property("Sunnyvale Property","North First","Sunnyvale","California",95112,"https://cdn.cnn.com/cnnnext/dam/assets/150511105029-airbnb-architecture--fox-island-full-169.jpg","Condo","Partial",2,900,p);
 
+       // Room one = new Room(21,56,true,true,90,newProp);
+
         logger.info("Insert  Property-> {}");
 
         propertyService.createProperty(newProp);
@@ -86,7 +97,9 @@ public class JPADemoApplication implements CommandLineRunner {
 
 
         logger.info("Find By ID -> {}", repo.findById(2));
-        repo.deleteById(2);
+        //repo.deleteById(2);
+        Date date=new Date();
+        //reservationRepo.save(new Reservations(100, date, new Date(date.getTime() + (1000 * 60 * 60 * 24*2)),new Date(date.getTime() + (1000 * 60 * 60 * 24*4)), 3,2 ));
 
 //        propertyService.createProperty(new Property("San Jose both less Property","North First","San Jose State","California",95112,"https://photos.zillowstatic.com/p_e/ISynct0mwkakxh0000000000.jpg","Condo","Full",2,900,40,50,p));
 //        propertyService.createProperty(new Property("San Jose weekend less Property","North First","San Jose State","California",95112,"https://photos.zillowstatic.com/p_e/ISynct0mwkakxh0000000000.jpg","Condo","Full",2,900,400,50,p));

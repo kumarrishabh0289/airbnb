@@ -78,7 +78,7 @@ public class Room {
     public void setWeekdayPrice(float weekdayPrice) {
         this.weekdayPrice = weekdayPrice;
     }
-
+/*
     public List<Reservations> getReservationList() {
         return reservationList;
     }
@@ -86,6 +86,8 @@ public class Room {
     public void setReservationList(List<Reservations> reservationList) {
         this.reservationList = reservationList;
     }
+
+ */
 
     public Property getProperty() {
         return property;
@@ -99,14 +101,22 @@ public class Room {
     private float weekdayPrice;
 
 
-    @OneToMany(mappedBy="room", targetEntity = Reservations.class, fetch = FetchType.EAGER)
-    private List<Reservations> reservationList;
+   // @OneToMany(mappedBy="room", targetEntity = Reservations.class, fetch = FetchType.EAGER)
+   // private List<Reservations> reservationList;
 
     @JoinColumn(name="property_id",nullable=false,insertable = true, updatable = true)
     @ManyToOne(optional=false,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonIgnore
     private Property property;
 
+    public Room(int weekendPrice, int roomSquareFootage, boolean bathIncluded, boolean showerIncluded, float weekdayPrice, Property property) {
+        this.weekendPrice = weekendPrice;
+        this.roomSquareFootage = roomSquareFootage;
+        this.bathIncluded = bathIncluded;
+        this.showerIncluded = showerIncluded;
+        this.weekdayPrice = weekdayPrice;
+        this.property = property;
+    }
 
     public Room() {
         super();

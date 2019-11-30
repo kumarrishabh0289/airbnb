@@ -84,6 +84,8 @@ public class Property {
     @Column(name = "number_of_rooms", nullable = false)
     private int numberOfRooms;
 
+
+
     @Column(name = "total_square_footage", nullable = false)
     private int totalSquareFootage;
 
