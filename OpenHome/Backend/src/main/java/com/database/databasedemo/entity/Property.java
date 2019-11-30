@@ -30,7 +30,7 @@ public class Property {
         this.picture = picture;
     }
 
-    public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage, boolean parking, float parkingFee, boolean wifi, boolean laundry, String view, boolean smoking, boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat, boolean sun, String picture, Person owner, List<Room> roomList) {
+    public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage, boolean parking, float parkingFee, boolean wifi, boolean laundry, String view, boolean smoking, boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat, boolean sun, String picture, Person owner) {
         this.propertyDescription = propertyDescription;
         this.streetName = streetName;
         this.city = city;
@@ -55,11 +55,59 @@ public class Property {
         this.sun = sun;
         this.picture = picture;
         this.owner = owner;
-        this.roomList = roomList;
+
     }
 
     @Column(name="street_name")
     private String streetName;
+
+    public int getWeekendPrice() {
+        return weekendPrice;
+    }
+
+    public void setWeekendPrice(int weekendPrice) {
+        this.weekendPrice = weekendPrice;
+    }
+
+    public int getRoomSquareFootage() {
+        return roomSquareFootage;
+    }
+
+    public void setRoomSquareFootage(int roomSquareFootage) {
+        this.roomSquareFootage = roomSquareFootage;
+    }
+
+    public boolean isBathIncluded() {
+        return bathIncluded;
+    }
+
+    public void setBathIncluded(boolean bathIncluded) {
+        this.bathIncluded = bathIncluded;
+    }
+
+    public boolean isShowerIncluded() {
+        return showerIncluded;
+    }
+
+    public void setShowerIncluded(boolean showerIncluded) {
+        this.showerIncluded = showerIncluded;
+    }
+
+    public float getWeekdayPrice() {
+        return weekdayPrice;
+    }
+
+    public void setWeekdayPrice(float weekdayPrice) {
+        this.weekdayPrice = weekdayPrice;
+    }
+
+    public List<Reservations> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservations> reservations) {
+        this.reservations = reservations;
+    }
 
     @Column(name="city")
     private String city;
@@ -124,18 +172,33 @@ public class Property {
     @Column(name="picture")
     private String picture;
 
+    @Column(name = "weekend_price", nullable = false)
+    private int weekendPrice;
+
+    @Column(name="room_square_footage")
+    private int roomSquareFootage;
+
+    @Column(name="bath_included")
+    private boolean bathIncluded;
+
+    @Column(name="shower_included")
+    private boolean showerIncluded;
+
+    @Column(name = "weekday_price", nullable = false)
+    private float weekdayPrice;
+
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private Person owner;
 //    @Column(name="owner_id")
 //    private int owner_id;
 
-    @OneToMany(mappedBy="property", targetEntity = Room.class, fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private List<Room> roomList=new ArrayList<>();;
-    @PrePersist
-    private void prePersist() {
-        roomList.forEach( c -> c.setProperty(this));
-    }
+    @OneToMany(mappedBy="property", targetEntity = Reservations.class, fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Reservations> reservations=new ArrayList<>();;
+//    @PrePersist
+//    private void prePersist() {
+//        roomList.forEach( c -> c.setProperty(this));
+//    }
 
     public Property() {
         super();
@@ -341,16 +404,10 @@ public class Property {
         this.owner = owner;
     }
 
-    public List<Room> getRoomList() {
-        return roomList;
-    }
 
-    private void setRoomList(List<Room> roomList) {
-        this.roomList = roomList;
-    }
-    public void addRoom(Room room){
-        roomList.add(room);
-        room.setProperty(this);
+    public void addReservation(Reservations reservation){
+        reservations.add(reservation);
+        reservation.setProperty(this);
     }
     @Override
     public String toString() {

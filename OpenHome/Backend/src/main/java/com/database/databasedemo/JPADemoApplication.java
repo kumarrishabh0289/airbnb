@@ -45,16 +45,7 @@ public class JPADemoApplication implements CommandLineRunner {
         logger.info("Find All -> {}", repo.findAll());
         Person p=new Person("Prachi", "123");
         repo.save(p);
-        Property newProp=new Property("San Jose Property","North First","San Jose","California",95112,"https://photos.zillowstatic.com/p_e/ISynct0mwkakxh0000000000.jpg","Condo","Full",2,900,p);
-        Property newProp1=new Property("Sunnyvale Property","North First","Sunnyvale","California",95112,"https://cdn.cnn.com/cnnnext/dam/assets/150511105029-airbnb-architecture--fox-island-full-169.jpg","Condo","Partial",2,900,p);
-        logger.info("Insert  Property-> {}");
 
-        propertyService.createProperty(newProp);
-        propertyService.createProperty(newProp1);
-        logger.info("Find property with property id 1{} ->",propertyService.getProperty(1).toString());
-        logger.info("Find All -> {}", propertyService.getAllProperties());
-
-        logger.info("Find properties for owner with id 5->{}",propertyService.getHostProperties(p));
 
 
 
