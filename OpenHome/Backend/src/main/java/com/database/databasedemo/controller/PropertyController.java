@@ -19,7 +19,7 @@ public class PropertyController {
     @PostMapping("/property/add")
     @ResponseStatus(value = HttpStatus.CREATED)
     public ResponseEntity<?> createProperty(@RequestBody Property property) {
-            System.out.println("Request from frontend: "+property.getRoomList());
+            //System.out.println("Request from frontend: "+property.getRoomList());
             propertyService.createProperty(property);
             return new ResponseEntity<>(HttpStatus.CREATED);
     }
