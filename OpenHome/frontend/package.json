@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@progress/kendo-react-dateinputs": "^3.9.0",
     "axios": "^0.18.1",
     "bootstrap": "^4.4.0",
     "formik": "^1.5.1",

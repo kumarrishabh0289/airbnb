@@ -114,17 +114,21 @@ public class SearchPropertyService {
         start.setTime(filter.getStartDate());
         Calendar end = Calendar.getInstance();
         end.setTime(filter.getEndDate());
-        boolean datemiss = false;
+        boolean weekD = false;
+        boolean weekE = false;
         for (Date date = start.getTime(); start.before(end); start.add(Calendar.DATE, 1), date = start.getTime()) {
             System.out.println(date);
             hashSet.add(date.getDay());
-            datemiss = true;
+
 //            if(hashSet.size() > 7)
 //                break;
         }
 
-//        if(!datemiss)
-//            return properties;
+        if(hashSet.contains(0) || hashSet.contains(6))
+            weekE = true;
+
+        if(hashSet.contains(1) || hashSet.contains(2) || hashSet.contains(3) || hashSet.contains(4) || hashSet.contains(5))
+            weekD = true;
 
         //now, hashset contains the days from the entered date
         System.out.println("Hashset"+hashSet);
@@ -133,16 +137,35 @@ public class SearchPropertyService {
         System.out.println("list" + properties);
         if(filter.getPriceRange() != null)
         {
-            for (int i = 0; i < properties.size(); i++) {
-                System.out.println("list" + properties);
-                String str = filter.getPriceRange();
-                String[] result = str.split(" to ");
-
-                System.out.println(Integer.parseInt(result[0]));
-                System.out.println(Integer.parseInt(result[1]));
-            }
+//            String str = filter.getPriceRange();
+//            String[] result = str.split(" to ");
+//            ListIterator<Property> iter = properties.listIterator();
+//            while(iter.hasNext()){
+//
+//                Property p = iter.next();
+//                int weekdayP = p.getweekdayprice();
+//                int weekendP = p.getweekendprice();
+//
+//                // weekend check needs to be added depending upon the user selection of the dates
+//                // If he selected for weekends then consider weekend if weekday then only weekday if both then only below.
+//                if(weekD && weekE) {
+//                    if ((weekdayP <= Integer.parseInt(result[0]) || weekdayP >= Integer.parseInt(result[1])) ||
+//                            (weekendP <= Integer.parseInt(result[0]) || weekendP >= Integer.parseInt(result[1]))) {
+//                        iter.remove();
+//                    }
+//                }
+//                else if(weekD){
+//                    if ((weekdayP <= Integer.parseInt(result[0]) || weekdayP >= Integer.parseInt(result[1]))) {
+//                        iter.remove();
+//                    }
+//                }
+//                else{
+//                    if ((weekendP <= Integer.parseInt(result[0]) || weekendP >= Integer.parseInt(result[1]))) {
+//                        iter.remove();
+//                    }
+//                }
+//            }
         }
-
 
         return properties;
     }
