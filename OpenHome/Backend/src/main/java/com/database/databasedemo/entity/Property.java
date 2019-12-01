@@ -193,7 +193,7 @@ public class Property {
 //    @Column(name="owner_id")
 //    private int owner_id;
 
-    @OneToMany(mappedBy="propertyId", targetEntity = Reservations.class, fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="propertyId", targetEntity = Reservations.class, fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     private List<Reservations> reservations=new ArrayList<>();;
 //    @PrePersist
 //    private void prePersist() {
