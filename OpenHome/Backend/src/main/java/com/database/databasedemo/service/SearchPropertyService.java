@@ -13,6 +13,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +31,14 @@ import java.util.*;
 public class SearchPropertyService {
 
     @Autowired
+    @Qualifier("property")
     PropertyRepo propertyRepo;
 
     @PersistenceContext
     EntityManager entityManager;
 
     @Autowired
+    @Qualifier("reservations")
     ReservationRepo reservationRepo;
 
     public List<Property> searchProperties(){
@@ -184,7 +187,6 @@ public class SearchPropertyService {
         while (!current.after(filter.getEndDate())) {
             System.out.println(current);
             res = dateComparision(current,filter);
-
             if(res.size()>0)
              finaList.addAll(res);
             Calendar calendar = Calendar.getInstance();
@@ -213,7 +215,7 @@ public class SearchPropertyService {
 
         OffsetDateTime offsetDateTime = date.toInstant()
                 .atOffset(ZoneOffset.UTC);
-
+       // List<Reservations> reserv = new ArrayList<>();
         System.out.println("offsetDateTime=="+offsetDateTime);
 
         List<Reservations> reserv = reservationRepo.findAll(new Specification <Reservations >() {
@@ -240,6 +242,7 @@ public class SearchPropertyService {
             System.out.println(reserv.get(0).getBookedPrice());
         }
         return reserv;
+
     }
 
 }
