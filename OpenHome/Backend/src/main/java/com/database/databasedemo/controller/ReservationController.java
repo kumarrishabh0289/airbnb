@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 
@@ -107,6 +108,48 @@ public class ReservationController {
         int id= Integer.parseInt(guestId);
         return reservationService.getHostReservations(id);
     }
+
+    @PostMapping("/reservation/checkin")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    //public Reservations(float bookedPrice, float bookedPriceWeekend, float bookedPriceWeekday, OffsetDateTime bookingDate, OffsetDateTime startDate, OffsetDateTime endDate, int guestId, int propertyId) {
+    public ResponseEntity<?> checkinReservation(@RequestBody Map<String, String> payload) throws ParseException {
+        String reservationId = payload.get(payload.keySet().toArray()[0]);
+        int reservation_id=Integer.parseInt(reservationId);
+
+        Reservations reservation=reservationService.getReservation(reservation_id);
+
+        String checkInDate = payload.get(payload.keySet().toArray()[1]);
+
+        System.out.println(checkInDate);
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        java.util.Date date1 = sdf1.parse(checkInDate);
+        OffsetDateTime check_in_date = date1.toInstant()
+                .atOffset(ZoneOffset.UTC);
+        OffsetDateTime start_date=reservation.getStartDate();
+
+        long result
+                = start_date.until(check_in_date,
+                ChronoUnit.HOURS);
+        // print results
+        System.out.println("Result in hours: "
+                + result);
+
+        if (result>=15 && result<=30)
+        {
+            /* Proper check in, no extra charges */
+            System.out.println("Proper checkin");
+
+        }
+        else if (result<15)
+        {
+            return new ResponseEntity<>(HttpStatus.PARTIAL_CONTENT);
+        }
+
+        reservation.setCheckInDate(check_in_date);
+        reservationRepo.save(reservation);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
 
 
 }
