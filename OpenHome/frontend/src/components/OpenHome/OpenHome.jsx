@@ -4,7 +4,7 @@ import AuthenticatedRoute from "./AuthenticatedRoute.jsx";
 import LoginComponent from "./LoginComponent.jsx";
 import ErrorComponent from "./ErrorComponent.jsx";
 import HeaderComponent from "./HeaderComponent.jsx";
-import FooterComponent from "./FooterComponent.jsx";
+//import FooterComponent from "./FooterComponent.jsx";
 import LogoutComponent from "./LogoutComponent.jsx";
 import WelcomeComponent from "./WelcomeComponent.jsx";
 import SearchResults from "./SearchResults/SearchResults";
