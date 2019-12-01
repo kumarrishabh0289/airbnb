@@ -20,6 +20,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
 
 
@@ -75,13 +79,26 @@ public class OpenHomeApplication implements CommandLineRunner {
 
         propertyService.createProperty(newProp);
         propertyService.createProperty(newProp1);
-        Date date=new Date();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = format.parse("2019-11-30");
+        OffsetDateTime booking_date = date.toInstant()
+                .atOffset(ZoneOffset.UTC);
+        System.out.println("Date "+date);
+        System.out.println("OffsetDateTime "+booking_date);
+        date = format.parse("2019-12-01");
+        OffsetDateTime start_date = date.toInstant()
+                .atOffset(ZoneOffset.UTC);
+
+        date = format.parse("2019-12-03");
+        OffsetDateTime end_date = date.toInstant()
+                .atOffset(ZoneOffset.UTC);
 
 
-        Reservations newReserve= new Reservations(100, 30,50,date, new Date(date.getTime() + (1000 * 60 * 60 * 24*2)),new Date(date.getTime() + (1000 * 60 * 60 * 24*4)), 3,2 );
+
+        Reservations newReserve= new Reservations(100, 30,50,booking_date, start_date,end_date, 3,2 );
         reservationService.createReservations(newReserve);
 
-        Reservations newReserve1= new Reservations(101, 31,51,date, new Date(date.getTime() + (1000 * 60 * 60 * 24*2)),new Date(date.getTime() + (1000 * 60 * 60 * 24*4)), 3,1 );
+        Reservations newReserve1= new Reservations(100, 30,50,booking_date, start_date,end_date, 3,1 );
         reservationService.createReservations(newReserve1);
 
 

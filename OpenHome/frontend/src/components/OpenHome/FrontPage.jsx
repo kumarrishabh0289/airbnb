@@ -52,7 +52,7 @@ class FrontPage extends Component {
             const data = {
                 city : this.state.location,
                 endDate : this.state.endDate,
-                startDate : doo.toUTCString(),
+                startDate : this.state.startDate,
                 sharingType : this.state.sharingType,
                 propertyType: this.state.propertyType,
                 propertyDescription: this.state.propertyDescription,
@@ -69,9 +69,9 @@ class FrontPage extends Component {
                     if(response.status === 200){
                         this.setState({
                            // flag : true,
-                            responseData:response.data//,
-                            // startDate:stringStartDate,
-                            // endDate:stringEndDate
+                            responseData:response.data,
+                            startDate:this.state.startDate,
+                            endDate:this.state.endDate
                         })
                        // this.props.history.push(`/search/searchResults`)
                         console.log(response);
