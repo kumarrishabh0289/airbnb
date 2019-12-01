@@ -17,6 +17,20 @@ class SearchResultDetails extends Component {
     }
 
     componentDidMount(){
+        var data = JSON.parse(localStorage.getItem('product_details'));
+        var startdate = data.startDate;
+        var enddate = data.endDate;
+        var myDate = new Date(startdate);
+        var myDate1 = new Date(enddate);
+        console.log(myDate.getDay())
+        console.log(myDate1.getDay())
+        //apply states and do the calculations
+        if(myDate.getDay() === 6 || myDate.getDay() === 5 || myDate1.getDay() ===5 || myDate.getDay() === 6)
+            console.log("weekend")
+        else
+            console.log("weekday")
+        console.log(data)
+        console.log(startdate,enddate)
         axios.get(`http://localhost:8181/property/${this.props.match.params.propertyId}`)
         .then(response => {
             console.log("Status Code : ",response.status);
@@ -42,7 +56,6 @@ class SearchResultDetails extends Component {
 
     SearchButton = (e) => {
         var data = JSON.parse(localStorage.getItem('product_details'));
-
         axios.post(`http://localhost:8181/search/property`,data)
         .then(response => {
             console.log("Status Code : ",response.status);
@@ -125,7 +138,7 @@ class SearchResultDetails extends Component {
                                 <p class="info"> <b> Sharing Type : </b> {this.state.responseData.sharingType}, Total Square Footage : {this.state.responseData.totalSquareFootage}, Number Of Rooms : {this.state.responseData.numberOfRooms}</p>
                                 <p class="info">  <b>Total Square Footage :</b> {this.state.responseData.totalSquareFootage}, Number Of Rooms : {this.state.responseData.numberOfRooms}</p>
                                 <p class="info">  <b>Number Of Rooms :</b> {this.state.responseData.numberOfRooms}</p>
-                                <p class="price">$ {this.state.responseData.Tariff} per night</p>
+                                <p class="price">$ {this.state.responseData.totalSquareFootage} per night</p>
                                 <hr></hr>
                                 <button class="btn btn-danger" name="BookButton"  onClick={this.SearchButton} >
                                     <span>Previous Page</span>

@@ -116,7 +116,7 @@ class SearchResults extends Component {
                                 <h3>{property.propertyDescription}</h3><br></br>
                                 <p class="info">Address : {property.streetName}, {property.city}, {property.zipcode}</p>
                                 <p class="info"> Property Type : {property.propertyType}, Sharing Type : {property.sharingType}, Total Square Footage : {property.totalSquareFootage}, Number Of Rooms : {property.numberOfRooms}</p>
-                                <p class="price">$ {property.Tariff} per night</p>
+                                {/* <p class="price">$ {property.Tariff} per night</p> */}
 
                                 <hr></hr>
                                 <button class="btn btn-danger" name="BookButton"  onClick={() => this.OpenProperty(property)}>
