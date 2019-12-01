@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 //import { Link } from 'react-router-dom'
 import axios from 'axios';
+import { Redirect } from 'react-router';
 
 class SearchResultDetails extends Component {
 
@@ -9,20 +10,19 @@ class SearchResultDetails extends Component {
         
         this.state = {
             welcomeMessage: 'Hey You Are Authorized',
-            responseData:''
-        }
-        
-        
+            responseData:'',
+            responseData1:''
+        }      
+        this.SearchButton = this.SearchButton.bind(this);
     }
 
     componentDidMount(){
-
         axios.get(`http://localhost:8181/property/${this.props.match.params.propertyId}`)
         .then(response => {
             console.log("Status Code : ",response.status);
             if(response.status === 200){
                 this.setState({
-                    responseData:response.data//,
+                    responseData:response.data
                 })
                 console.log("ress",response);
                 if(!response.data){
@@ -38,17 +38,52 @@ class SearchResultDetails extends Component {
         .catch(err =>{
             alert(err);
         });
-
     }
 
-    render() {
+    SearchButton = (e) => {
+        var data = JSON.parse(localStorage.getItem('product_details'));
 
+        axios.post(`http://localhost:8181/search/property`,data)
+        .then(response => {
+            console.log("Status Code : ",response.status);
+            if(response.status === 200){
+                this.setState({
+                    responseData1:response.data//,
+                })
+                console.log(response);
+                if(!response.data){
+                    alert("No Available Properties")
+                }
+            }
+            else{
+                this.setState({
+                    flag : false
+                })
+            }
+        })
+        .catch(err =>{
+            alert(err);
+        });
+    }
+
+
+    render() {
+        let redirectvar = null
+        if(this.state.responseData1){
+            console.log("should redirect")
+            console.log(this.state.responseData1);
+            redirectvar = <Redirect to= {{
+                pathname: '/search/searchResults',
+                state:{
+                    responseData1: this.state.responseData1
+                }
+            }}/>
+        }
         let displayImage = null;           
         if(!this.state.responseData.picture)
         {
             displayImage = (
                 <div>
-
                     <div id="carouselExampleControls" class="carousel slide right-side" data-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
@@ -64,7 +99,6 @@ class SearchResultDetails extends Component {
         {
             displayImage = (
                 <div>
-                
                     <div id="carouselExampleControls" class="carousel slide right-side" data-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
@@ -79,10 +113,10 @@ class SearchResultDetails extends Component {
         return (
             <>
                 <div id="mainbody">
+                    {redirectvar}
                     <div className="container main-content">
                         <div class="property_details">
                             {displayImage}
-
                             <div class="col-md-7 right-side">
                                 <hr></hr>
                                 <h3>{this.state.responseData.propertyDescription}</h3>
@@ -93,7 +127,7 @@ class SearchResultDetails extends Component {
                                 <p class="info">  <b>Number Of Rooms :</b> {this.state.responseData.numberOfRooms}</p>
                                 <p class="price">$ {this.state.responseData.Tariff} per night</p>
                                 <hr></hr>
-                                <button class="btn btn-danger" name="BookButton" >
+                                <button class="btn btn-danger" name="BookButton"  onClick={this.SearchButton} >
                                     <span>Previous Page</span>
                                 </button>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
                                 <button class="btn btn-danger" name="BookButton" >

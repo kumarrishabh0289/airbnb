@@ -34,11 +34,13 @@ class SearchResults extends Component {
     componentDidMount(){
 
         if(this.props.location.state){
+            console.log("comit");
+            console.log(this.props.location.state.responseData1);
             this.setState({
-                information: this.props.location.state.responseData,
+                information: this.props.location.state.responseData1,
             })
         }
-
+        console.log("data aa gaya",this.state.information);
     }
 
 

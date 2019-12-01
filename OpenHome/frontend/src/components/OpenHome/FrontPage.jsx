@@ -59,6 +59,7 @@ class FrontPage extends Component {
                 wifi : this.state.wifi,
                 priceRange : this.state.priceRange
             }
+            localStorage.setItem('product_details', JSON.stringify(data));
             console.log(data);
             axios.post(`http://localhost:8181/search/property`,data)
                 .then(response => {
@@ -116,7 +117,7 @@ class FrontPage extends Component {
             redirectvar = <Redirect to= {{
                 pathname: '/search/searchResults',
                 state:{
-                    responseData: this.state.responseData
+                    responseData1: this.state.responseData
                 }
             }}/>
         }
