@@ -81,18 +81,25 @@ public class OpenHomeApplication implements CommandLineRunner {
         propertyService.createProperty(newProp1);
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date date = format.parse("2019-11-30");
-        OffsetDateTime offsetDateTime = date.toInstant()
+        OffsetDateTime booking_date = date.toInstant()
                 .atOffset(ZoneOffset.UTC);
         System.out.println("Date "+date);
-        System.out.println("OffsetDateTime "+offsetDateTime);
+        System.out.println("OffsetDateTime "+booking_date);
+        date = format.parse("2019-12-01");
+        OffsetDateTime start_date = date.toInstant()
+                .atOffset(ZoneOffset.UTC);
+
+        date = format.parse("2019-12-03");
+        OffsetDateTime end_date = date.toInstant()
+                .atOffset(ZoneOffset.UTC);
 
 
 
-       // Reservations newReserve= new Reservations(100, 30,50,date, new Date(date.getTime() + (1000 * 60 * 60 * 24*2)),new Date(date.getTime() + (1000 * 60 * 60 * 24*4)), 3,2 );
-        //reservationService.createReservations(newReserve);
+        Reservations newReserve= new Reservations(100, 30,50,booking_date, start_date,end_date, 3,2 );
+        reservationService.createReservations(newReserve);
 
-        //Reservations newReserve1= new Reservations(101, 31,51,date, new Date(date.getTime() + (1000 * 60 * 60 * 24*2)),new Date(date.getTime() + (1000 * 60 * 60 * 24*4)), 3,1 );
-        //reservationService.createReservations(newReserve1);
+        Reservations newReserve1= new Reservations(100, 30,50,booking_date, start_date,end_date, 3,1 );
+        reservationService.createReservations(newReserve1);
 
 
 
@@ -100,9 +107,9 @@ public class OpenHomeApplication implements CommandLineRunner {
 
         logger.info("Find All -> {}", propertyService.getAllProperties());
 
-        //logger.info("Find reservation with reservation id 1{} ->",reservationService.getReservation(1).toString());
+        logger.info("Find reservation with reservation id 1{} ->",reservationService.getReservation(1).toString());
 
-       // logger.info("Find All reservations -> {}", reservationService.getAllReservations());
+        logger.info("Find All reservations -> {}", reservationService.getAllReservations());
 
 
 
