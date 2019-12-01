@@ -80,7 +80,7 @@ public class SearchPropertyService {
                 List<Predicate> predicates = new ArrayList<>();
 
                 // If designation is specified in filter, add equal where clause
-                if (filter.getCity() != null) {
+                if (!filter.getCity().equals("")) {
                     if(isNumeric(filter.getCity())) {
                         predicates.add(cb.equal(root.get("zipcode"), Integer.parseInt(filter.getCity())));
                     }
@@ -89,15 +89,15 @@ public class SearchPropertyService {
                     }
                 }
 
-                if (filter.getSharingType() != null) {
+                if (!filter.getSharingType().equals("")) {
                     predicates.add(cb.equal(root.get("sharingType"), filter.getSharingType()));
                 }
 
-                if (filter.getPropertyType() != null) {
+                if (!filter.getPropertyType().equals("")) {
                     predicates.add(cb.equal(root.get("propertyType"), filter.getPropertyType()));
                 }
 
-                if (filter.getPropertyDescription() != null) {
+                if (!filter.getPropertyDescription().equals("")) {
                     predicates.add(cb.like(root.get("propertyDescription"),"%"+filter.getPropertyDescription()+"%"));
                 }
 
