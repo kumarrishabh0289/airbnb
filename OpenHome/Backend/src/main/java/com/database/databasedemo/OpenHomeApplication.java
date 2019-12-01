@@ -20,6 +20,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
 
 
@@ -75,14 +79,20 @@ public class OpenHomeApplication implements CommandLineRunner {
 
         propertyService.createProperty(newProp);
         propertyService.createProperty(newProp1);
-        Date date=new Date();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = format.parse("2019-11-30");
+        OffsetDateTime offsetDateTime = date.toInstant()
+                .atOffset(ZoneOffset.UTC);
+        System.out.println("Date "+date);
+        System.out.println("OffsetDateTime "+offsetDateTime);
 
 
-        Reservations newReserve= new Reservations(100, 30,50,date, new Date(date.getTime() + (1000 * 60 * 60 * 24*2)),new Date(date.getTime() + (1000 * 60 * 60 * 24*4)), 3,2 );
-        reservationService.createReservations(newReserve);
 
-        Reservations newReserve1= new Reservations(101, 31,51,date, new Date(date.getTime() + (1000 * 60 * 60 * 24*2)),new Date(date.getTime() + (1000 * 60 * 60 * 24*4)), 3,1 );
-        reservationService.createReservations(newReserve1);
+       // Reservations newReserve= new Reservations(100, 30,50,date, new Date(date.getTime() + (1000 * 60 * 60 * 24*2)),new Date(date.getTime() + (1000 * 60 * 60 * 24*4)), 3,2 );
+        //reservationService.createReservations(newReserve);
+
+        //Reservations newReserve1= new Reservations(101, 31,51,date, new Date(date.getTime() + (1000 * 60 * 60 * 24*2)),new Date(date.getTime() + (1000 * 60 * 60 * 24*4)), 3,1 );
+        //reservationService.createReservations(newReserve1);
 
 
 
@@ -95,9 +105,9 @@ public class OpenHomeApplication implements CommandLineRunner {
 
         logger.info("Find All -> {}", propertyService.getAllProperties());
 
-        logger.info("Find reservation with reservation id 1{} ->",reservationService.getReservation(1).toString());
+        //logger.info("Find reservation with reservation id 1{} ->",reservationService.getReservation(1).toString());
 
-        logger.info("Find All reservations -> {}", reservationService.getAllReservations());
+       // logger.info("Find All reservations -> {}", reservationService.getAllReservations());
 
 //        propertyService.createProperty(new Property("San Jose both less Property","North First","San Jose State","California",95112,"https://photos.zillowstatic.com/p_e/ISynct0mwkakxh0000000000.jpg","Condo","Full",2,900,40,50,p));
 //        propertyService.createProperty(new Property("San Jose weekend less Property","North First","San Jose State","California",95112,"https://photos.zillowstatic.com/p_e/ISynct0mwkakxh0000000000.jpg","Condo","Full",2,900,400,50,p));

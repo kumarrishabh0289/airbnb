@@ -3,6 +3,7 @@ package com.database.databasedemo.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.OffsetDateTime;
 import java.util.Date;
 
 @Entity
@@ -39,7 +40,12 @@ public class Reservations {
     }
 
     @Column(name="booking_date")
-    private Date bookingDate;
+    private OffsetDateTime bookingDate;
+
+    //private Date bookingDate;
+    public void setBookingDate(OffsetDateTime bookingDate) {
+        this.bookingDate = bookingDate;
+    }
 
     @Column(name="start_date")
     private Date startDate;
@@ -80,13 +86,6 @@ public class Reservations {
         this.bookedPrice = bookedPrice;
     }
 
-    public Date getBookingDate() {
-        return bookingDate;
-    }
-
-    public void setBookingDate(Date bookingDate) {
-        this.bookingDate = bookingDate;
-    }
 
     public Date getStartDate() {
         return startDate;
@@ -133,7 +132,7 @@ public class Reservations {
     @JoinColumn(name="property_id",nullable=false,insertable = true, updatable = true)
     int propertyId;
 
-    public Reservations(float bookedPrice, float bookedPriceWeekend, float bookedPriceWeekday, Date bookingDate, Date startDate, Date endDate, int guestId, int propertyId) {
+    public Reservations(float bookedPrice, float bookedPriceWeekend, float bookedPriceWeekday, OffsetDateTime bookingDate, Date startDate, Date endDate, int guestId, int propertyId) {
         this.bookedPrice = bookedPrice;
         this.bookedPriceWeekend = bookedPriceWeekend;
         this.bookedPriceWeekday = bookedPriceWeekday;
@@ -145,6 +144,16 @@ public class Reservations {
     }
     public Reservations(){
 
+    }
+
+    public OffsetDateTime getBookingDate() {
+        return bookingDate;
+    }
+
+    public Reservations(OffsetDateTime bookingDate, int guestId, int propertyId) {
+        this.bookingDate = bookingDate;
+        this.guestId = guestId;
+        this.propertyId = propertyId;
     }
 
     @Override
