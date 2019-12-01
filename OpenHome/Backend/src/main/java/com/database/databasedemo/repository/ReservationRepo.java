@@ -21,4 +21,11 @@ public interface ReservationRepo  extends JpaRepository<Reservations,Integer>, J
     //@Query(value = "from Reservations t where yourDate BETWEEN :start_date AND :end_date")
 //    @Query("SELECT Reservations FROM Reservations WHERE end_date >= ?1 AND   start_date <= ?2 ")
 //    List<Reservations> getAllBetweenDates(OffsetDateTime start_date, OffsetDateTime end_date);
+
+
+    @Query("SELECT * FROM reservations a WHERE a.guest_id = ?1")
+    List<Reservations> findByGuestId(int guestId);
+
+
 }
+

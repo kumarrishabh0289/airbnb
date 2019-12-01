@@ -17,6 +17,28 @@ public class Reservations {
     @Column(name="booked_price")
     private float bookedPrice;
 
+    @Column(name="booked_price_weekend")
+    private float bookedPriceWeekend;
+
+    @Column(name="booked_price_weekday")
+    private float bookedPriceWeekday;
+
+    public float getBookedPriceWeekend() {
+        return bookedPriceWeekend;
+    }
+
+    public void setBookedPriceWeekend(float bookedPriceWeekend) {
+        this.bookedPriceWeekend = bookedPriceWeekend;
+    }
+
+    public float getBookedPriceWeekday() {
+        return bookedPriceWeekday;
+    }
+
+    public void setBookedPriceWeekday(float bookedPriceWeekday) {
+        this.bookedPriceWeekday = bookedPriceWeekday;
+    }
+
     @Column(name="booking_date")
     private Date bookingDate;
 
@@ -31,6 +53,17 @@ public class Reservations {
 
     @Column(name="check_out_date")
     private Date checkOutDate;
+
+    @Column(name="guest_id")
+    private int guestId;
+
+    public int getGuestId() {
+        return guestId;
+    }
+
+    public void setGuestId(int guestId) {
+        this.guestId = guestId;
+    }
 
     public int getId() {
         return id;
@@ -88,18 +121,6 @@ public class Reservations {
         this.checkOutDate = checkOutDate;
     }
 
-    public Person getGuest() {
-        return guest;
-    }
-
-    public void setGuest(Person guest) {
-        this.guest = guest;
-    }
-
-//    public Property getProperty() {
-//        return property;
-//    }
-//
 
     public int getPropertyId() {
         return propertyId;
@@ -108,17 +129,39 @@ public class Reservations {
     public void setPropertyId(int propertyId) {
         this.propertyId = propertyId;
     }
-//    public void setProperty(Property property) {
-//        this.property = property;
-//    }
 
-    @ManyToOne
-    private Person guest;
 
-//    @JoinColumn(name="property_id",nullable=false,insertable = true, updatable = true)
-//    @ManyToOne(optional=false,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-//    @JsonIgnore
-//    private Property property;
     @JoinColumn(name="property_id",nullable=false,insertable = true, updatable = true)
     int propertyId;
+
+    public Reservations(float bookedPrice, float bookedPriceWeekend, float bookedPriceWeekday, Date bookingDate, Date startDate, Date endDate, int guestId, int propertyId) {
+        this.bookedPrice = bookedPrice;
+        this.bookedPriceWeekend = bookedPriceWeekend;
+        this.bookedPriceWeekday = bookedPriceWeekday;
+        this.bookingDate = bookingDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.guestId = guestId;
+        this.propertyId = propertyId;
+    }
+    public Reservations(){
+
+    }
+
+    @Override
+    public String toString() {
+        return "Reservations{" +
+                "id=" + id +
+                ", bookedPrice=" + bookedPrice +
+                ", bookedPriceWeekend=" + bookedPriceWeekend +
+                ", bookedPriceWeekday=" + bookedPriceWeekday +
+                ", bookingDate=" + bookingDate +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", checkInDate=" + checkInDate +
+                ", checkOutDate=" + checkOutDate +
+                ", guestId=" + guestId +
+                ", propertyId=" + propertyId +
+                '}';
+    }
 }

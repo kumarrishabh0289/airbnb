@@ -6,10 +6,20 @@ import com.database.databasedemo.entity.Person;
 import com.database.databasedemo.repository.PersonSpringDataRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import com.database.databasedemo.mail.SendMail;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import javax.mail.PasswordAuthentication;
+import java.util.*;
+import javax.mail.Authenticator;
+
+import javax.mail.*;
+import javax.mail.internet.*;
 
 
 import java.net.URI;
@@ -25,6 +35,40 @@ public class PersonResource {
 
     @Autowired
     private PersonSpringDataRepo repo;
+
+    @RequestMapping(value = "/sendemail")
+    public String sendEmail(@RequestBody Map<String, String> payload) throws MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
+        String subject = payload.get(payload.keySet().toArray()[0]);
+        String recevier = payload.get(payload.keySet().toArray()[1]);
+        String body = payload.get(payload.keySet().toArray()[2]);
+        SendMail y = new SendMail();
+        y.sendEmail(subject,recevier,body);
+        return "Email sent successfully";
+    }
+
+    @GetMapping("/verifyUser/{id}")
+    public String validatePerson(@PathVariable int id) {
+        Optional<Person> person = repo.findById(id);
+
+        if (!person.isPresent())
+            throw new PersonNotFound("id-" + id);
+
+        Person p = retrievePerson(id);
+        p.setVerification("yes");
+        repo.save(p);
+        return "Your Email ID is verified And your Account is now active";
+    }
+
+    @GetMapping("/verifyemail/{email}")
+    @ResponseStatus(value = HttpStatus.OK)
+    public ResponseEntity<?> validatePersonWithEmail(@PathVariable String email) {
+        Optional<Person> person = Optional.ofNullable(repo.findByEmail(email));
+
+        if (!person.isPresent())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @GetMapping("/persons")
     public List<Person> retriveAllPersons(@RequestHeader HttpHeaders headers)
@@ -46,11 +90,18 @@ public class PersonResource {
     }
 
     @PostMapping("/persons")
-    public ResponseEntity<Object> createStudent(@RequestBody Person person) {
-        Person savedPerson = repo.save(person);
-
+    public ResponseEntity<Object> createStudent(@RequestBody Person person) throws MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
+        Person savedPerson;
+        savedPerson = repo.save(person);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(savedPerson.getId()).toUri();
+        System.out.println(savedPerson.getEmail());
+        String subject = "Please Verify your Email ID with Open Home";
+        String recevier = savedPerson.getEmail();
+        String body = "Hi " +savedPerson.getName()+",\n\nPlease verify your email with us by clicking on below link:\n http://localhost:8181/verifyUser/"+savedPerson.getId();
+        SendMail y = new SendMail();
+        y.sendEmail(subject,recevier,body);
+
 
         return ResponseEntity.created(location).build();
 
