@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 import { API_URL } from "../../Constants";
 import axios from "axios";
 import Draggable from "react-draggable";
@@ -67,6 +67,7 @@ class PropertyDetails extends Component {
                             src={property.picture}
                             height="250"
                             width="300"
+                            alt=""
                           />
                           <table>
                             <tr>

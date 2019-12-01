@@ -1,6 +1,8 @@
 package com.database.databasedemo.service;
+import com.database.databasedemo.entity.Reservations;
 import com.database.databasedemo.entity.Search;
 import com.database.databasedemo.repository.PropertyRepo;
+import com.database.databasedemo.repository.ReservationRepo;
 import com.database.databasedemo.repository.SearchRepo;
 
 import javax.persistence.EntityManager;
@@ -16,6 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.database.databasedemo.entity.Property;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 //import java.util.function.Predicate;
 
@@ -28,6 +34,9 @@ public class SearchPropertyService {
 
     @PersistenceContext
     EntityManager entityManager;
+
+    @Autowired
+    ReservationRepo reservationRepo;
 
     public List<Property> searchProperties(){
         return propertyRepo.findAll();
@@ -54,7 +63,7 @@ public class SearchPropertyService {
 
     }
 
-    public List<Property> retrievePropertiesByCriteria(Search filter) {
+    public List<Property> retrievePropertiesByCriteria(Search filter) throws ParseException {
 
         List<Property> properties = propertyRepo.findAll(new Specification <Property >() {
 
@@ -143,8 +152,8 @@ public class SearchPropertyService {
 //            while(iter.hasNext()){
 //
 //                Property p = iter.next();
-//                int weekdayP = p.getweekdayprice();
-//                int weekendP = p.getweekendprice();
+//                float weekdayP = p.getWeekdayPrice();
+//                float weekendP = p.getWeekdayPrice();
 //
 //                // weekend check needs to be added depending upon the user selection of the dates
 //                // If he selected for weekends then consider weekend if weekday then only weekday if both then only below.
@@ -167,7 +176,70 @@ public class SearchPropertyService {
 //            }
         }
 
+
+
+        List<Reservations> finaList = new ArrayList<>();
+        List<Reservations> res = new ArrayList<>();
+        Date current = filter.getStartDate();
+        while (!current.after(filter.getEndDate())) {
+            System.out.println(current);
+            res = dateComparision(current,filter);
+
+            if(res.size()>0)
+             finaList.addAll(res);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(current);
+            calendar.add(Calendar.DATE, 1);
+            current = calendar.getTime();
+        }
+
+//        String date = filter.getStartDate().toString();
+//        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+//        java.util.Date date1 = sdf1.parse(date);
+//        java.sql.Date sqlStartDate = new java.sql.Date(date1.getTime());
+//        System.out.println("name"+"date"+sqlStartDate);
+
+       System.out.println(res);
+        System.out.println(finaList.size());
+//        if(finaList.size()>0)
+//            System.out.println("finaList"+finaList.size());
+
         return properties;
+    }
+
+
+
+    public  List<Reservations> dateComparision(Date date,Search filter){
+
+        OffsetDateTime offsetDateTime = date.toInstant()
+                .atOffset(ZoneOffset.UTC);
+
+        System.out.println("offsetDateTime=="+offsetDateTime);
+
+        List<Reservations> reserv = reservationRepo.findAll(new Specification <Reservations >() {
+
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Reservations> query = builder.createQuery(Reservations.class);
+            Root<Reservations> root = query.from(Reservations.class);
+
+            @Override
+            public Predicate toPredicate(Root<Reservations> root, CriteriaQuery< ?> query, CriteriaBuilder cb) {
+
+                List<Predicate> predicates = new ArrayList<>();
+
+                predicates.add(cb.lessThanOrEqualTo(root.get("startDate"), offsetDateTime));
+                predicates.add(cb.greaterThanOrEqualTo(root.get("endDate"), offsetDateTime));
+                return cb.and(predicates.toArray(new Predicate[0]));
+            }
+        });
+
+
+
+        if(reserv.size()>0) {
+            System.out.println(reserv.get(0).getPropertyId());
+            System.out.println(reserv.get(0).getBookedPrice());
+        }
+        return reserv;
     }
 
 }

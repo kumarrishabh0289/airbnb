@@ -3,6 +3,7 @@ package com.database.databasedemo.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.OffsetDateTime;
 import java.util.Date;
 
 @Entity
@@ -20,10 +21,10 @@ public class Reservations {
     private Date bookingDate;
 
     @Column(name="start_date")
-    private Date startDate;
+    private OffsetDateTime startDate;
 
     @Column(name="end_date")
-    private Date endDate;
+    private OffsetDateTime endDate;
 
     @Column(name="check_in_date")
     private Date checkInDate;
@@ -55,19 +56,19 @@ public class Reservations {
         this.bookingDate = bookingDate;
     }
 
-    public Date getStartDate() {
+    public OffsetDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(OffsetDateTime startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public OffsetDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(OffsetDateTime endDate) {
         this.endDate = endDate;
     }
 
