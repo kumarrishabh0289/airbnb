@@ -54,18 +54,18 @@ public class OpenHomeApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         logger.info("Insert  -> {}",
-                repo.save(new Person("Suresh", "123")));
+                repo.save(new Person("Suresh", "123","user","5789564578956256","895","2025/11/02","yes","suresh@mail.com")));
         logger.info("Insert  -> {}",
-                repo.save(new Person("Ramesh", "123")));
+                repo.save(new Person("Ramesh", "123","user","5789564578956256","895","2025/11/02","yes","ramesh@mail.com")));
         logger.info("Insert  -> {}",
-                repo.save(new Person("Ayushi", "123")));
+                repo.save(new Person("Rishabh", "123","user","5789564578956256","895","2025/11/02","yes","rishabh0289@gmail.com")));
         logger.info("Insert  -> {}",
-                repo.save(new Person("Rishabh", "123")));
+                repo.save(new Person("Ayushi", "123","user","5789564578956256","895","2025/11/02","yes","ayushi.1511@gmail.com")));
 
         logger.info("Find By ID -> {}", repo.findById(1));
         repo.deleteById(1);
         logger.info("Find All -> {}", repo.findAll());
-        Person p=new Person("Prachi", "123");
+        Person p=new Person("Prachi", "123","user","5789564578956256","895","2025/11/02","yes","Prachi@mail.com");
         repo.save(p);
 
 
@@ -96,11 +96,6 @@ public class OpenHomeApplication implements CommandLineRunner {
 
 
 
-//        propertyService.createProperty(newProp2);
-//        propertyService.createProperty(newProp3);
-//        propertyService.createProperty(newProp4);
-
-
         logger.info("Find property with property id 1{} ->",propertyService.getProperty(1).toString());
 
         logger.info("Find All -> {}", propertyService.getAllProperties());
@@ -109,14 +104,7 @@ public class OpenHomeApplication implements CommandLineRunner {
 
        // logger.info("Find All reservations -> {}", reservationService.getAllReservations());
 
-//        propertyService.createProperty(new Property("San Jose both less Property","North First","San Jose State","California",95112,"https://photos.zillowstatic.com/p_e/ISynct0mwkakxh0000000000.jpg","Condo","Full",2,900,40,50,p));
-//        propertyService.createProperty(new Property("San Jose weekend less Property","North First","San Jose State","California",95112,"https://photos.zillowstatic.com/p_e/ISynct0mwkakxh0000000000.jpg","Condo","Full",2,900,400,50,p));
-//        propertyService.createProperty(new Property("San Jose both greater Property","North First","San Jose State","California",95112,"https://photos.zillowstatic.com/p_e/ISynct0mwkakxh0000000000.jpg","Condo","Full",2,900,400,500,p));
-//        propertyService.createProperty(new Property("San Jose weekend greater Property","North First","San Jose State","California",95112,"https://photos.zillowstatic.com/p_e/ISynct0mwkakxh0000000000.jpg","Condo","Full",2,900,40,500,p));
 
-//        assetRepo.save(new Asset("33 S 3rd Street", "San Jose", "http://media.graytvinc.com/images/wcjb_apartment-living-room.jpg", 3));
-//        assetRepo.save(new Asset("101 San Fernando", "San Jose", "http://media.graytvinc.com/images/wcjb_apartment-living-room.jpg", 3));
-//        logger.info("Find All -> {}", assetRepo.findByOwner(3));
 
 
     }
