@@ -6,6 +6,7 @@ import com.database.databasedemo.entity.Person;
 import com.database.databasedemo.repository.PersonSpringDataRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -52,7 +53,21 @@ public class PersonResource {
         if (!person.isPresent())
             throw new PersonNotFound("id-" + id);
 
+        Person p = retrievePerson(id);
+        p.setVerification("yes");
+        repo.save(p);
         return "Your Email ID is verified And your Account is now active";
+    }
+
+    @GetMapping("/verifyemail/{email}")
+    @ResponseStatus(value = HttpStatus.OK)
+    public ResponseEntity<?> validatePersonWithEmail(@PathVariable String email) {
+        Optional<Person> person = Optional.ofNullable(repo.findByEmail(email));
+
+        if (!person.isPresent())
+            throw new PersonNotFound("email-" + email);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/persons")

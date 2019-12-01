@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import AuthenticationForApiService from './AuthenticationForApiService.js'
 import GoogleLogin from 'react-google-login';
+import { API_URL } from '../../Constants'
+import axios from 'axios';
 
 class LoginComponent extends Component {
 
@@ -46,7 +48,33 @@ class LoginComponent extends Component {
     }
 
     responseGoogle = (response) => {
-        console.log(response);
+        console.log(response.profileObj);
+        sessionStorage.setItem("googleEmail",response.profileObj.email)
+        sessionStorage.setItem("googleName",response.profileObj.name)
+        
+
+          let email = response.profileObj.email;
+
+          axios
+            .get(API_URL + `/verifyemail/${email}`, {
+              headers: { "Content-Type": "application/json" }
+            })
+                .then(response => {
+                    console.log("Status Code : ",response.status);
+                    if(response.status === 200){
+                        alert(response.status)
+                       // this.props.history.push(`/search/searchResults`)
+                        console.log(response);
+                        
+                    }
+                    else{
+                        alert(response.status)
+                    }
+                })
+                .catch(err =>{
+                    alert(err);
+                });
+
     }
 
     render() {

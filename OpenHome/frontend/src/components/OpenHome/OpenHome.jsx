@@ -36,7 +36,7 @@ class OpenHome extends Component {
 
               <Route component={ErrorComponent} />
             </Switch>
-            <FooterComponent />
+           
           </>
         </Router>
       </div>
