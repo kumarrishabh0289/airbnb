@@ -101,12 +101,12 @@ public class ReservationController {
         return reservationService.getReservation(id);
     }
 
-    @GetMapping("/reservation/guest/{guestId}")
-    public List<Reservations> getGuestReservation(@PathVariable String guestId) {
-        System.out.println(guestId);
-        int id= Integer.parseInt(guestId);
-        return reservationService.getHostReservations(id);
-    }
+//    @GetMapping("/reservation/guest/{guestId}")
+//    public List<Reservations> getGuestReservation(@PathVariable String guestId) {
+//        System.out.println(guestId);
+//        int id= Integer.parseInt(guestId);
+//        return reservationService.getHostReservations(id);
+//    }
 
 
 }

@@ -29,10 +29,10 @@ public class ReservationService {
         return reservationRepo.findAll();
     }
 
-    public List<Reservations> getHostReservations(int guestId){
-
-        return reservationRepo.findByGuestId(guestId);
-    }
+//    public List<Reservations> getHostReservations(int guestId){
+//
+//        return reservationRepo.findByGuestId(guestId);
+//    }
 
     public void createReservations(Reservations reservation){
         int propertyId=reservation.getPropertyId();

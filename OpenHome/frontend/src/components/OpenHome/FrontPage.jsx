@@ -12,11 +12,11 @@ class FrontPage extends Component {
             location: '',
             endDate: '',
             startDate:'',
-            sharingType:'Full',
-            propertyType:'Apartment',
+            sharingType:'',
+            propertyType:'',
             propertyDescription: '',
-            wifi : 'true',
-            priceRange : '1 to 100',
+            wifi : '',
+            priceRange : '',
             responseData: ''
         }
         this.ChangeHandler = this.ChangeHandler.bind(this);
@@ -59,21 +59,15 @@ class FrontPage extends Component {
                 wifi : this.state.wifi,
                 priceRange : this.state.priceRange
             }
-           // alert('Your favorite flavor is: ' + this.state.priceRange);
+            localStorage.setItem('product_details', JSON.stringify(data));
             console.log(data);
-            // axios.defaults.withCredentials = true;
-      //      axios.get(`${PROPERTY_URL}/search/property`,data)
             axios.post(`http://localhost:8181/search/property`,data)
                 .then(response => {
                     console.log("Status Code : ",response.status);
                     if(response.status === 200){
                         this.setState({
-                           // flag : true,
-                            responseData:response.data,
-                            startDate:this.state.startDate,
-                            endDate:this.state.endDate
+                            responseData:response.data//,
                         })
-                       // this.props.history.push(`/search/searchResults`)
                         console.log(response);
                         if(!response.data){
                             alert("No Available Properties")
@@ -88,8 +82,6 @@ class FrontPage extends Component {
                 .catch(err =>{
                     alert(err);
                 });
-
-
         }
     }
 
@@ -117,23 +109,15 @@ class FrontPage extends Component {
     
 
     render() {
-        // console.log(this.state.location);
-        // console.log(this.state.startDate);
-        // console.log(this.state.sharingType);
 
         let redirectvar = null
-        // console.log("Username is : "+this.state.username)
         if(this.state.responseData){
             console.log("should redirect")
             console.log(this.state.responseData);
             redirectvar = <Redirect to= {{
                 pathname: '/search/searchResults',
                 state:{
-                    responseData: this.state.responseData//,
-                    // location : this.state.location,
-                    // startDate : this.state.startDate,
-                    // endDate : this.state.endDate,
-                    // guests : this.state.guests
+                    responseData1: this.state.responseData
                 }
             }}/>
         }
@@ -200,6 +184,7 @@ class FrontPage extends Component {
                                             <div class="form-group">
 
                                                 <select class="form-control" value={this.state.value} onChange = {this.handleChange} >
+                                                    <option value="">N/A</option>
                                                     <option value="Full">Full</option>
                                                     <option value="Partial">Partial</option>
                                                 </select>
@@ -216,6 +201,7 @@ class FrontPage extends Component {
                                             <div class="form-group">
 
                                                 <select class="form-control" value={this.state.value} onChange = {this.handleChangePropertyType}>
+                                                    <option value="">N/A</option>
                                                     <option value="Apartment">Apartment</option>
                                                     <option value="Condo">Condo</option>
                                                     <option value="Bed and Breakfast">Bed and Breakfast</option>
@@ -242,7 +228,8 @@ class FrontPage extends Component {
                                          <label for="where"><h5>Price Range</h5></label>
                                             <div class="form-group">
                                                 <select class="form-control" value={this.state.value} onChange = {this.handleChangePricerange}>
-                                                <option value="1 to 100"> 1 to 100</option>
+                                                    <option value="">N/A</option>
+                                                    <option value="1 to 100"> 1 to 100</option>
                                                     <option value="101 to 1000"> 101 to 1000</option>
                                                     <option value="1001 to 2000">1001 to 2000</option>
                                                     <option value="2001 to 3000">2001 to 3000</option>
@@ -256,6 +243,7 @@ class FrontPage extends Component {
                                          <label for="where"><h5>Wifi Required</h5></label>
                                             <div class="form-group">
                                                 <select class="form-control" value={this.state.value} onChange = {this.handleChangeWifi}>
+                                                    <option value="">N/A</option>
                                                     <option value="true">Yes</option>
                                                     <option value="false">No</option>
                                                 </select>

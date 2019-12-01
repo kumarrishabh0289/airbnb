@@ -39,7 +39,7 @@ class PropertiesDashboard extends Component {
           <h4>Welcome Host</h4>
           <br></br>
           <Link to="/property/new">
-            <a href="#" class="btn btn-info btn-lg">
+            <a href="/#" class="btn btn-info btn-lg">
               <span class="glyphicon glyphicon-plus">+</span> Property
             </a>
           </Link>
@@ -58,6 +58,7 @@ class PropertiesDashboard extends Component {
                             src={property.picture}
                             height="250"
                             width="300"
+                            alt=""
                           />
                           <table>
                             <tr>

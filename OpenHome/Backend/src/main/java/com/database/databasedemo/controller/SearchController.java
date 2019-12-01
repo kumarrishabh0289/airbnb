@@ -40,12 +40,7 @@ public class SearchController {
 
     @PostMapping("/search/property")
     public List<Property> retrivePropertyDetails(@RequestBody Search property) throws ParseException {
-//    public List<Property> retrivePropertyDetails(@RequestBody Property property, Property property1) {
-//        System.out.println(property.getCity());
-//        System.out.println(property.getSharingType());
-//        System.out.println(property.getPropertyType());
-//        System.out.println(property1.getPropertyDescription());
-//        System.out.println(property.isWifi());
+
 
             System.out.println(property.getPropertyType());
                 System.out.println(property.getPriceRange());
@@ -57,27 +52,6 @@ public class SearchController {
             System.out.println(property.getWifi());
             System.out.println(property.getPropertyDescription());
 
-
-//        Calendar start = Calendar.getInstance();
-////        start.setTime(property.getStartDate());
-////        Calendar end = Calendar.getInstance();
-////        end.setTime(property.getEndDate());
-////
-////        for (Date date = start.getTime(); start.before(end); start.add(Calendar.DATE, 1), date = start.getTime()) {
-////            System.out.println(date);
-////        }
-
-
-
-//        Date current = property.getStartDate();
-//        while (current.before(property.getEndDate())) {
-//            System.out.println(current);
-//
-//            Calendar calendar = Calendar.getInstance();
-//            calendar.setTime(current);
-//            calendar.add(Calendar.DATE, 1);
-//            current = calendar.getTime();
-//        }
 
 //        System.out.println(property1);
        // return searchPropertyService.retrievePropertiesByCriteria(property);

@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -73,12 +74,15 @@ public class OpenHomeApplication implements CommandLineRunner {
         logger.info("Find By ID -> {}", repo.findById(2));
         repo.deleteById(2);
         Property newProp=new Property("San Jose Property","North First","San Jose","California",95112,"https://photos.zillowstatic.com/p_e/ISynct0mwkakxh0000000000.jpg","Condo","Full",2,900,p);
+        Property newProp2=new Property("San Jose Property1","North First 1","San Jose 1","California",95113,"https://photos.zillowstatic.com/p_e/ISynct0mwkakxh0000000000.jpg","Condo","Partial",5,1200,p);
+
         Property newProp1=new Property("Sunnyvale Property","North First","Sunnyvale","California",95112,"https://cdn.cnn.com/cnnnext/dam/assets/150511105029-airbnb-architecture--fox-island-full-169.jpg","Condo","Partial",2,900,p);
 
         logger.info("Insert  Property-> {}");
 
         propertyService.createProperty(newProp);
         propertyService.createProperty(newProp1);
+        propertyService.createProperty(newProp2);
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date date = format.parse("2019-11-30");
         OffsetDateTime booking_date = date.toInstant()

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import AuthenticationForApiService from "../OpenHome/AuthenticationForApiService.js";
+// import { Link } from "react-router-dom";
+// import AuthenticationForApiService from "../OpenHome/AuthenticationForApiService.js";
 import { API_URL } from "../../Constants";
 import axios from "axios";
 class CreateProperty extends Component {
