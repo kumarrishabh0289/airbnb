@@ -50,18 +50,18 @@ public class OpenHomeApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         logger.info("Insert  -> {}",
-                repo.save(new Person("Suresh", "123","user","5789564578956256","895","2025/11/02","yes")));
+                repo.save(new Person("Suresh", "123","user","5789564578956256","895","2025/11/02","yes","suresh@mail.com")));
         logger.info("Insert  -> {}",
-                repo.save(new Person("Ramesh", "123","user","5789564578956256","895","2025/11/02","yes")));
+                repo.save(new Person("Ramesh", "123","user","5789564578956256","895","2025/11/02","yes","ramesh@mail.com")));
         logger.info("Insert  -> {}",
-                repo.save(new Person("Rishabh", "123","user","5789564578956256","895","2025/11/02","yes")));
+                repo.save(new Person("Rishabh", "123","user","5789564578956256","895","2025/11/02","yes","rishabh0289@gmail.com")));
         logger.info("Insert  -> {}",
-                repo.save(new Person("Ayushi", "123","user","5789564578956256","895","2025/11/02","yes")));
+                repo.save(new Person("Ayushi", "123","user","5789564578956256","895","2025/11/02","yes","ayushi.1511@gmail.com")));
 
         logger.info("Find By ID -> {}", repo.findById(1));
         repo.deleteById(1);
         logger.info("Find All -> {}", repo.findAll());
-        Person p=new Person("Prachi", "123","user","5789564578956256","895","2025/11/02","yes");
+        Person p=new Person("Prachi", "123","user","5789564578956256","895","2025/11/02","yes","Prachi@mail.com");
         repo.save(p);
 
 

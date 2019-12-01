@@ -16,6 +16,7 @@ public class Person {
     private String cvv;
     private String expiryDate;
     private String verification;
+    private String email;
 
     public String getPassword() {
         return password;
@@ -41,7 +42,7 @@ public class Person {
         this.name = name;
         this.password = password;
     }
-    public Person(String name, String password, String role, String cardNumber, String cvv, String expiryDate, String verification) {
+    public Person(String name, String password, String role, String cardNumber, String cvv, String expiryDate, String verification,String email) {
         this.name = name;
         this.password = password;
         this.role = role;
@@ -49,6 +50,15 @@ public class Person {
         this.cvv = cvv;
         this.expiryDate = expiryDate;
         this.verification = verification;
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getVerification() {

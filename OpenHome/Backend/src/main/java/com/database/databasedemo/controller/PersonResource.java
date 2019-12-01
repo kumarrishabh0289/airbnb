@@ -45,6 +45,16 @@ public class PersonResource {
         return "Email sent successfully";
     }
 
+    @GetMapping("/verifyUser/{id}")
+    public String validatePerson(@PathVariable int id) {
+        Optional<Person> person = repo.findById(id);
+
+        if (!person.isPresent())
+            throw new PersonNotFound("id-" + id);
+
+        return "Your Email ID is verified And your Account is now active";
+    }
+
     @GetMapping("/persons")
     public List<Person> retriveAllPersons(@RequestHeader HttpHeaders headers)
     {
@@ -65,11 +75,18 @@ public class PersonResource {
     }
 
     @PostMapping("/persons")
-    public ResponseEntity<Object> createStudent(@RequestBody Person person) {
-        Person savedPerson = repo.save(person);
-
+    public ResponseEntity<Object> createStudent(@RequestBody Person person) throws MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
+        Person savedPerson;
+        savedPerson = repo.save(person);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(savedPerson.getId()).toUri();
+        System.out.println(savedPerson.getEmail());
+        String subject = "Please Verify your Email ID with Open Home";
+        String recevier = savedPerson.getEmail();
+        String body = "Hi " +savedPerson.getName()+",\n\nPlease verify your email with us by clicking on below link:\n http://localhost:8181/verifyUser/"+savedPerson.getId();
+        SendMail y = new SendMail();
+        y.sendEmail(subject,recevier,body);
+
 
         return ResponseEntity.created(location).build();
 
