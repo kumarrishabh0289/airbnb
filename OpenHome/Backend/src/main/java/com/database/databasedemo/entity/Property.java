@@ -1,6 +1,7 @@
 package com.database.databasedemo.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -9,14 +10,104 @@ public class Property {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private int apartmentId;
+    @Column(name = "property_id", nullable = false)
+    private int propertyId;
 
-    @Column(name = "apartment_description", nullable = false, length = 100)
-    private String apartmentDescription;
+    @Column(name = "property_description", nullable = false, length = 100)
+    private String propertyDescription;
+
+    public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String picture,String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage,Person owner) {
+        this.propertyDescription = propertyDescription;
+        this.streetName = streetName;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+        this.propertyType = propertyType;
+        this.sharingType = sharingType;
+        this.numberOfRooms = numberOfRooms;
+        this.totalSquareFootage = totalSquareFootage;
+        this.owner = owner;
+        this.picture = picture;
+    }
+
+    public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage, boolean parking, float parkingFee, boolean wifi, boolean laundry, String view, boolean smoking, boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat, boolean sun, String picture, Person owner) {
+        this.propertyDescription = propertyDescription;
+        this.streetName = streetName;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+        this.propertyType = propertyType;
+        this.sharingType = sharingType;
+        this.numberOfRooms = numberOfRooms;
+        this.totalSquareFootage = totalSquareFootage;
+        this.parking = parking;
+        this.parkingFee = parkingFee;
+        this.wifi = wifi;
+        this.laundry = laundry;
+        this.view = view;
+        this.smoking = smoking;
+        this.mon = mon;
+        this.tue = tue;
+        this.wed = wed;
+        this.thu = thu;
+        this.fri = fri;
+        this.sat = sat;
+        this.sun = sun;
+        this.picture = picture;
+        this.owner = owner;
+
+    }
 
     @Column(name="street_name")
     private String streetName;
+
+    public int getWeekendPrice() {
+        return weekendPrice;
+    }
+
+    public void setWeekendPrice(int weekendPrice) {
+        this.weekendPrice = weekendPrice;
+    }
+
+    public int getRoomSquareFootage() {
+        return roomSquareFootage;
+    }
+
+    public void setRoomSquareFootage(int roomSquareFootage) {
+        this.roomSquareFootage = roomSquareFootage;
+    }
+
+    public boolean isBathIncluded() {
+        return bathIncluded;
+    }
+
+    public void setBathIncluded(boolean bathIncluded) {
+        this.bathIncluded = bathIncluded;
+    }
+
+    public boolean isShowerIncluded() {
+        return showerIncluded;
+    }
+
+    public void setShowerIncluded(boolean showerIncluded) {
+        this.showerIncluded = showerIncluded;
+    }
+
+    public float getWeekdayPrice() {
+        return weekdayPrice;
+    }
+
+    public void setWeekdayPrice(float weekdayPrice) {
+        this.weekdayPrice = weekdayPrice;
+    }
+
+    public List<Reservations> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservations> reservations) {
+        this.reservations = reservations;
+    }
 
     @Column(name="city")
     private String city;
@@ -81,31 +172,52 @@ public class Property {
     @Column(name="picture")
     private String picture;
 
+    @Column(name = "weekend_price", nullable = false)
+    private int weekendPrice;
+
+    @Column(name="room_square_footage")
+    private int roomSquareFootage;
+
+    @Column(name="bath_included")
+    private boolean bathIncluded;
+
+    @Column(name="shower_included")
+    private boolean showerIncluded;
+
+    @Column(name = "weekday_price", nullable = false)
+    private float weekdayPrice;
+
     @ManyToOne
+    @JoinColumn(name = "owner_id")
     private Person owner;
+//    @Column(name="owner_id")
+//    private int owner_id;
 
-    @OneToMany(mappedBy="apartment", targetEntity = Room.class, fetch = FetchType.EAGER)
-    private List<Room> roomList;
-
+    @OneToMany(mappedBy="propertyId", targetEntity = Reservations.class, fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Reservations> reservations=new ArrayList<>();;
+//    @PrePersist
+//    private void prePersist() {
+//        roomList.forEach( c -> c.setProperty(this));
+//    }
 
     public Property() {
         super();
     }
 
-    public int getApartmentId() {
-        return apartmentId;
+    public int getPropertyId() {
+        return propertyId;
     }
 
-    public void setApartmentId(int apartmentId) {
-        this.apartmentId = apartmentId;
+    public void setPropertyId(int propertyId) {
+        this.propertyId = propertyId;
     }
 
-    public String getApartmentDescription() {
-        return apartmentDescription;
+    public String getPropertyDescription() {
+        return propertyDescription;
     }
 
-    public void setApartmentDescription(String apartmentDescription) {
-        this.apartmentDescription = apartmentDescription;
+    public void setPropertyDescription(String propertyDescription) {
+        this.propertyDescription = propertyDescription;
     }
 
     public String getStreetName() {
@@ -292,11 +404,62 @@ public class Property {
         this.owner = owner;
     }
 
-    public List<Room> getRoomList() {
-        return roomList;
+
+    public void addReservation(Reservations reservation){
+        reservations.add(reservation);
+        //reservation.setProperty(this);
+        reservation.setPropertyId(this.propertyId);
     }
 
-    public void setRoomList(List<Room> roomList) {
-        this.roomList = roomList;
+    @Override
+    public String toString() {
+        return "\nProperty{" +
+                "city=" + city +
+                ", street='" + state + '\'' +
+                ", zipcode='" + zipcode + '\'' +
+                '}';
     }
+
+
+
+    //below fields are added just for try and error as insert in room is pending
+//    @Column(name="weekdayprice")
+//    private int weekdayprice;
+//
+//    @Column(name="weekendprice")
+//    private int weekendprice;
+//
+//    public int getweekdayprice() {
+//        return weekdayprice;
+//    }
+//
+//    public void setweekdayprice(int weekdayprice) {
+//        this.weekdayprice = weekdayprice;
+//    }
+//
+//    public int getweekendprice() {
+//        return weekendprice;
+//    }
+//
+//    public void setweekendprice(int weekendprice) {
+//        this.weekendprice = weekendprice;
+//    }
+//
+//    public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String picture,String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage,int weekdayprice,int weekendprice,Person owner) {
+//        this.propertyDescription = propertyDescription;
+//        this.streetName = streetName;
+//        this.city = city;
+//        this.state = state;
+//        this.zipcode = zipcode;
+//        this.propertyType = propertyType;
+//        this.sharingType = sharingType;
+//        this.numberOfRooms = numberOfRooms;
+//        this.totalSquareFootage = totalSquareFootage;
+//        this.owner = owner;
+//        this.picture = picture;
+//        this.weekdayprice = weekdayprice;
+//        this.weekendprice = weekendprice;
+//    }
 }
+
+

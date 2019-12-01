@@ -1,4 +1,4 @@
-package com.database.databasedemo.service;
+package com.database.databasedemo.repository;
 
 import com.database.databasedemo.entity.Person;
 import org.springframework.data.jdbc.repository.query.Query;
