@@ -47,13 +47,12 @@ class LoginComponent extends Component {
 
     }
 
-    responseGoogle = (response) => {
-        console.log(response.profileObj);
-        sessionStorage.setItem("googleEmail",response.profileObj.email)
-        sessionStorage.setItem("googleName",response.profileObj.name)
+    responseGoogle = (res) => {
+        console.log(res.profileObj);
+        
         
 
-          let email = response.profileObj.email;
+          let email = res.profileObj.email;
 
           axios
             .get(API_URL + `/verifyemail/${email}`, {
@@ -62,17 +61,24 @@ class LoginComponent extends Component {
                 .then(response => {
                     console.log("Status Code : ",response.status);
                     if(response.status === 200){
-                        alert(response.status)
-                       // this.props.history.push(`/search/searchResults`)
+                        
+                        AuthenticationForApiService.registerSuccessfulLogin(res.profileObj.name,res.profileObj.googleId )
                         console.log(response);
+                        this.props.history.push(`/`)
                         
                     }
                     else{
-                        alert(response.status)
+                        sessionStorage.setItem("googleEmail",res.profileObj.email)
+                        sessionStorage.setItem("googleName",res.profileObj.name)
+                        this.props.history.push(`/signup/`)
                     }
                 })
                 .catch(err =>{
-                    alert(err);
+                    console.log(err);
+                        sessionStorage.setItem("googleEmail",res.profileObj.email)
+                        sessionStorage.setItem("googleName",res.profileObj.name)
+                        this.props.history.push(`/signup/`)
+                    
                 });
 
     }

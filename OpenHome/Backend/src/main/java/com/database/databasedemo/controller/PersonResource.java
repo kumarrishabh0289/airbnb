@@ -65,7 +65,7 @@ public class PersonResource {
         Optional<Person> person = Optional.ofNullable(repo.findByEmail(email));
 
         if (!person.isPresent())
-            throw new PersonNotFound("email-" + email);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
