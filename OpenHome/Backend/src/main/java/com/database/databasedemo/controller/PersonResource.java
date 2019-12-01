@@ -10,6 +10,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import com.database.databasedemo.mail.SendMail;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import javax.mail.PasswordAuthentication;
+import java.util.*;
+import javax.mail.Authenticator;
+
+import javax.mail.*;
+import javax.mail.internet.*;
 
 
 import java.net.URI;
@@ -25,6 +34,16 @@ public class PersonResource {
 
     @Autowired
     private PersonSpringDataRepo repo;
+
+    @RequestMapping(value = "/sendemail")
+    public String sendEmail(@RequestBody Map<String, String> payload) throws MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
+        String subject = payload.get(payload.keySet().toArray()[0]);
+        String recevier = payload.get(payload.keySet().toArray()[1]);
+        String body = payload.get(payload.keySet().toArray()[2]);
+        SendMail y = new SendMail();
+        y.sendEmail(subject,recevier,body);
+        return "Email sent successfully";
+    }
 
     @GetMapping("/persons")
     public List<Person> retriveAllPersons(@RequestHeader HttpHeaders headers)
