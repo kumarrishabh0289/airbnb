@@ -25,7 +25,7 @@ class PropertyDetails extends Component {
         this.setState({
           properties: this.state.properties.concat(response.data)
         });
-        console.log(this.state.properties[0].owner.name);
+        //console.log(this.state.properties[0].owner.name);
       });
   }
   OpenProperty = property => {
