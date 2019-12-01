@@ -1,6 +1,5 @@
 package com.database.databasedemo;
 import com.database.databasedemo.entity.Person;
-import com.database.databasedemo.entity.Property;
 import com.database.databasedemo.repository.PersonSpringDataRepo;
 import com.database.databasedemo.service.PropertyService;
 
@@ -20,7 +19,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-public class JPADemoApplication implements CommandLineRunner {
+public class OpenHomeApplication implements CommandLineRunner {
     private Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -36,7 +35,7 @@ public class JPADemoApplication implements CommandLineRunner {
     @Autowired
     SearchPropertyService searchPropertyService;
     public static void main(String[] args) {
-        SpringApplication.run(JPADemoApplication.class, args);
+        SpringApplication.run(OpenHomeApplication.class, args);
     }
 
     @Override
