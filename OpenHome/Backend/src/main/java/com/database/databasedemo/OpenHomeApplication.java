@@ -24,7 +24,7 @@ import java.util.Date;
 
 
 @SpringBootApplication
-public class JPADemoApplication implements CommandLineRunner {
+public class OpenHomeApplication implements CommandLineRunner {
     private Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -43,7 +43,7 @@ public class JPADemoApplication implements CommandLineRunner {
     @Autowired
     ReservationService reservationService;
     public static void main(String[] args) {
-        SpringApplication.run(JPADemoApplication.class, args);
+        SpringApplication.run(OpenHomeApplication.class, args);
     }
 
     @Override
