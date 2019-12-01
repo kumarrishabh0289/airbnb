@@ -147,36 +147,36 @@ public class SearchPropertyService {
 
         // Below logic is for Validating the price of the Room
         System.out.println("list" + properties);
-        if(filter.getPriceRange() != null)
+        if(!filter.getPriceRange().equals(""))
         {
-//            String str = filter.getPriceRange();
-//            String[] result = str.split(" to ");
-//            ListIterator<Property> iter = properties.listIterator();
-//            while(iter.hasNext()){
-//
-//                Property p = iter.next();
-//                float weekdayP = p.getWeekdayPrice();
-//                float weekendP = p.getWeekdayPrice();
-//
-//                // weekend check needs to be added depending upon the user selection of the dates
-//                // If he selected for weekends then consider weekend if weekday then only weekday if both then only below.
-//                if(weekD && weekE) {
-//                    if ((weekdayP <= Integer.parseInt(result[0]) || weekdayP >= Integer.parseInt(result[1])) ||
-//                            (weekendP <= Integer.parseInt(result[0]) || weekendP >= Integer.parseInt(result[1]))) {
-//                        iter.remove();
-//                    }
-//                }
-//                else if(weekD){
-//                    if ((weekdayP <= Integer.parseInt(result[0]) || weekdayP >= Integer.parseInt(result[1]))) {
-//                        iter.remove();
-//                    }
-//                }
-//                else{
-//                    if ((weekendP <= Integer.parseInt(result[0]) || weekendP >= Integer.parseInt(result[1]))) {
-//                        iter.remove();
-//                    }
-//                }
-//            }
+            String str = filter.getPriceRange();
+            String[] result = str.split(" to ");
+            ListIterator<Property> iter = properties.listIterator();
+            while(iter.hasNext()){
+
+                Property p = iter.next();
+                float weekdayP = p.getWeekdayPrice();
+                float weekendP = p.getWeekdayPrice();
+
+                // weekend check needs to be added depending upon the user selection of the dates
+                // If he selected for weekends then consider weekend if weekday then only weekday if both then only below.
+                if(weekD && weekE) {
+                    if ((weekdayP <= Integer.parseInt(result[0]) || weekdayP >= Integer.parseInt(result[1])) ||
+                            (weekendP <= Integer.parseInt(result[0]) || weekendP >= Integer.parseInt(result[1]))) {
+                        iter.remove();
+                    }
+                }
+                else if(weekD){
+                    if ((weekdayP <= Integer.parseInt(result[0]) || weekdayP >= Integer.parseInt(result[1]))) {
+                        iter.remove();
+                    }
+                }
+                else{
+                    if ((weekendP <= Integer.parseInt(result[0]) || weekendP >= Integer.parseInt(result[1]))) {
+                        iter.remove();
+                    }
+                }
+            }
         }
 
 
