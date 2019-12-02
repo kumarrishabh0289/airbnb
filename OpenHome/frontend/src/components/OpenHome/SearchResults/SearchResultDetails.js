@@ -38,6 +38,8 @@ class SearchResultDetails extends Component {
                     responseData:response.data
                 })
 
+                console.log("responseData",this.state.responseData);
+
                 var data = JSON.parse(localStorage.getItem('product_details'));
                 var startdate = data.startDate;
                 var enddate = data.endDate;
@@ -117,14 +119,14 @@ class SearchResultDetails extends Component {
        var data = JSON.parse(localStorage.getItem('product_details'));
             console.log(data)
         const payload = {
-            booked_price : 50,
-            booked_price_weekend : 10,
-            booked_price_weekday : 11,
+            booked_price : this.state.bookingPrice,
+            booked_price_weekend : this.state.responseData.weekendPrice,
+            booked_price_weekday : this.state.responseData.weekdayPrice,
             booking_date: data.startDate,
             startDate: data.startDate,
             endDate: data.endDate,
             guestId: 1,
-            propertyId:1
+            propertyId:this.state.responseData.propertyId
         }
         console.log("payload",payload);
         axios.post(`http://localhost:8181/reservation/new`,payload)
