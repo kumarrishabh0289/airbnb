@@ -23,6 +23,17 @@ public class Reservations {
     @Column(name="booked_price_weekday")
     private float bookedPriceWeekday;
 
+    public float getPaymentAmount() {
+        return paymentAmount;
+    }
+
+    public void setPaymentAmount(float paymentAmount) {
+        this.paymentAmount = paymentAmount;
+    }
+
+    @Column(name="payment_amount")
+    private float paymentAmount;
+
     public float getBookedPriceWeekend() {
         return bookedPriceWeekend;
     }
@@ -61,6 +72,31 @@ public class Reservations {
     @Column(name="guest_id")
     private int guestId;
 
+    @Column(name="penalty_value")
+    private float penaltyValue;
+
+    public float getPenaltyValue() {
+        return penaltyValue;
+    }
+
+    public void setPenaltyValue(float penaltyValue) {
+        this.penaltyValue = penaltyValue;
+    }
+
+    public String getPenaltyReason() {
+        return penaltyReason;
+    }
+
+    public void setPenaltyReason(String penaltyReason) {
+        this.penaltyReason = penaltyReason;
+    }
+
+    @Column(name="penalty_reason")
+    private String penaltyReason;
+
+    @Column(name="status")
+    private String status;
+
     public int getGuestId() {
         return guestId;
     }
@@ -88,6 +124,14 @@ public class Reservations {
 
     public OffsetDateTime getStartDate() {
         return startDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public void setStartDate(OffsetDateTime startDate) {

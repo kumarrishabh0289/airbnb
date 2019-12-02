@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 
@@ -91,6 +92,7 @@ public class ReservationController {
 
 
         Reservations reservation=new Reservations(booked_price,booked_price_weekend,booked_price_weekday,booking_date, start_date, end_date,guest_id,id);
+        reservation.setStatus("Available");
         property.addReservation(reservation);
         reservationRepo.save(reservation);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -107,6 +109,32 @@ public class ReservationController {
 //        int id= Integer.parseInt(guestId);
 //        return reservationService.getHostReservations(id);
 //    }
+@GetMapping("/reservation/guest/{id}")
+public List<Reservations> getGuestReservations(@PathVariable int id) {
+    return reservationService.getGuestReservations(id);
+}
 
+    @PostMapping("/reservation/checkin")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    //public Reservations(float bookedPrice, float bookedPriceWeekend, float bookedPriceWeekday, OffsetDateTime bookingDate, OffsetDateTime startDate, OffsetDateTime endDate, int guestId, int propertyId) {
+    public ResponseEntity<?> checkinReservation(@RequestBody Map<String, String> payload) throws ParseException {
+        String reservationId = payload.get(payload.keySet().toArray()[0]);
+        int reservation_id = Integer.parseInt(reservationId);
+        String checkInDate = payload.get(payload.keySet().toArray()[1]);
+        Reservations reservation = reservationService.getReservation(reservation_id);
+        reservationService.checkInReservation(reservation,checkInDate);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
+    @PostMapping("/reservation/checkout")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    //public Reservations(float bookedPrice, float bookedPriceWeekend, float bookedPriceWeekday, OffsetDateTime bookingDate, OffsetDateTime startDate, OffsetDateTime endDate, int guestId, int propertyId) {
+    public ResponseEntity<?> checkoutReservation(@RequestBody Map<String, String> payload) throws ParseException {
+        String reservationId = payload.get(payload.keySet().toArray()[0]);
+        int reservation_id = Integer.parseInt(reservationId);
+        String checkOutDate = payload.get(payload.keySet().toArray()[1]);
+        Reservations reservation = reservationService.getReservation(reservation_id);
+        reservationService.checkOutReservation(reservation,checkOutDate);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

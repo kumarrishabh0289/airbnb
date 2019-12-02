@@ -4,9 +4,9 @@ package com.database.databasedemo.repository;
 import com.database.databasedemo.entity.Property;
 import com.database.databasedemo.entity.Reservations;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -27,8 +27,8 @@ public interface ReservationRepo extends JpaRepository<Reservations,Integer>, Jp
 //    List<Reservations> getAllBetweenDates(OffsetDateTime start_date, OffsetDateTime end_date);
 
 
-//    @Query("SELECT * FROM reservations a WHERE a.guest_id = ?1")
-//    List<Reservations> findByGuestId(int guestId);
+    @Query("SELECT * FROM reservations r WHERE r.guest_id = ?1")
+    List<Reservations> findByGuestId(int guestId);
 
 
 }

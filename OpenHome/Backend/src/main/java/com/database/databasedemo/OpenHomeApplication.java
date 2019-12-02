@@ -13,6 +13,7 @@ import com.database.databasedemo.service.SearchPropertyService;
 //import com.database.databasedemo.repository.AssetSpringDataRepo;
 
 
+import com.database.databasedemo.service.TimeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
@@ -29,15 +32,12 @@ import java.util.Date;
 
 
 @SpringBootApplication
+@EnableScheduling
 public class OpenHomeApplication implements CommandLineRunner {
     private Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     PersonSpringDataRepo repo;
-
-
-
-    //PersonJPARepo repo;
 
     @Autowired
     PropertyService propertyService;
@@ -53,7 +53,6 @@ public class OpenHomeApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
         logger.info("Insert  -> {}",
                 repo.save(new Person("Suresh", "123","user","5789564578956256","895","2025/11/02","yes","suresh@mail.com")));
         logger.info("Insert  -> {}",
@@ -98,12 +97,12 @@ public class OpenHomeApplication implements CommandLineRunner {
                 .atOffset(ZoneOffset.UTC);
 
 
-
-        Reservations newReserve= new Reservations(100, 30,50,booking_date, start_date,end_date, 3,2 );
-        reservationService.createReservations(newReserve);
-
-        Reservations newReserve1= new Reservations(100, 30,50,booking_date, start_date,end_date, 3,1 );
-        reservationService.createReservations(newReserve1);
+//
+//        Reservations newReserve= new Reservations(100, 30,50,booking_date, start_date,end_date, 3,2 );
+//        reservationService.createReservations(newReserve);
+//
+//        Reservations newReserve1= new Reservations(100, 30,50,booking_date, start_date,end_date, 3,1 );
+//        reservationService.createReservations(newReserve1);
 
 
 
@@ -111,7 +110,7 @@ public class OpenHomeApplication implements CommandLineRunner {
 
         logger.info("Find All -> {}", propertyService.getAllProperties());
 
-        logger.info("Find reservation with reservation id 1{} ->",reservationService.getReservation(1).toString());
+//        logger.info("Find reservation with reservation id 1{} ->",reservationService.getReservation(1).toString());
 
         logger.info("Find All reservations -> {}", reservationService.getAllReservations());
 
