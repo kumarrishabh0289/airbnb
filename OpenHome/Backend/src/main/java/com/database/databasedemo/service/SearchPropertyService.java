@@ -19,10 +19,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.database.databasedemo.entity.Property;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoField;
 import java.util.*;
 //import java.util.function.Predicate;
 
@@ -98,7 +101,14 @@ public class SearchPropertyService {
                 }
 
                 if (!filter.getPropertyDescription().equals("")) {
-                    predicates.add(cb.like(root.get("propertyDescription"),"%"+filter.getPropertyDescription()+"%"));
+
+
+                    String[] splited = filter.getPropertyDescription().split("\\s+");
+
+                    for(int i=0;i<splited.length;i++){
+                        predicates.add(cb.like(root.get("propertyDescription"),"%"+splited[i]+"%"));
+                    }
+
                 }
 
                 predicates.add(cb.equal(root.get("wifi"),filter.getWifi()));
@@ -122,18 +132,27 @@ public class SearchPropertyService {
 //                break;
 //        }
 
+
+//        final Instant now = Instant.now();
+//        System.out.println("Now:\t" +  now);
+//
+//        final Instant zeroedNow = now.with(ChronoField.NANO_OF_SECOND, 0);
+//
+//        System.out.println("Zeroed:\t" + zeroedNow);
+
         Calendar start = Calendar.getInstance();
         start.setTime(filter.getStartDate());
         Calendar end = Calendar.getInstance();
         end.setTime(filter.getEndDate());
         boolean weekD = false;
         boolean weekE = false;
+
+        OffsetDateTime now1 = OffsetDateTime.now(ZoneOffset.UTC);
+        System.out.println(now1.getHour()+":"+now1.getMinute()+":"+now1.getSecond());
+
         for (Date date = start.getTime(); start.before(end); start.add(Calendar.DATE, 1), date = start.getTime()) {
             System.out.println(date);
             hashSet.add(date.getDay());
-
-//            if(hashSet.size() > 7)
-//                break;
         }
 
         if(hashSet.contains(0) || hashSet.contains(6))
@@ -195,16 +214,22 @@ public class SearchPropertyService {
             current = calendar.getTime();
         }
 
-//        String date = filter.getStartDate().toString();
-//        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-//        java.util.Date date1 = sdf1.parse(date);
-//        java.sql.Date sqlStartDate = new java.sql.Date(date1.getTime());
-//        System.out.println("name"+"date"+sqlStartDate);
 
        System.out.println(res);
         System.out.println(finaList.size());
-//        if(finaList.size()>0)
-//            System.out.println("finaList"+finaList.size());
+        if(finaList.size()>0)
+        {
+            for(int i=0;i<finaList.size();i++){
+                ListIterator<Property> iter = properties.listIterator();
+                while(iter.hasNext()){
+                    Property p = iter.next();
+
+                    if(p.getPropertyId() == finaList.get(i).getPropertyId()){
+                        iter.remove();
+                    }
+                }
+            }
+        }
 
         return properties;
     }
