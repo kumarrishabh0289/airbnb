@@ -16,7 +16,7 @@ public class Property {
     @Column(name = "property_description", nullable = false, length = 100)
     private String propertyDescription;
 
-    public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String picture,String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage,Person owner) {
+    public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String picture,String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage,Person owner, int weekdayPrice,int weekendPrice) {
         this.propertyDescription = propertyDescription;
         this.streetName = streetName;
         this.city = city;
@@ -28,6 +28,8 @@ public class Property {
         this.totalSquareFootage = totalSquareFootage;
         this.owner = owner;
         this.picture = picture;
+        this.weekendPrice=weekendPrice;
+        this.weekdayPrice=weekdayPrice;
     }
 
     public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage, boolean parking, float parkingFee, boolean wifi, boolean laundry, String view, boolean smoking, boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat, boolean sun, String picture, Person owner) {
@@ -55,11 +57,12 @@ public class Property {
         this.sun = sun;
         this.picture = picture;
         this.owner = owner;
-
     }
 
     @Column(name="street_name")
     private String streetName;
+
+
 
     public int getWeekendPrice() {
         return weekendPrice;
@@ -420,46 +423,6 @@ public class Property {
                 '}';
     }
 
-
-
-    //below fields are added just for try and error as insert in room is pending
-//    @Column(name="weekdayprice")
-//    private int weekdayprice;
-//
-//    @Column(name="weekendprice")
-//    private int weekendprice;
-//
-//    public int getweekdayprice() {
-//        return weekdayprice;
-//    }
-//
-//    public void setweekdayprice(int weekdayprice) {
-//        this.weekdayprice = weekdayprice;
-//    }
-//
-//    public int getweekendprice() {
-//        return weekendprice;
-//    }
-//
-//    public void setweekendprice(int weekendprice) {
-//        this.weekendprice = weekendprice;
-//    }
-//
-//    public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String picture,String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage,int weekdayprice,int weekendprice,Person owner) {
-//        this.propertyDescription = propertyDescription;
-//        this.streetName = streetName;
-//        this.city = city;
-//        this.state = state;
-//        this.zipcode = zipcode;
-//        this.propertyType = propertyType;
-//        this.sharingType = sharingType;
-//        this.numberOfRooms = numberOfRooms;
-//        this.totalSquareFootage = totalSquareFootage;
-//        this.owner = owner;
-//        this.picture = picture;
-//        this.weekdayprice = weekdayprice;
-//        this.weekendprice = weekendprice;
-//    }
 }
 
 

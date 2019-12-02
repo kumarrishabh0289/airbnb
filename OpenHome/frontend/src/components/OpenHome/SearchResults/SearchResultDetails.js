@@ -1,259 +1,180 @@
 import React, { Component } from "react";
 //import { Link } from 'react-router-dom'
-import axios from "axios";
-import { Redirect } from "react-router";
+//import axios from 'axios';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/js/bootstrap.bundle.min';
+// import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+// import 'bootstrap/dist/js/bootstrap.js';
+// import 'bootstrap/dist/js/bootstrap.min.js';
 
-class SearchResultDetails extends Component {
+class SearchResults extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      welcomeMessage: "Hey You Are Authorized",
-      responseData: "",
-      responseData1: ""
+      location: "",
+      endDate: "",
+      startDate: "",
+      sharingType: "Full",
+      propertyType: "Apartment",
+      propertyDescription: "",
+      wifi: "true",
+      priceRange: "1 to 100",
+      information: "",
+      datatest: false
     };
-    this.SearchButton = this.SearchButton.bind(this);
-    this.BookButton = this.BookButton.bind(this);
+    this.ChangeHandler = this.ChangeHandler.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
+
+  componentWillMount() {}
 
   componentDidMount() {
-    var data = JSON.parse(localStorage.getItem("product_details"));
-    var startdate = data.startDate;
-    var enddate = data.endDate;
-    var myDate = new Date(startdate);
-    var myDate1 = new Date(enddate);
-    console.log(myDate.getDay());
-    console.log(myDate1.getDay());
-    //apply states and do the calculations
-    if (
-      myDate.getDay() === 6 ||
-      myDate.getDay() === 5 ||
-      myDate1.getDay() === 5 ||
-      myDate.getDay() === 6
-    )
-      console.log("weekend");
-    else console.log("weekday");
-    console.log(data);
-    console.log(startdate, enddate);
-    axios
-      .get(
-        `http://localhost:8181/property/${this.props.match.params.propertyId}`
-      )
-      .then(response => {
-        console.log("Status Code : ", response.status);
-        if (response.status === 200) {
-          this.setState({
-            responseData: response.data
-          });
-          console.log("ress", response);
-          if (!response.data) {
-            alert("No Available Properties");
-          }
-        } else {
-          this.setState({
-            flag: false
-          });
-        }
-      })
-      .catch(err => {
-        alert(err);
+    if (this.props.location.state) {
+      console.log("comit");
+      console.log(this.props.location.state.responseData1);
+      this.setState({
+        information: this.props.location.state.responseData1
       });
+    }
+    console.log("data aa gaya", this.state.information);
   }
 
-  SearchButton = e => {
-    var data = JSON.parse(localStorage.getItem("product_details"));
-    axios
-      .post(`http://localhost:8181/search/property`, data)
-      .then(response => {
-        console.log("Status Code : ", response.status);
-        if (response.status === 200) {
-          this.setState({
-            responseData1: response.data //,
-          });
-          console.log(response);
-          if (!response.data) {
-            alert("No Available Properties");
-          }
-        } else {
-          this.setState({
-            flag: false
-          });
-        }
-      })
-      .catch(err => {
-        alert(err);
-      });
+  OpenProperty = property => {
+    this.setState({
+      datatest: true
+    });
+    this.props.history.push(`/search/searchResult/${property.propertyId}`);
   };
 
-  BookButton = e => {
-    // var data = JSON.parse(localStorage.getItem('product_details'));
-    var data = JSON.parse(localStorage.getItem("product_details"));
-    console.log(data);
-    const payload = {
-      booked_price: 50,
-      booked_price_weekend: 10,
-      booked_price_weekday: 11,
-      booking_date: data.startDate,
-      startDate: data.startDate,
-      endDate: data.endDate,
-      guest: 1,
-      propertyId: 1
-    };
-    console.log("payload", payload);
-    axios
-      .post(`http://localhost:8181/reservation/new`, payload)
-      .then(response => {
-        console.log("Status Code : ", response.status);
-        if (response.status === 200) {
-          this.setState({
-            responseData1: response.data
-          });
-          console.log(response);
-          if (!response.data) {
-            alert("No Available Properties");
-          }
-        } else {
-          this.setState({
-            flag: false
-          });
-        }
-      })
-      .catch(err => {
-        alert(err);
-      });
-  };
+  handleChange(event) {
+    this.setState({ sharingType: event.target.value });
+  }
+
+  ChangeHandler(e) {
+    let change = {};
+    change[e.target.name] = e.target.value;
+    this.setState(change);
+  }
 
   render() {
-    let redirectvar = null;
-    if (this.state.responseData1) {
-      console.log("should redirect");
-      console.log(this.state.responseData1);
-      redirectvar = (
-        <Redirect
-          to={{
-            pathname: "/search/searchResults",
-            state: {
-              responseData1: this.state.responseData1
-            }
-          }}
-        />
-      );
-    }
-    let displayImage = null;
-    if (!this.state.responseData.picture) {
-      displayImage = (
-        <div>
-          <div
-            id="carouselExampleControls"
-            class="carousel slide right-side"
-            data-ride="carousel"
-          >
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                {/* <h1>Images Pending</h1> */}
-                <img
-                  src="https://www.rejournals.com/getattachment/d25d399a-5f87-4e6d-96a0-392fc34f745c/file.aspx"
-                  height="300"
-                  width="420"
-                  alt="description"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    } else if (this.state.responseData.picture) {
-      displayImage = (
-        <div>
-          <div
-            id="carouselExampleControls"
-            class="carousel slide right-side"
-            data-ride="carousel"
-          >
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img
-                  src={this.state.responseData.picture}
-                  height="300"
-                  width="420"
-                  alt="description"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    }
+    // let redirectvar = null
+    // if(this.state.datatest){
+    //     redirectvar = this.state.responseData
+    // }
 
-    return (
-      <>
-        <div id="mainbody">
-          {redirectvar}
-          <div className="container main-content">
-            <div class="property_details">
-              {displayImage}
-              <div class="col-md-7 right-side">
-                <hr></hr>
-                <h3>{this.state.responseData.propertyDescription}</h3>
-                <p class="info">
-                  {" "}
-                  <b> Address : </b> {this.state.responseData.streetName},{" "}
-                  {this.state.responseData.city},{" "}
-                  {this.state.responseData.zipcode}
-                </p>
-                <p class="info">
-                  {" "}
-                  <b> Property Type : </b>{" "}
-                  {this.state.responseData.propertyType}, Sharing Type :{" "}
-                  {this.state.responseData.sharingType}, Total Square Footage :{" "}
-                  {this.state.responseData.totalSquareFootage}, Number Of Rooms
-                  : {this.state.responseData.numberOfRooms}
-                </p>
-                <p class="info">
-                  {" "}
-                  <b> Sharing Type : </b> {this.state.responseData.sharingType},
-                  Total Square Footage :{" "}
-                  {this.state.responseData.totalSquareFootage}, Number Of Rooms
-                  : {this.state.responseData.numberOfRooms}
-                </p>
-                <p class="info">
-                  {" "}
-                  <b>Total Square Footage :</b>{" "}
-                  {this.state.responseData.totalSquareFootage}, Number Of Rooms
-                  : {this.state.responseData.numberOfRooms}
-                </p>
-                <p class="info">
-                  {" "}
-                  <b>Number Of Rooms :</b>{" "}
-                  {this.state.responseData.numberOfRooms}
-                </p>
-                <p class="price">
-                  $ {this.state.responseData.totalSquareFootage} per night
-                </p>
-                <hr></hr>
-                <button
-                  class="btn btn-danger"
-                  name="BookButton"
-                  onClick={this.SearchButton}
-                >
-                  <span>Previous Page</span>
-                </button>
-                &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-                <button
-                  class="btn btn-danger"
-                  name="BookButton"
-                  onClick={this.BookButton}
-                >
-                  <span>Book Property</span>
-                </button>
+    let displayImage = null;
+    let view = null;
+    if (this.state.information.length > 0) {
+      view = this.state.information.map(property => {
+        if (!property.picture) {
+          console.log("data", property.city);
+          displayImage = (
+            <div>
+              <div
+                id="carouselExampleControls"
+                class="carousel slide"
+                data-ride="carousel"
+              >
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img
+                      src="https://www.rejournals.com/getattachment/d25d399a-5f87-4e6d-96a0-392fc34f745c/file.aspx"
+                      height="300"
+                      width="420"
+                      alt="description"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
+          );
+        } else if (property.picture) {
+          displayImage = (
+            <div>
+              <div
+                id="carouselExampleControls"
+                class="carousel slide"
+                data-ride="carousel"
+              >
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img
+                      src={property.picture}
+                      height="300"
+                      width="420"
+                      alt="description"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        }
+
+        return (
+          <div className="container">
+            <div class="property_details">
+              <div class="row">
+                <div class="col-md-5">{displayImage}</div>
+                <div class="col-md-7 right-side">
+                  <hr></hr>
+                  <h3>{property.propertyDescription}</h3>
+                  <br></br>
+                  <p class="info">
+                    Address : {property.streetName}, {property.city},{" "}
+                    {property.zipcode}
+                  </p>
+                  <p class="info">
+                    {" "}
+                    Property Type : {property.propertyType}, Sharing Type :{" "}
+                    {property.sharingType}, Total Square Footage :{" "}
+                    {property.totalSquareFootage}, Number Of Rooms :{" "}
+                    {property.numberOfRooms}
+                  </p>
+                  {/* <p class="price">$ {property.Tariff} per night</p> */}
+
+                  <hr></hr>
+                  <button
+                    class="btn btn-danger"
+                    name="BookButton"
+                    onClick={() => this.OpenProperty(property)}
+                  >
+                    <span>Property Details</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <hr></hr>
+          </div>
+        );
+      });
+    } else {
+      view = (
+        <div class="property_detials">
+          <h3>
+            <b>No results !!</b>
+          </h3>
+          <h3>
+            To get more results, try adjusting your search by changing your
+            dates.
+          </h3>
+        </div>
+      );
+    }
+    // console.log("CHECK THE DATA");
+    // console.log(this.state.information);
+    return (
+      <div>
+        {/* {redirectvar} */}
+        <div id="mainbody">
+          <div class="container main-content">
+            <br></br>
+            {view}
           </div>
         </div>
-        <br />
-      </>
+      </div>
     );
   }
 }
 
-export default SearchResultDetails;
+export default SearchResults;

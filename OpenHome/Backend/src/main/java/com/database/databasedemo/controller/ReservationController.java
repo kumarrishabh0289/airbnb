@@ -45,6 +45,8 @@ public class ReservationController {
     @ResponseStatus(value = HttpStatus.CREATED)
     //public Reservations(float bookedPrice, float bookedPriceWeekend, float bookedPriceWeekday, OffsetDateTime bookingDate, OffsetDateTime startDate, OffsetDateTime endDate, int guestId, int propertyId) {
     public ResponseEntity<?> newReservation(@RequestBody Map<String, String> payload) throws ParseException {
+
+        System.out.println("payload"+payload);
         String bookedPrice = payload.get(payload.keySet().toArray()[0]);
         int booked_price=Integer.parseInt(bookedPrice);
 
@@ -62,22 +64,22 @@ public class ReservationController {
         java.util.Date date1 = sdf1.parse(bookingDate);
         OffsetDateTime booking_date = date1.toInstant()
                 .atOffset(ZoneOffset.UTC);
-
+        System.out.println("booking_date"+booking_date);
         String startDate = payload.get(payload.keySet().toArray()[4]);
-
+        System.out.println("startDate"+startDate);
         System.out.println(startDate);
         java.util.Date date2 = sdf1.parse(startDate);
         OffsetDateTime start_date = date2.toInstant()
                 .atOffset(ZoneOffset.UTC);
-
+        System.out.println("start_date "+start_date );
         String endDate = payload.get(payload.keySet().toArray()[5]);
-
+        System.out.println("endDate "+endDate );
         System.out.println(endDate);
         java.util.Date date3 = sdf1.parse(endDate);
         OffsetDateTime end_date = date3.toInstant()
                 .atOffset(ZoneOffset.UTC);
 
-
+        System.out.println("end_date "+end_date );
         String guestId = payload.get(payload.keySet().toArray()[6]);
 
         System.out.println(guestId);
