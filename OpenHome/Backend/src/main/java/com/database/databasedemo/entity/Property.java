@@ -16,7 +16,7 @@ public class Property {
     @Column(name = "property_description", nullable = false, length = 100)
     private String propertyDescription;
 
-    public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String picture,String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage,Person owner, int weekdayPrice,int weekendPrice) {
+    public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String picture,String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage,Person owner, int weekdayPrice,int weekendPrice, boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat, boolean sun) {
         this.propertyDescription = propertyDescription;
         this.streetName = streetName;
         this.city = city;
@@ -30,6 +30,13 @@ public class Property {
         this.picture = picture;
         this.weekendPrice=weekendPrice;
         this.weekdayPrice=weekdayPrice;
+        this.mon = mon;
+        this.tue = tue;
+        this.wed = wed;
+        this.thu = thu;
+        this.fri = fri;
+        this.sat = sat;
+        this.sun = sun;
     }
 
     public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage, boolean parking, float parkingFee, boolean wifi, boolean laundry, String view, boolean smoking, boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat, boolean sun, String picture, Person owner) {

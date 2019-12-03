@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router';
 //import { Link } from 'react-router-dom'
 import axios from 'axios';
-//import AuthenticationForApiService from './AuthenticationForApiService.js'
+import { API_URL } from "../../Constants";
 
 
 class FrontPage extends Component {
@@ -60,8 +60,8 @@ class FrontPage extends Component {
                 priceRange : this.state.priceRange
             }
             localStorage.setItem('product_details', JSON.stringify(data));
-            console.log(data);
-            axios.post(`http://localhost:8181/search/property`,data)
+           
+            axios.post( API_URL + `/search/property`,data)
                 .then(response => {
                     console.log("Status Code : ",response.status);
                     if(response.status === 200){
