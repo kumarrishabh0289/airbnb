@@ -110,7 +110,7 @@ class SignUp extends Component {
                                         <br />
                                         <div className="form-group">
                                             <label htmlFor="where"><h5>Email ID</h5></label>
-                                            <input type="email" className="form-control" name="email" id="email" placeholder="Your Email" value={this.state.email} onChange={this.handleChange} />
+                                            <input type="email" className="form-control" name="email" id="email" placeholder="Your Email" value={this.state.email} onChange={this.handleChange} required/>
 
                                         </div>
 
@@ -126,7 +126,7 @@ class SignUp extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="where"><h5>Name</h5></label>
-                                            <input type="text" className="form-control" name="name" id="name" placeholder="Your Name" value={this.state.name} onChange={this.handleChange} />
+                                            <input type="text" className="form-control" name="name" id="name" placeholder="Your Name" value={this.state.name} onChange={this.handleChange} required/>
 
                                         </div>
 
@@ -135,7 +135,7 @@ class SignUp extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="where"><h5>Password</h5></label>
-                                            <input type="password" className="form-control" name="password" id="password" placeholder="password" value={this.state.password} onChange={this.handleChange} />
+                                            <input type="password" className="form-control" name="password" id="password" placeholder="password" value={this.state.password} onChange={this.handleChange} required/>
                                         </div>
 
                                     </div>
@@ -154,7 +154,7 @@ class SignUp extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="where"><h5>Card Number</h5></label>
-                                            <input type="number" className="form-control" name="cardNumber" id="cardNumber" placeholder="Card Number" value={this.state.cardNumber} onChange={this.handleChange} />
+                                            <input type="text" className="form-control" name="cardNumber" id="cardNumber" placeholder="Card Number" value={this.state.cardNumber} onChange={this.handleChange} pattern="[1-9]{1}[0-9]{15}" required/>
                                         </div>
 
                                     </div>
@@ -166,7 +166,7 @@ class SignUp extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="where"><h5>Card Expiry Date</h5></label>
-                                            <input type="date" className="form-control" name="expiryDate" id="expiryDate" placeholder="Card Expiry Date" value={this.state.expiryDate} onChange={this.handleChange} />
+                                            <input type="date" className="form-control" name="expiryDate" id="expiryDate" placeholder="Card Expiry Date" value={this.state.expiryDate} onChange={this.handleChange} required/>
 
                                         </div>
 
@@ -175,7 +175,7 @@ class SignUp extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="where"><h5>Card Cvv</h5></label>
-                                            <input type="number" className="form-control" name="cvv" id="cvv" placeholder="cvv" value={this.state.cvv} onChange={this.handleChange} />
+                                            <input type="text" className="form-control" name="cvv" id="cvv" placeholder="cvv" value={this.state.cvv} onChange={this.handleChange} pattern="[0-9]{3}" required/>
                                         </div>
 
                                     </div>
