@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 //import { Link } from 'react-router-dom'
 //import axios from 'axios';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap/dist/js/bootstrap.bundle.min';
-// import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-// import 'bootstrap/dist/js/bootstrap.js';
-// import 'bootstrap/dist/js/bootstrap.min.js';
 
 class SearchResults extends Component {
   constructor(props) {
@@ -30,13 +25,10 @@ class SearchResults extends Component {
 
   componentDidMount() {
     if (this.props.location.state) {
-      console.log("comit");
-      console.log(this.props.location.state.responseData1);
       this.setState({
         information: this.props.location.state.responseData1
       });
     }
-    console.log("data aa gaya", this.state.information);
   }
 
   OpenProperty = property => {
@@ -57,10 +49,6 @@ class SearchResults extends Component {
   }
 
   render() {
-    // let redirectvar = null
-    // if(this.state.datatest){
-    //     redirectvar = this.state.responseData
-    // }
 
     let displayImage = null;
     let view = null;
