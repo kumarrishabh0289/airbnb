@@ -3,6 +3,7 @@ package com.database.databasedemo.service;
 import com.database.databasedemo.entity.Person;
 import com.database.databasedemo.entity.Property;
 import com.database.databasedemo.entity.Reservations;
+import com.database.databasedemo.repository.PersonSpringDataRepo;
 import com.database.databasedemo.repository.PropertyRepo;
 import com.database.databasedemo.repository.ReservationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ public class ReservationService {
     ReservationRepo reservationRepo;
     @Autowired
     PropertyService propertyService;
+    @Autowired
+    PersonSpringDataRepo personSpringDataRepo;
 
     public Reservations getReservation(int id) {
         return reservationRepo.findById(id).orElse(null);
@@ -41,10 +44,23 @@ public class ReservationService {
         return reservationRepo.findByGuestId(id);
     }
 
-//    public List<Reservations> getHostReservations(int guestId){
-//
-//        return reservationRepo.findByGuestId(guestId);
-//    }
+    public List<Reservations> getReservationProperties(int id){
+        return reservationRepo.findByPropertyId(id);
+    }
+
+    public List<Reservations> getHostReservations(int id){
+        Person p= personSpringDataRepo.findById(id).orElse(null);
+        List<Property> ownerProperties=propertyService.getHostProperties(p);
+        List<Reservations> ownerPropertyReservations=new ArrayList<>();
+        List<Reservations> propertyIdReservations;
+        for (Property property:ownerProperties) {
+            propertyIdReservations=getReservationProperties(property.getPropertyId());
+            for (Reservations r:propertyIdReservations) {
+                ownerPropertyReservations.add(r);
+            }
+        }
+        return ownerPropertyReservations;
+    }
 
     public void createReservations(Reservations reservation){
         int propertyId=reservation.getPropertyId();
