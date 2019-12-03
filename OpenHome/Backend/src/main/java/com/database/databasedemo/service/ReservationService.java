@@ -30,7 +30,11 @@ public class ReservationService {
     @Autowired
     PropertyService propertyService;
     @Autowired
+
+    TimeService timeService;
+
     PersonSpringDataRepo personSpringDataRepo;
+
 
     public Reservations getReservation(int id) {
         return reservationRepo.findById(id).orElse(null);
@@ -79,8 +83,11 @@ public class ReservationService {
         System.out.println("offset utc date "+check_in_date);
         OffsetDateTime start_date=reservation.getStartDate();
         OffsetDateTime end_date=reservation.getEndDate();
+
+        OffsetDateTime current_time =timeService.getCurrentTime();
+        System.out.println("current time"+current_time);
         long result
-                = start_date.until(check_in_date,
+                = start_date.until(current_time,
                 ChronoUnit.HOURS);
         // print results
         System.out.println("Result in hours: "
@@ -136,7 +143,8 @@ public class ReservationService {
             reservation.setPaymentAmount(penalty);
         }
 
-        reservation.setCheckInDate(check_in_date);
+        //reservation.setCheckInDate(check_in_date);
+        reservation.setCheckInDate(current_time);
         reservationRepo.save(reservation);
 
     }
