@@ -34,13 +34,10 @@ class SearchResults extends Component {
     componentDidMount(){
 
         if(this.props.location.state){
-            console.log("comit");
-            console.log(this.props.location.state.responseData1);
             this.setState({
                 information: this.props.location.state.responseData1,
             })
         }
-        console.log("data aa gaya",this.state.information);
     }
 
 
@@ -63,11 +60,6 @@ class SearchResults extends Component {
     }
 
     render() {
-
-        // let redirectvar = null
-        // if(this.state.datatest){
-        //     redirectvar = this.state.responseData
-        // }
 
         let displayImage = null;
         let view = null;
