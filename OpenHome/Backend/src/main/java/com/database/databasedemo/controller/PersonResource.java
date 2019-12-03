@@ -12,14 +12,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.database.databasedemo.mail.SendMail;
+
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-//import javax.mail.PasswordAuthentication;
-//import java.util.*;
-//import javax.mail.Authenticator;
-//
-//import javax.mail.*;
-//import javax.mail.internet.*;
+import javax.mail.PasswordAuthentication;
+import java.util.*;
+import javax.mail.Authenticator;
+
+import javax.mail.*;
+import javax.mail.internet.*;
 
 
 import java.net.URI;
@@ -27,7 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@CrossOrigin(origins="http://localhost:3000")
+@CrossOrigin(origins="*")
 @RestController
 public class PersonResource {
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -36,15 +38,15 @@ public class PersonResource {
     @Autowired
     private PersonSpringDataRepo repo;
 
-//    @RequestMapping(value = "/sendemail")
-//    public String sendEmail(@RequestBody Map<String, String> payload) throws MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
-//        String subject = payload.get(payload.keySet().toArray()[0]);
-//        String recevier = payload.get(payload.keySet().toArray()[1]);
-//        String body = payload.get(payload.keySet().toArray()[2]);
-//        SendMail y = new SendMail();
-//        y.sendEmail(subject,recevier,body);
-//        return "Email sent successfully";
-//    }
+    @RequestMapping(value = "/sendemail")
+    public String sendEmail(@RequestBody Map<String, String> payload) throws MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
+        String subject = payload.get(payload.keySet().toArray()[0]);
+        String recevier = payload.get(payload.keySet().toArray()[1]);
+        String body = payload.get(payload.keySet().toArray()[2]);
+        SendMail y = new SendMail();
+        y.sendEmail(subject,recevier,body);
+        return "Email sent successfully";
+    }
 
     @GetMapping("/verifyUser/{id}")
     public String validatePerson(@PathVariable int id) {
@@ -89,23 +91,23 @@ public class PersonResource {
 
     }
 
-//    @PostMapping("/persons")
-//    public ResponseEntity<Object> createStudent(@RequestBody Person person) throws MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
-//        Person savedPerson;
-//        savedPerson = repo.save(person);
-//        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-//                .buildAndExpand(savedPerson.getId()).toUri();
-//        System.out.println(savedPerson.getEmail());
-//        String subject = "Please Verify your Email ID with Open Home";
-//        String recevier = savedPerson.getEmail();
-//        String body = "Hi " +savedPerson.getName()+",\n\nPlease verify your email with us by clicking on below link:\n http://localhost:8181/verifyUser/"+savedPerson.getId();
-//        SendMail y = new SendMail();
-//        y.sendEmail(subject,recevier,body);
-//
-//
-//        return ResponseEntity.created(location).build();
-//
-//    }
+    @PostMapping("/persons")
+    public ResponseEntity<Object> createStudent(@RequestBody Person person) throws MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
+        Person savedPerson;
+        savedPerson = repo.save(person);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(savedPerson.getId()).toUri();
+        System.out.println(savedPerson.getEmail());
+        String subject = "Please Verify your Email ID with Open Home";
+        String recevier = savedPerson.getEmail();
+        String body = "Hi " +savedPerson.getName()+",\n\nPlease verify your email with us by clicking on below link:\n http://localhost:8181/verifyUser/"+savedPerson.getId();
+        SendMail y = new SendMail();
+        y.sendEmail(subject,recevier,body);
+
+
+        return ResponseEntity.created(location).build();
+
+    }
 
     @GetMapping("/persons/{id}")
     public Person retrievePerson(@PathVariable int id) {

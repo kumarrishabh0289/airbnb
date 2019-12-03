@@ -9,7 +9,14 @@ class PropertyDetails extends Component {
     super(props);
 
     this.state = {
-      properties: []
+      properties: [],
+      sun: false,
+      mon: false,
+      tue: false,
+      wed: false,
+      thu: false,
+      fri: false,
+      sat: false
     };
   }
 
@@ -19,6 +26,49 @@ class PropertyDetails extends Component {
       [event.target.name]: event.target.value
     })
   }
+
+  sunCheckboxHandler = () => {
+    this.setState({
+      sun: !this.state.sun
+    });
+  };
+
+  monCheckboxHandler = () => {
+    this.setState({
+      mon: !this.state.mon
+    });
+  };
+
+  tueCheckboxHandler = () => {
+    this.setState({
+      tue: !this.state.tue
+    });
+  };
+
+  wedCheckboxHandler = () => {
+    this.setState({
+      wed: !this.state.wed
+    });
+  };
+
+  thuCheckboxHandler = () => {
+    this.setState({
+      thu: !this.state.thu
+    });
+  };
+
+  friCheckboxHandler = () => {
+    this.setState({
+      fri: !this.state.fri
+    });
+  };
+
+  satCheckboxHandler = () => {
+    this.setState({
+      sat: !this.state.sat
+    });
+  };
+
 
   componentDidMount() {
     console.log(this.props.match.params.propertyId);
@@ -107,25 +157,82 @@ class PropertyDetails extends Component {
 
                         <div class="row" >
 
-<div class="col-sm-6 col-md-6">
-
-    <div class="col-sm-8 col-md-8">
-        <label for="where"><h5>Room start Date</h5></label>
-        <input onChange = {this.ChangeHandler} type="date" name="startDate" id="startDate" class="form-control js-Date" />
-        <i class="icon-calendar form-control-icon" aria-hidden="true">
-        </i>
-    </div>
-
-</div>
-
-<div class="col-sm-6 col-md-6">
-
-    <div class="col-sm-8 col-md-8">
-        <label for="where"><h5>Room end Date</h5></label>
-        <input onChange = {this.ChangeHandler} type="date" name="endDate" id="endDate" class="form-control js-Date"/>
-    </div>
-    
-</div>
+              <div class="row">
+                  <div class="col-sm-12 col-md-12">
+                    <div class="form-group">
+                      <label for="where">
+                        <h5>Availability Days</h5>
+                      </label>
+                      <div class="form-group">
+                        <fieldset>
+                          <label>
+                            <input
+                              type="checkbox"
+                              name="sun"
+                              value="true"
+                              onChange={this.sunCheckboxHandler.bind()}
+                            />{" "}
+                            Sunday
+                          </label>
+                          <label>
+                            <input
+                              type="checkbox"
+                              name="mon"
+                              value="true"
+                              onChange={this.monCheckboxHandler.bind()}
+                            />{" "}
+                            Monday
+                          </label>
+                          <label>
+                            <input
+                              type="checkbox"
+                              name="tue"
+                              value="true"
+                              onChange={this.tueCheckboxHandler.bind()}
+                            />{" "}
+                            Tuesday
+                          </label>
+                          <label>
+                            <input
+                              type="checkbox"
+                              name="wed"
+                              value="true"
+                              onChange={this.wedCheckboxHandler.bind()}
+                            />{" "}
+                            Wednesday
+                          </label>
+                          <label>
+                            <input
+                              type="checkbox"
+                              name="thu"
+                              value="true"
+                              onChange={this.thuCheckboxHandler.bind()}
+                            />{" "}
+                            Thursday
+                          </label>
+                          <label>
+                            <input
+                              type="checkbox"
+                              name="fri"
+                              value="true"
+                              onChange={this.friCheckboxHandler.bind()}
+                            />{" "}
+                            Friday
+                          </label>
+                          <label>
+                            <input
+                              type="checkbox"
+                              name="sat"
+                              value="true"
+                              onChange={this.satCheckboxHandler.bind()}
+                            />{" "}
+                            Saturday
+                          </label>
+                        </fieldset>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 </div>
 <br/>
 
