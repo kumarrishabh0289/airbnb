@@ -112,8 +112,6 @@ class FrontPage extends Component {
 
         let redirectvar = null
         if(this.state.responseData){
-            console.log("should redirect")
-            console.log(this.state.responseData);
             redirectvar = <Redirect to= {{
                 pathname: '/search/searchResults',
                 state:{
