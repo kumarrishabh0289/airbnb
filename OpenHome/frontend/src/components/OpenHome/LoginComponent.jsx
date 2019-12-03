@@ -45,10 +45,10 @@ class LoginComponent extends Component {
                 sessionStorage.setItem("userId", response.data.id)
                 sessionStorage.setItem("userRole", response.data.role)
                 sessionStorage.setItem("userName", response.data.name)
-                if(response.data.role == "user"){
+                if(response.data.role === "user"){
                     this.props.history.push(`/welcomeuser/${response.data.name}`)
                 }
-                if(response.data.role == "host"){
+                if(response.data.role === "host"){
                     this.props.history.push(`/hostdashboard/${response.data.name}`)
                 }
                 else{

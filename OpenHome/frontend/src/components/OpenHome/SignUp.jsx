@@ -147,7 +147,7 @@ class SignUp extends Component {
                                 <div className="row" >
                                     <h4>
                                         <hr /><br />
-                                        Add Payment Method <img src="payment.jpg" ></img>
+                                        Add Payment Method <img src="payment.jpg" alt=""></img>
                                     </h4>
 
                                     <div className="col-sm-12 col-md-12">
