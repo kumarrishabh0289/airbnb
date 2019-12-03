@@ -65,7 +65,7 @@ class SignUp extends Component {
         axios.post(API_URL + "/persons/", data)
             .then((response) => {
                 console.log("Status Code : ", response.status);
-                if (response.status === 200) {
+                if (response.status === 201) {
 
                     console.log(response.data);
                     this.setState({

@@ -7,9 +7,9 @@ class AuthenticationForApiService {
 
     
 
-    authenticate(username, password) {
+    authenticate(email, password) {
         return axios.post(`${API_URL}/authenticate`, {
-            username,
+            email,
             password
         })
     }
