@@ -6,6 +6,7 @@ import com.database.databasedemo.entity.Reservations;
 import com.database.databasedemo.repository.ReservationRepo;
 import com.database.databasedemo.service.PropertyService;
 import com.database.databasedemo.service.ReservationService;
+import com.database.databasedemo.service.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,8 @@ public class ReservationController {
 
     @Autowired
     ReservationService reservationService;
+
+
     @PostMapping("/reservation/add")
     @ResponseStatus(value = HttpStatus.CREATED)
     public ResponseEntity<?> createReservation(@RequestBody Reservations reservation) {
@@ -116,6 +119,11 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
     return reservationService.getGuestReservations(id);
 }
 
+    @GetMapping("/reservation/host/{id}")
+    public List<Reservations> getHostReservations(@PathVariable int id) {
+        return reservationService.getHostReservations(id);
+    }
+
     @PostMapping("/reservation/checkin")
     @ResponseStatus(value = HttpStatus.CREATED)
     //public Reservations(float bookedPrice, float bookedPriceWeekend, float bookedPriceWeekday, OffsetDateTime bookingDate, OffsetDateTime startDate, OffsetDateTime endDate, int guestId, int propertyId) {
@@ -123,6 +131,7 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
         String reservationId = payload.get(payload.keySet().toArray()[0]);
         int reservation_id = Integer.parseInt(reservationId);
         String checkInDate = payload.get(payload.keySet().toArray()[1]);
+
         Reservations reservation = reservationService.getReservation(reservation_id);
         reservationService.checkInReservation(reservation,checkInDate);
         return new ResponseEntity<>(HttpStatus.OK);

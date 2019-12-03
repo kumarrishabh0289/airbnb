@@ -3,6 +3,7 @@ package com.database.databasedemo.service;
 import com.database.databasedemo.entity.Person;
 import com.database.databasedemo.entity.Property;
 import com.database.databasedemo.entity.Reservations;
+import com.database.databasedemo.repository.PersonSpringDataRepo;
 import com.database.databasedemo.repository.PropertyRepo;
 import com.database.databasedemo.repository.ReservationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,12 @@ public class ReservationService {
 
     @Autowired
     PropertyService propertyService;
+    @Autowired
+
+    TimeService timeService;
+
+    PersonSpringDataRepo personSpringDataRepo;
+
 
     public Reservations getReservation(int id) {
         return reservationRepo.findById(id).orElse(null);
@@ -44,9 +51,27 @@ public class ReservationService {
         return reservationRepo.findByGuestId(id);
     }
 
-    public List<Reservations> getHostReservations(int guestId){
 
-        return reservationRepo.findByGuestId(guestId);
+//    public List<Reservations> getHostReservations(int guestId) {
+//
+//        return reservationRepo.findByGuestId(guestId);
+//    }
+    public List<Reservations> getReservationProperties(int id){
+        return reservationRepo.findByPropertyId(id);
+    }
+
+    public List<Reservations> getHostReservations(int id){
+        Person p= personSpringDataRepo.findById(id).orElse(null);
+        List<Property> ownerProperties=propertyService.getHostProperties(p);
+        List<Reservations> ownerPropertyReservations=new ArrayList<>();
+        List<Reservations> propertyIdReservations;
+        for (Property property:ownerProperties) {
+            propertyIdReservations=getReservationProperties(property.getPropertyId());
+            for (Reservations r:propertyIdReservations) {
+                ownerPropertyReservations.add(r);
+            }
+        }
+        return ownerPropertyReservations;
     }
 
     public void createReservations(Reservations reservation){
@@ -66,8 +91,11 @@ public class ReservationService {
         System.out.println("offset utc date "+check_in_date);
         OffsetDateTime start_date=reservation.getStartDate();
         OffsetDateTime end_date=reservation.getEndDate();
+
+        OffsetDateTime current_time =timeService.getCurrentTime();
+        System.out.println("current time"+current_time);
         long result
-                = start_date.until(check_in_date,
+                = start_date.until(current_time,
                 ChronoUnit.HOURS);
         // print results
         System.out.println("Result in hours: "
@@ -123,7 +151,8 @@ public class ReservationService {
             reservation.setPaymentAmount(penalty);
         }
 
-        reservation.setCheckInDate(check_in_date);
+        //reservation.setCheckInDate(check_in_date);
+        reservation.setCheckInDate(current_time);
         reservationRepo.save(reservation);
 
     }

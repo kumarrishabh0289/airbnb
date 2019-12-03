@@ -125,7 +125,7 @@ public class Person {
                 ", password='" + password + '\'' +
                 ", cardNumber='" + cardNumber + '\'' +
                 ", role='" + role + '\'' +
-
+                ", email='" + email + '\'' +
                 '}';
     }
 }

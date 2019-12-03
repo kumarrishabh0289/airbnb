@@ -110,39 +110,18 @@ class SearchResultDetails extends Component {
 
 
     BookButton = (e) => {
-       var data = JSON.parse(localStorage.getItem('product_details'));
-        const payload = {
-            booked_price : 50,
-            booked_price_weekend : 10,
-            booked_price_weekday : 11,
-            booking_date: data.startDate,
-            startDate: data.startDate,
-            endDate: data.endDate,
-            guestId: 1,
-            propertyId:1
-        }
+        var data = JSON.parse(localStorage.getItem('product_details'));
+        console.log(data)
+        sessionStorage.setItem('startDate',data.startDate)
+        sessionStorage.setItem('endDate',data.endDate)
+        sessionStorage.setItem('propertyId',this.props.match.params.propertyId)
+        sessionStorage.setItem("weekend_price", this.state.responseData.weekendPrice);
+        sessionStorage.setItem("weekday_price", this.state.responseData.weekdayPrice);
+        sessionStorage.setItem("booked_price", this.state.bookingPrice);
 
-        axios.post(API_URL + `/reservation/new`,payload)
-        .then(response => {
-            console.log("Status Code : ",response.status);
-            if(response.status === 200){
-                this.setState({
-                    responseData1:response.data
-                })
-                console.log(response);
-                if(!response.data){
-                    alert("No Available Properties")
-                }
-            }
-            else{
-                this.setState({
-                    flag : false
-                })
-            }
-        })
-        .catch(err =>{
-            alert(err);
-        });
+        this.props.history.push(`/bookingconfirmation`)
+       
+
     }
 
 
