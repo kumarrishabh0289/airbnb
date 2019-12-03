@@ -112,7 +112,7 @@ class SearchResultDetails extends Component {
 
         var header = { "Content-Type": "application/JSON" };
 
-        const data = {
+        const dataReservation = {
             bookedPrice: this.state.bookingPrice,
             bookedPriceWeekend: this.state.responseData.weekendPrice,
             bookedPriceWeekday: this.state.responseData.weekdayPrice,
@@ -124,8 +124,7 @@ class SearchResultDetails extends Component {
             address: this.state.responseData.streetName+", "+this.state.responseData.city+", "+this.state.responseData.zipcode,
             description: this.state.responseData.propertyDescription
         };
-        console.log(data);
-        axios.post(API_URL + "/reservation/new", data, header).then(response => {
+        axios.post(API_URL + "/reservation/new", dataReservation, header).then(response => {
             console.log("response",response)
             if (response.status === 201) {
                 this.setState({ status: "Success" });

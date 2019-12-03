@@ -8,7 +8,7 @@ import HeaderComponent from "./HeaderComponent";
 import LogoutComponent from "./LogoutComponent";
 import WelcomeComponent from "./WelcomeComponent";
 import SearchResults from "./SearchResults/SearchResults";
-import SearchResultDetails from "./SearchResults/SearchResultDetails";
+import SearchResultDetails from "./SearchResults/SearchResultDetails.jsx";
 import FrontPage from "./FrontPage";
 import HostDashboard from "../OwnerProperty/HostDashboard";
 import PropertyDetails from "../OwnerProperty/PropertyDetails";

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import AuthenticationForApiService from './AuthenticationForApiService.js'
+// import { Link } from 'react-router-dom'
+// import AuthenticationForApiService from './AuthenticationForApiService.js'
 import axios from 'axios';
 import { API_URL } from '../../Constants'
 
@@ -45,7 +45,7 @@ class SignUp extends Component {
         }
 
         console.log("submit login called")
-        var headers = new Headers();
+      //  var headers = new Headers();
         //prevent page from refresh
         e.preventDefault();
         const data = {
@@ -147,7 +147,7 @@ class SignUp extends Component {
                                 <div className="row" >
                                     <h4>
                                         <hr /><br />
-                                        Add Payment Method <img src="payment.jpg" ></img>
+                                        Add Payment Method <img src="payment.jpg" alt=""></img>
                                     </h4>
 
                                     <div className="col-sm-12 col-md-12">
