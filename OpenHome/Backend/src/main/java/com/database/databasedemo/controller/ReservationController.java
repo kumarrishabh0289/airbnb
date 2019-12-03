@@ -119,6 +119,11 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
     return reservationService.getGuestReservations(id);
 }
 
+    @GetMapping("/reservation/host/{id}")
+    public List<Reservations> getHostReservations(@PathVariable int id) {
+        return reservationService.getHostReservations(id);
+    }
+
     @PostMapping("/reservation/checkin")
     @ResponseStatus(value = HttpStatus.CREATED)
     //public Reservations(float bookedPrice, float bookedPriceWeekend, float bookedPriceWeekday, OffsetDateTime bookingDate, OffsetDateTime startDate, OffsetDateTime endDate, int guestId, int propertyId) {

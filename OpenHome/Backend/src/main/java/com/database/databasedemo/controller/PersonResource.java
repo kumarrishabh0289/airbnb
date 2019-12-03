@@ -125,15 +125,15 @@ public class PersonResource {
     public Map<String, String> auth(@RequestBody Map<String, String> payload) {
 
 
-        String name = payload.get(payload.keySet().toArray()[0]);
+        String email = payload.get(payload.keySet().toArray()[0]);
 
-        System.out.println(name);
+        System.out.println("email"+email);
 
         String password = payload.get(payload.keySet().toArray()[1]);
 
-        System.out.println(password);
+        System.out.println("password"+password);
 
-        Optional<Person> person = Optional.ofNullable(repo.findByName(name));
+        Optional<Person> person = Optional.ofNullable(repo.findByEmail(email));
         if (!person.isPresent()){
 
             System.out.println("Person is not present in DB");
@@ -149,17 +149,20 @@ public class PersonResource {
                 System.out.println("Password Validated");
 
 
-                encodedNameAsToken = encoder.encode(name.concat(secretKey));
+                encodedNameAsToken = encoder.encode(person.get().getName().concat(secretKey));
 
 
 
 
-                System.out.println(encoder.matches(name.concat(secretKey),encodedNameAsToken));
+                System.out.println(encoder.matches(person.get().getName().concat(secretKey),encodedNameAsToken));
                 HashMap<String, String> map = new HashMap<>();
                 map.put("token", encodedNameAsToken);
                 System.out.println(encodedNameAsToken);
-                map.put("name", name);
-                //map.put("password", password);
+                map.put("name", person.get().getName());
+                map.put("role", person.get().getRole());
+                map.put("email", person.get().getEmail());
+                map.put("id", String.valueOf(person.get().getId()));
+
                 return map;
             }
             else{

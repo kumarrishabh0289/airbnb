@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { API_URL } from "../../Constants";
 import axios from "axios";
 import Draggable from "react-draggable";
-class PropertiesDashboard extends Component {
+class HostDashboard extends Component {
   constructor(props) {
     super(props);
 
@@ -34,9 +34,9 @@ class PropertiesDashboard extends Component {
       <div class="container">
         <div class="body-div">
           <br />
-          <h2>Openhome Dashboard</h2>
+          <h2>Openhome Host Dashboard</h2>
           <br />
-          <h4>Welcome Host</h4>
+          <h4>Welcome {this.props.match.params.name}</h4>
           <br></br>
           <Link to="/property/new">
             <a href="/#" class="btn btn-info btn-lg">
@@ -89,4 +89,4 @@ class PropertiesDashboard extends Component {
   }
 }
 
-export default PropertiesDashboard;
+export default HostDashboard;
