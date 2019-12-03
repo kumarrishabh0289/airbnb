@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
 //import { Link } from 'react-router-dom'
 //import axios from 'axios';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap/dist/js/bootstrap.bundle.min';
-// import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-// import 'bootstrap/dist/js/bootstrap.js';
-// import 'bootstrap/dist/js/bootstrap.min.js';
+
 
 
 class SearchResults extends Component {

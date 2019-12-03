@@ -71,6 +71,8 @@ public class SearchPropertyService {
 
     public List<Property> retrievePropertiesByCriteria(Search filter) throws ParseException {
 
+      //  Reservations reservations = reservationService.getReservation(1);
+
         List<Property> properties = propertyRepo.findAll(new Specification <Property >() {
 
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();

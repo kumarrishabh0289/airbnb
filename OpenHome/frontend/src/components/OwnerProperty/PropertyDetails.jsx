@@ -16,7 +16,8 @@ class PropertyDetails extends Component {
       wed: false,
       thu: false,
       fri: false,
-      sat: false
+      sat: false,
+      agree: false
     };
   }
 
@@ -69,6 +70,11 @@ class PropertyDetails extends Component {
     });
   };
 
+  agreeCheckboxHandler = () => {
+    this.setState({
+      sat: !this.state.sat
+    });
+  };
 
   componentDidMount() {
     console.log(this.props.match.params.propertyId);
@@ -84,6 +90,53 @@ class PropertyDetails extends Component {
         console.log("properties",this.state.properties)
       });
   }
+
+  ChangeAvailability = (e) => {
+    e.preventDefault();
+    var data ={
+        propertyId:this.props.match.params.propertyId,
+        mon:this.state.mon,
+        tue:this.state.tue,
+        wed:this.state.wed,
+        thu:this.state.thu,
+        fri:this.state.fri,
+        sat:this.state.sat,
+        sun:this.state.sun,
+    }
+    var header = { "Content-Type": "application/JSON" };
+    console.log(data);
+    axios.post(API_URL + "/property/availability", data, header).then(response => {
+      if (response.status === 201) {
+        this.setState({ status: "Success" });
+        this.props.history.push("/dashboard");
+      } else {
+        console.log(response);
+        alert("Error in creating property");
+        this.setState({ status: "Error in creating property" });
+      }
+    });
+};
+
+
+  RemoveButton = (e) => {
+      e.preventDefault();
+    //  
+    var data ={
+      propertyId:this.props.match.params.propertyId
+    }
+  var header = { "Content-Type": "application/JSON" };
+  console.log(data);
+  axios.post(API_URL + "/property/delete", data, header).then(response => {
+    if (response.status === 201) {
+      this.setState({ status: "Success" });
+      this.props.history.push(`/dashboard`);
+    } else {
+      console.log(response);
+      alert("Error in creating property");
+      this.setState({ status: "Error in creating property" });
+    }
+  });
+  };
 
 
   render() {
@@ -170,6 +223,7 @@ class PropertyDetails extends Component {
                               type="checkbox"
                               name="sun"
                               value="true"
+                              defaultChecked={this.state.properties.sun}
                               onChange={this.sunCheckboxHandler.bind()}
                             />{" "}
                             Sunday
@@ -179,6 +233,7 @@ class PropertyDetails extends Component {
                               type="checkbox"
                               name="mon"
                               value="true"
+                              defaultChecked={this.state.properties.mon}
                               onChange={this.monCheckboxHandler.bind()}
                             />{" "}
                             Monday
@@ -188,6 +243,7 @@ class PropertyDetails extends Component {
                               type="checkbox"
                               name="tue"
                               value="true"
+                              defaultChecked={this.state.properties.tue}
                               onChange={this.tueCheckboxHandler.bind()}
                             />{" "}
                             Tuesday
@@ -197,6 +253,7 @@ class PropertyDetails extends Component {
                               type="checkbox"
                               name="wed"
                               value="true"
+                              defaultChecked={this.state.properties.wed}
                               onChange={this.wedCheckboxHandler.bind()}
                             />{" "}
                             Wednesday
@@ -206,6 +263,7 @@ class PropertyDetails extends Component {
                               type="checkbox"
                               name="thu"
                               value="true"
+                              defaultChecked={this.state.properties.thu}
                               onChange={this.thuCheckboxHandler.bind()}
                             />{" "}
                             Thursday
@@ -215,6 +273,7 @@ class PropertyDetails extends Component {
                               type="checkbox"
                               name="fri"
                               value="true"
+                              defaultChecked={this.state.properties.fri}
                               onChange={this.friCheckboxHandler.bind()}
                             />{" "}
                             Friday
@@ -224,24 +283,40 @@ class PropertyDetails extends Component {
                               type="checkbox"
                               name="sat"
                               value="true"
+                              defaultChecked={this.state.properties.sat}
                               onChange={this.satCheckboxHandler.bind()}
                             />{" "}
                             Saturday
                           </label>
                         </fieldset>
+
+                        <label>
+                            For Above changes, You need to pay 15% extra to the customer's have booking in next 7 days:   &nbsp; &nbsp;
+                            <input
+                              type="checkbox"
+                              name="sat"
+                              value="true"
+                              defaultChecked={this.state.properties.agree}
+                              onChange={this.agreeCheckboxHandler.bind()}
+                            />{" "}
+                            Agree
+                          </label>
                       </div>
                     </div>
                   </div>
                 </div>
-</div>
-<br/>
+            </div>
+            <br/>
 
                       <hr></hr>
-                      <button class="btn btn-danger" name="BookButton"  onClick={this.SearchButton} >
+                      <button class="btn btn-danger" name="BookButton"  onClick={this.RemoveButton} >
                           <span>Previous Page</span>
                       </button>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-                      <button class="btn btn-danger" name="BookButton"  >
+                      <button class="btn btn-danger" name="BookButton"  onClick={this.RemoveButton}>
                           <span>Remove Property</span>
+                      </button>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                      <button class="btn btn-danger" name="BookButton"  onClick={this.ChangeAvailability}>
+                          <span>Change Availability</span>
                       </button>
                   </div>
               </div>

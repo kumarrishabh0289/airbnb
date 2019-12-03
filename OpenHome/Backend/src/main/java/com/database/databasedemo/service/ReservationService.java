@@ -6,6 +6,7 @@ import com.database.databasedemo.entity.Reservations;
 import com.database.databasedemo.repository.PropertyRepo;
 import com.database.databasedemo.repository.ReservationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,9 @@ import java.util.List;
 public class ReservationService {
 
     @Autowired
+    @Qualifier("reservations")
     ReservationRepo reservationRepo;
+
     @Autowired
     PropertyService propertyService;
 
@@ -41,10 +44,10 @@ public class ReservationService {
         return reservationRepo.findByGuestId(id);
     }
 
-//    public List<Reservations> getHostReservations(int guestId){
-//
-//        return reservationRepo.findByGuestId(guestId);
-//    }
+    public List<Reservations> getHostReservations(int guestId){
+
+        return reservationRepo.findByGuestId(guestId);
+    }
 
     public void createReservations(Reservations reservation){
         int propertyId=reservation.getPropertyId();
