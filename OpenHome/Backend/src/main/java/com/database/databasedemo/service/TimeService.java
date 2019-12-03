@@ -9,20 +9,39 @@ import org.springframework.stereotype.Service;
 @Service
 @Scope("singleton")
 public class TimeService {
-    OffsetDateTime currentTime=OffsetDateTime.now(Clock.systemUTC());;
+    //OffsetDateTime currentTime;
+    long hours=0;
+    long mins=0;
+
+    public long getHours() {
+        return hours;
+    }
+
+    public void setHours(long hours) {
+        this.hours = hours;
+    }
+
+    public void addHours(long hours) {
+        this.hours += hours;
+    }
+
+    public long getMins() {
+        return mins;
+    }
+
+    public void setMins(long mins) {
+        this.mins = mins;
+    }
+
+    public void addMins(long mins) {
+        this.mins += mins;
+    }
 
     private TimeService(){
 
     }
 
     public OffsetDateTime getCurrentTime() {
-        return this.currentTime;
-    }
-
-    public void setCurrentTime(OffsetDateTime currentTime) {
-        this.currentTime = currentTime;
-    }
-    public void run() {
-        System.out.println("Running time service thread");
+        return OffsetDateTime.now(Clock.systemUTC()).plusHours(this.hours).plusMinutes(this.mins);
     }
 }

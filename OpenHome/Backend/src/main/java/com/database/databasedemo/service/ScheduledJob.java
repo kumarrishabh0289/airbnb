@@ -21,8 +21,8 @@ public class ScheduledJob {
 
         @Scheduled(fixedRate = 5000)
         public void processAutomatedJobs() {
-            log.info("The time is now {}", dateFormat.format(new Date()));
-            log.info("The time form time service {}", timeService.getCurrentTime().getHour());
+            //log.info("The time is now {}", dateFormat.format(new Date()));
+           // log.info("The time form time service {}", timeService.getCurrentTime().getHour());
             if(timeService.getCurrentTime().getHour()==3){
                 System.out.println("Check for no-show");
             }

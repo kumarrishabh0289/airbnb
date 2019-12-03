@@ -19,9 +19,20 @@ public class TimeController {
         return timeService.getCurrentTime();
     }
 
-    @PostMapping("/admin/time/{hours}")
-    public ResponseEntity<?> addOffsetToTime(@PathVariable("hours") long hours) {
-        timeService.setCurrentTime(timeService.getCurrentTime().plusHours(hours));
+    @GetMapping("/admin/time/hours")
+    public long getOffsetHours() {
+        return timeService.getHours();
+    }
+
+    @GetMapping("/admin/time/mins")
+    public long getOffsetMins() {
+        return timeService.getMins();
+    }
+
+    @PostMapping("/admin/time/addoffset/{hours}/{mins}")
+    public ResponseEntity<?> addOffsetToTime(@PathVariable("hours") long hours,@PathVariable("mins") long mins) {
+        timeService.addHours(hours);
+        timeService.addMins(mins);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
