@@ -30,7 +30,7 @@ class BookingConfirmation extends Component {
           bookingDate:getCurrentDate(),
           startDate:sessionStorage.startDate,
           endDate:sessionStorage.endDate,
-          guestId:1,
+          guestId:sessionStorage.userId,
           propertyId:sessionStorage.propertyId
         };
         console.log(data);
