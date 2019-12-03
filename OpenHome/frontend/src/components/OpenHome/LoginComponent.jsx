@@ -39,7 +39,8 @@ class LoginComponent extends Component {
             .authenticate(this.state.username, this.state.password)
             .then((response) => {
                 AuthenticationForApiService.registerSuccessfulLogin(this.state.username, response.data.token)
-                this.props.history.push(`/welcome/${this.state.username}`)
+                //this.props.history.push(`/welcome/${this.state.username}`)
+                this.props.history.push(`/bookingconfirmation`)
             }).catch(() => {
                 this.setState({ showSuccessMessage: false })
                 this.setState({ hasLoginFailed: true })

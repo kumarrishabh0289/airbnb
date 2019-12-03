@@ -14,6 +14,7 @@ import PropertiesDashboard from "../OwnerProperty/PropertiesDashboard.jsx";
 import PropertyDetails from "../OwnerProperty/PropertyDetails.jsx";
 import CreateProperty from "../OwnerProperty/CreateProperty.jsx";
 import SignUP from "./SignUp";
+import BookingConfirmation from "./BookingConfirmation/BookingConfirmation"
 // import AssetDisplay from "./AssetDisplay.jsx";
 
 class OpenHome extends Component {
@@ -28,6 +29,7 @@ class OpenHome extends Component {
               <Route path="/search/searchResults" component={SearchResults} />
               <Route path="/search/searchResult/:propertyId" component={SearchResultDetails} />
               <Route path="/login" component={LoginComponent} />
+              <AuthenticatedRoute path="/bookingconfirmation" component={BookingConfirmation} />
               <AuthenticatedRoute path="/welcome/:name" component={WelcomeComponent} />
               <Route path="/dashboard" component={PropertiesDashboard} />
               <Route path="/signup" component={SignUP} />
