@@ -98,10 +98,10 @@ public class OpenHomeApplication implements CommandLineRunner {
 
 
 
-        Reservations newReserve= new Reservations(100, 30,50,booking_date, start_date,end_date, 3,2 );
+        Reservations newReserve= new Reservations(100, 30,50,booking_date, start_date,end_date, 3,2,"33 S San joSe","AC HOTEL" );
         reservationService.createReservations(newReserve);
 
-        Reservations newReserve1= new Reservations(100, 30,50,booking_date, start_date,end_date, 3,1 );
+        Reservations newReserve1= new Reservations(100, 30,50,booking_date, start_date,end_date, 3,1,"1338 The Alameda", "Motel" );
         reservationService.createReservations(newReserve1);
 
 

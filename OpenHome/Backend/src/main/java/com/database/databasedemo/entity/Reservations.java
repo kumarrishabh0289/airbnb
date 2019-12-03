@@ -17,6 +17,12 @@ public class Reservations {
     @Column(name="booked_price")
     private float bookedPrice;
 
+    @Column(name="description")
+    private String description;
+
+    @Column(name="address")
+    private String address;
+
     @Column(name="booked_price_weekend")
     private float bookedPriceWeekend;
 
@@ -97,6 +103,70 @@ public class Reservations {
     @Column(name="status")
     private String status;
 
+    public Reservations(){
+
+    }
+    public Reservations(float bookedPrice, float bookedPriceWeekend, float bookedPriceWeekday, OffsetDateTime bookingDate, OffsetDateTime startDate, OffsetDateTime endDate, int guestId, int propertyId) {
+        this.bookedPrice = bookedPrice;
+        this.bookedPriceWeekend = bookedPriceWeekend;
+        this.bookedPriceWeekday = bookedPriceWeekday;
+        this.bookingDate = bookingDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.guestId = guestId;
+        this.propertyId = propertyId;
+
+    }
+
+    public Reservations(float bookedPrice, float bookedPriceWeekend, float bookedPriceWeekday, OffsetDateTime bookingDate, OffsetDateTime startDate, OffsetDateTime endDate, int guestId, int propertyId, String address, String description) {
+        this.bookedPrice = bookedPrice;
+        this.bookedPriceWeekend = bookedPriceWeekend;
+        this.bookedPriceWeekday = bookedPriceWeekday;
+        this.bookingDate = bookingDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.guestId = guestId;
+        this.propertyId = propertyId;
+        this.address = address;
+        this.description = description;
+    }
+
+
+    public Reservations(float bookedPrice, String description, String address, float bookedPriceWeekend, float bookedPriceWeekday, float paymentAmount, OffsetDateTime bookingDate, OffsetDateTime startDate, OffsetDateTime endDate, OffsetDateTime checkInDate, OffsetDateTime checkOutDate, int guestId, float penaltyValue, String penaltyReason, String status, int propertyId) {
+        this.bookedPrice = bookedPrice;
+        this.description = description;
+        this.address = address;
+        this.bookedPriceWeekend = bookedPriceWeekend;
+        this.bookedPriceWeekday = bookedPriceWeekday;
+        this.paymentAmount = paymentAmount;
+        this.bookingDate = bookingDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.guestId = guestId;
+        this.penaltyValue = penaltyValue;
+        this.penaltyReason = penaltyReason;
+        this.status = status;
+        this.propertyId = propertyId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public int getGuestId() {
         return guestId;
     }
@@ -175,41 +245,8 @@ public class Reservations {
     @JoinColumn(name="property_id",nullable=false,insertable = true, updatable = true)
     int propertyId;
 
-    public Reservations(float bookedPrice, float bookedPriceWeekend, float bookedPriceWeekday, OffsetDateTime bookingDate, OffsetDateTime startDate, OffsetDateTime endDate, int guestId, int propertyId) {
-        this.bookedPrice = bookedPrice;
-        this.bookedPriceWeekend = bookedPriceWeekend;
-        this.bookedPriceWeekday = bookedPriceWeekday;
-        this.bookingDate = bookingDate;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.guestId = guestId;
-        this.propertyId = propertyId;
-    }
-    public Reservations(){
-
-    }
-
     public OffsetDateTime getBookingDate() {
         return bookingDate;
-    }
-
-    public Reservations(OffsetDateTime bookingDate, int guestId, int propertyId) {
-        this.bookingDate = bookingDate;
-        this.guestId = guestId;
-        this.propertyId = propertyId;
-    }
-
-    public Reservations(float bookedPrice, float bookedPriceWeekend, float bookedPriceWeekday, OffsetDateTime bookingDate, OffsetDateTime startDate, OffsetDateTime endDate, OffsetDateTime checkInDate, OffsetDateTime checkOutDate, int guestId, int propertyId) {
-        this.bookedPrice = bookedPrice;
-        this.bookedPriceWeekend = bookedPriceWeekend;
-        this.bookedPriceWeekday = bookedPriceWeekday;
-        this.bookingDate = bookingDate;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.checkInDate = checkInDate;
-        this.checkOutDate = checkOutDate;
-        this.guestId = guestId;
-        this.propertyId = propertyId;
     }
 
     @Override
@@ -226,6 +263,8 @@ public class Reservations {
                 ", checkOutDate=" + checkOutDate +
                 ", guestId=" + guestId +
                 ", propertyId=" + propertyId +
+                ", Address=" + address +
+                ", description=" + description +
                 '}';
     }
 }
