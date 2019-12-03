@@ -68,32 +68,63 @@ public class PropertyService {
     public void updateProperty(Property property) {
 
 
-
-        System.out.println("OffsetDateTime" + timeService.getCurrentTime());
-
-        OffsetDateTime nextSevenDate = timeService.getCurrentTime().plusDays(7);
-        System.out.println("OffsetDateTime1" + nextSevenDate);
-
-
-        List<Reservations> finaList = new ArrayList<>();
-        List<Reservations> res;
-        for (OffsetDateTime date = timeService.getCurrentTime(); date.compareTo(nextSevenDate) <= 0; date = date.plusHours(24)) {
-            System.out.println("Traversing date " + date);
-            res = dateComparision(date,property.getPropertyId());
-            System.out.println("res"+res);
-            if(res.size()>0)
-                finaList.addAll(res);
-        }
-
-        for(int i=0;i<finaList.size();i++){
-            double penaltyPrice = (0.15) * finaList.get(i).getBookedPrice();
-            Reservations reservations = reservationService.getReservation((int)finaList.get(i).getId());
-            reservations.setPenaltyValue((float)penaltyPrice);
-            reservations.setPenaltyReason("Penalty Paid by Host");
-            reservationRepo.save(reservations);
-        }
-
+        System.out.println("fri"+ property.isFri());
+        System.out.println("fri"+ property.getPropertyDescription());
         Property p1 = getProperty(property.getPropertyId());
+
+        if(property.getPropertyDescription().equals("true")) {
+            if (p1.isMon() == true && property.isMon() == false) {
+                deductfor7Days(property, "MONDAY");
+                 notDeducted(property,"MONDAY");
+            }
+            if (p1.isTue() == true && property.isTue() == false) {
+                deductfor7Days(property,  "TUESDAY");
+                notDeducted(property,"TUESDAY");
+            }
+            if (p1.isWed() == true && property.isWed() == false) {
+                deductfor7Days(property,  "WEDNESDAY");
+                notDeducted(property,"WEDNESDAY");
+            }
+            if (p1.isThu() == true && property.isThu() == false) {
+                deductfor7Days(property,  "THURSDAY");
+                notDeducted(property,"THURSDAY");
+            }
+            if (p1.isFri() == true && property.isFri() == false) {
+                deductfor7Days(property,  "FRIDAY");
+                notDeducted(property,"FRIDAY");
+            }
+            if (p1.isSat() == true && property.isSat() == false) {
+                deductfor7Days(property,  "SATURDAY");
+                notDeducted(property,"SATURDAY");
+            }
+            if (p1.isSun() == true && property.isSun() == false) {
+                deductfor7Days(property, "SUNDAY");
+                notDeducted(property,"SUNDAY");
+            }
+        }else{
+            if (p1.isMon() == true && property.isMon() == false) {
+                  notDeducted(property,"MONDAY");
+            }
+            if (p1.isTue() == true && property.isTue() == false) {
+                notDeducted(property,"TUESDAY");
+            }
+            if (p1.isWed() == true && property.isWed() == false) {
+                notDeducted(property,"WEDNESDAY");
+            }
+            if (p1.isThu() == true && property.isThu() == false) {
+                notDeducted(property,"THURSDAY");
+            }
+            if (p1.isFri() == true && property.isFri() == false) {
+                notDeducted(property,"FRIDAY");
+            }
+            if (p1.isSat() == true && property.isSat() == false) {
+                notDeducted(property,"SATURDAY");
+            }
+            if (p1.isSun() == true && property.isSun() == false) {
+                notDeducted(property,"SUNDAY");
+            }
+        }
+        
         p1.setMon(property.isMon());
         p1.setTue(property.isTue());
         p1.setWed(property.isWed());
@@ -104,6 +135,57 @@ public class PropertyService {
         p1.setWeekdayPrice(property.getWeekdayPrice());
         p1.setWeekendPrice(property.getWeekendPrice());
         propertyRepo.save(p1);
+    }
+
+    public void deductfor7Days(Property property, String day) {
+
+        System.out.println("Get day of a week");
+        OffsetDateTime nextSevenDate = timeService.getCurrentTime().plusDays(7);
+        List<Reservations> finaList = new ArrayList<>();
+        List<Reservations> res = new ArrayList<>();
+        for (OffsetDateTime date = timeService.getCurrentTime(); date.compareTo(nextSevenDate) <= 0; date = date.plusHours(24)) {
+
+            System.out.println("Get day of a week"+date.getDayOfWeek());
+            if(day.equals(date.getDayOfWeek().toString())) {
+                res = dateComparision(date, property.getPropertyId());
+                System.out.println(date.getDayOfWeek());
+                System.out.println(res);
+            }
+            if(res.size()>0)
+                finaList.addAll(res);
+        }
+
+        for(int i=0;i<finaList.size();i++){
+            double penaltyPrice = (0.15) * finaList.get(i).getBookedPrice();
+            Reservations reservations = reservationService.getReservation((int)finaList.get(i).getId());
+            reservations.setPenaltyValue((float)penaltyPrice);
+            reservations.setPenaltyReason("Penalty Paid by Host");
+            reservations.setStatus("Available");
+            reservationRepo.save(reservations);
+        }
+
+    }
+
+    public void notDeducted(Property property, String day) {
+
+        OffsetDateTime nextSevenDate = timeService.getCurrentTime().plusDays(7);
+        OffsetDateTime nextEntireYear = timeService.getCurrentTime().plusDays(365);
+        List<Reservations> finaList = new ArrayList<>();
+        List<Reservations> res = new ArrayList<>();
+        for (OffsetDateTime date = nextSevenDate; date.compareTo(nextEntireYear) <= 0; date = date.plusHours(24)) {
+            if(day.equals(date.getDayOfWeek())) {
+                res = dateComparision(date, property.getPropertyId());
+            }
+            if(res.size()>0)
+                finaList.addAll(res);
+        }
+
+        for(int i=0;i<finaList.size();i++){
+            Reservations reservations = reservationService.getReservation((int)finaList.get(i).getId());
+            reservations.setStatus("Available");
+            reservationRepo.save(reservations);
+        }
+
     }
 
     public void createProperty(Property property) {

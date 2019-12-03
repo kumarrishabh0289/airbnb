@@ -17,7 +17,8 @@ class PropertyDetails extends Component {
       thu: false,
       fri: false,
       sat: false,
-      agree: false
+      agree: false,
+      changed: false
     };
   }
 
@@ -30,7 +31,7 @@ class PropertyDetails extends Component {
 
   sunCheckboxHandler = () => {
     this.setState({
-      sun: !this.state.sun
+      sun: this.state.sun
     });
   };
 
@@ -72,7 +73,7 @@ class PropertyDetails extends Component {
 
   agreeCheckboxHandler = () => {
     this.setState({
-      sat: !this.state.sat
+      agree: !this.state.agree
     });
   };
 
@@ -83,34 +84,49 @@ class PropertyDetails extends Component {
         headers: { "Content-Type": "application/json" }
       })
       .then(response => {
-        console.log(response.data);
+      //  console.log(response.data);
         this.setState({
           properties: response.data
         });
-        console.log("properties",this.state.properties)
+        this.setState({
+          mon : this.state.properties.mon,
+          tue : this.state.properties.tue,
+          wed : this.state.properties.wed,
+          thu : this.state.properties.thu,
+          fri : this.state.properties.fri,
+          sat : this.state.properties.sat,
+          sun : this.state.properties.sun,
+        });
+       // console.log("properties",this.state.properties)
       });
   }
 
   ChangeAvailability = (e) => {
     e.preventDefault();
+    var propertyDescription;
+    if(this.state.agree)
+      propertyDescription="true"
+    else
+      propertyDescription="false"
     var data ={
         propertyId:this.props.match.params.propertyId,
         mon:this.state.mon,
         tue:this.state.tue,
         wed:this.state.wed,
         thu:this.state.thu,
-        fri:this.state.fri,
+        fri:false,
         sat:this.state.sat,
         sun:this.state.sun,
+        propertyDescription:propertyDescription
     }
     var header = { "Content-Type": "application/JSON" };
-    console.log(data);
+    console.log("Data",data);
     axios.post(API_URL + "/property/availability", data, header).then(response => {
       if (response.status === 201) {
         this.setState({ status: "Success" });
         this.props.history.push("/dashboard");
       } else {
-        console.log(response);
+        //console.log(response);
         alert("Error in creating property");
         this.setState({ status: "Error in creating property" });
       }
@@ -119,23 +135,23 @@ class PropertyDetails extends Component {
 
 
   RemoveButton = (e) => {
-      e.preventDefault();
-    //  
-    var data ={
-      propertyId:this.props.match.params.propertyId
-    }
-  var header = { "Content-Type": "application/JSON" };
-  console.log(data);
-  axios.post(API_URL + "/property/delete", data, header).then(response => {
-    if (response.status === 201) {
-      this.setState({ status: "Success" });
-      this.props.history.push(`/dashboard`);
-    } else {
-      console.log(response);
-      alert("Error in creating property");
-      this.setState({ status: "Error in creating property" });
-    }
-  });
+          e.preventDefault();
+        //  
+        var data ={
+          propertyId:this.props.match.params.propertyId
+        }
+      var header = { "Content-Type": "application/JSON" };
+    //  console.log(data);
+      axios.post(API_URL + "/property/delete", data, header).then(response => {
+        if (response.status === 201) {
+          this.setState({ status: "Success" });
+          this.props.history.push(`/dashboard`);
+        } else {
+       //   console.log(response);
+          alert("Error in creating property");
+          this.setState({ status: "Error in creating property" });
+        }
+      });
   };
 
 
@@ -222,7 +238,8 @@ class PropertyDetails extends Component {
                             <input
                               type="checkbox"
                               name="sun"
-                              value="true"
+                              id="sun"
+                            //  value="true"
                               defaultChecked={this.state.properties.sun}
                               onChange={this.sunCheckboxHandler.bind()}
                             />{" "}
@@ -232,7 +249,7 @@ class PropertyDetails extends Component {
                             <input
                               type="checkbox"
                               name="mon"
-                              value="true"
+                             // value="true"
                               defaultChecked={this.state.properties.mon}
                               onChange={this.monCheckboxHandler.bind()}
                             />{" "}
@@ -242,7 +259,7 @@ class PropertyDetails extends Component {
                             <input
                               type="checkbox"
                               name="tue"
-                              value="true"
+                            //  value="true"
                               defaultChecked={this.state.properties.tue}
                               onChange={this.tueCheckboxHandler.bind()}
                             />{" "}
@@ -252,7 +269,7 @@ class PropertyDetails extends Component {
                             <input
                               type="checkbox"
                               name="wed"
-                              value="true"
+                            //  value="true"
                               defaultChecked={this.state.properties.wed}
                               onChange={this.wedCheckboxHandler.bind()}
                             />{" "}
@@ -262,7 +279,7 @@ class PropertyDetails extends Component {
                             <input
                               type="checkbox"
                               name="thu"
-                              value="true"
+                             // value="true"
                               defaultChecked={this.state.properties.thu}
                               onChange={this.thuCheckboxHandler.bind()}
                             />{" "}
@@ -272,9 +289,9 @@ class PropertyDetails extends Component {
                             <input
                               type="checkbox"
                               name="fri"
-                              value="true"
-                              defaultChecked={this.state.properties.fri}
-                              onChange={this.friCheckboxHandler.bind()}
+                             // value="true"
+                               defaultChecked={this.state.properties.fri}
+                               onChange={this.friCheckboxHandler.bind()}
                             />{" "}
                             Friday
                           </label>
@@ -282,7 +299,7 @@ class PropertyDetails extends Component {
                             <input
                               type="checkbox"
                               name="sat"
-                              value="true"
+                              //value="true"
                               defaultChecked={this.state.properties.sat}
                               onChange={this.satCheckboxHandler.bind()}
                             />{" "}
@@ -295,8 +312,7 @@ class PropertyDetails extends Component {
                             <input
                               type="checkbox"
                               name="sat"
-                              value="true"
-                              defaultChecked={this.state.properties.agree}
+                              // value="true"
                               onChange={this.agreeCheckboxHandler.bind()}
                             />{" "}
                             Agree

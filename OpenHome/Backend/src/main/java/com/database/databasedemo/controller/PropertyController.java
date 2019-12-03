@@ -75,21 +75,6 @@ public class PropertyController {
     @ResponseStatus(value = HttpStatus.CREATED)
     public ResponseEntity<?> changeAvailaibility(@RequestBody Property property) {
 
-
-//        DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-//        Date date1 = new Date();
-//        System.out.println("sdf"+sdf.format(date1));
-//
-//        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-
-
-//        Date date = new Date(System.currentTimeMillis());
-//        OffsetDateTime offsetDateTime = date.toInstant()
-//                .atOffset(ZoneOffset.UTC);
-
-
-
-
         propertyService.updateProperty(property);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
