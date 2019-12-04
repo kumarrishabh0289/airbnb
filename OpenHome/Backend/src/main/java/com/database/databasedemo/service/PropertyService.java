@@ -68,10 +68,11 @@ public class PropertyService {
     public void updateProperty(Property property) {
 
 
-        System.out.println("fri"+ property.isFri());
-        System.out.println("fri"+ property.getPropertyDescription());
+
         Property p1 = getProperty(property.getPropertyId());
 
+        System.out.println("fri"+ p1.isFri());
+        System.out.println("description"+ property.getPropertyDescription());
         if(property.getPropertyDescription().equals("true")) {
             if (p1.isMon() == true && property.isMon() == false) {
                 deductfor7Days(property, "MONDAY");
@@ -163,7 +164,6 @@ public class PropertyService {
             reservations.setStatus("Available");
             reservationRepo.save(reservations);
         }
-
     }
 
     public void notDeducted(Property property, String day) {
@@ -173,9 +173,11 @@ public class PropertyService {
         List<Reservations> finaList = new ArrayList<>();
         List<Reservations> res = new ArrayList<>();
         for (OffsetDateTime date = nextSevenDate; date.compareTo(nextEntireYear) <= 0; date = date.plusHours(24)) {
-            if(day.equals(date.getDayOfWeek())) {
+
+            if(day.equals(date.getDayOfWeek().toString())) {
                 res = dateComparision(date, property.getPropertyId());
             }
+
             if(res.size()>0)
                 finaList.addAll(res);
         }
@@ -188,11 +190,68 @@ public class PropertyService {
 
     }
 
+    public void deductfor7DaysRemovalProperty(Property property) {
+
+        System.out.println("Get day of a week");
+        OffsetDateTime nextSevenDate = timeService.getCurrentTime().plusDays(7);
+        List<Reservations> finaList = new ArrayList<>();
+        List<Reservations> res = new ArrayList<>();
+        for (OffsetDateTime date = timeService.getCurrentTime(); date.compareTo(nextSevenDate) <= 0; date = date.plusHours(24)) {
+
+            System.out.println("Get day of a week"+date.getDayOfWeek());
+
+            res = dateComparision(date, property.getPropertyId());
+
+            if(res.size()>0)
+                finaList.addAll(res);
+        }
+
+        for(int i=0;i<finaList.size();i++){
+            double penaltyPrice = (0.15) * finaList.get(i).getBookedPrice();
+            Reservations reservations = reservationService.getReservation((int)finaList.get(i).getId());
+            reservations.setPenaltyValue((float)penaltyPrice);
+            reservations.setPenaltyReason("Penalty Paid by Host");
+            reservations.setPropertyId(0);
+            reservations.setStatus("Cancelled due to Removal of Property");
+            reservationRepo.save(reservations);
+        }
+    }
+
+    public void notDeductedRemovalProperty(Property property) {
+
+        OffsetDateTime nextSevenDate = timeService.getCurrentTime().plusDays(7);
+        OffsetDateTime nextEntireYear = timeService.getCurrentTime().plusDays(365);
+        List<Reservations> finaList = new ArrayList<>();
+        List<Reservations> res = new ArrayList<>();
+        for (OffsetDateTime date = nextSevenDate; date.compareTo(nextEntireYear) <= 0; date = date.plusHours(24)) {
+                res = dateComparision(date, property.getPropertyId());
+
+            if(res.size()>0)
+                finaList.addAll(res);
+        }
+
+        for(int i=0;i<finaList.size();i++){
+            Reservations reservations = reservationService.getReservation((int)finaList.get(i).getId());
+            reservations.setStatus("Cancelled due to Removal of Property");
+            reservationRepo.save(reservations);
+        }
+
+    }
+
     public void createProperty(Property property) {
         propertyRepo.save(property);
     }
 
+    // removal of the property is not working due to Primary key and Foreign Key Relationship. Look into it.
     public void removeEntireProperty(Property property) {
+
+        if(property.getPropertyDescription().equals("true")) {
+            deductfor7DaysRemovalProperty(property);
+            notDeductedRemovalProperty(property);
+        }
+        else{
+            notDeductedRemovalProperty(property);
+        }
         propertyRepo.delete(property);
     }
 

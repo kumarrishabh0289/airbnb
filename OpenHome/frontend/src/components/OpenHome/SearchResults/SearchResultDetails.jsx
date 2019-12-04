@@ -37,29 +37,39 @@ class SearchResultDetails extends Component {
                     var data = JSON.parse(localStorage.getItem('product_details'));
                     var startdate = data.startDate;
                     var enddate = data.endDate;
+
                     var myDate = new Date(startdate);
                     var myDate1 = new Date(enddate);
-                    //apply states and do the calculations
-
 
                     var loop = new Date(myDate);
-                    var newDate1 = loop.setDate(loop.getDate() + 1);
+                    var newDate1 = loop.setDate(loop.getDate());
                     loop = new Date(newDate1);
-                    var newDate2 = myDate1.setDate(myDate1.getDate() + 1);
+                    var newDate2 = myDate1.setDate(myDate1.getDate());
                     myDate1 = new Date(newDate2);
                     var weekdayCnt = 0, weekendCnt = 0;
-                    while (loop <= myDate1) {
+
+                    console.log(loop)
+                    console.log(myDate1)
+
+                    while (loop < myDate1) {
                         var newDate = loop.setDate(loop.getDate() + 1);
                         loop = new Date(newDate);
 
                         if (loop.getDay() === 6 || loop.getDay() === 0)
-                            weekdayCnt++;
-                        else
                             weekendCnt++;
+                        else
+                            weekdayCnt++;
                     }
+
+                    console.log("weekendCnt",weekendCnt)
+                    console.log("weekdayCnt",weekdayCnt)
+
+                    console.log("weekday price",this.state.responseData.weekdayPrice)
+                    console.log("weekend price",this.state.responseData.weekendPrice    )
                     var finalp = 0;
                     finalp = weekdayCnt * this.state.responseData.weekdayPrice;
                     finalp = finalp + weekendCnt * this.state.responseData.weekendPrice;
+                    console.log("finalp",finalp);
                     this.setState({
                         bookingPrice: finalp
                     })
