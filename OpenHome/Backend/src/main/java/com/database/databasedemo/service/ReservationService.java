@@ -338,8 +338,13 @@ public List<Reservations> getReservationsToBeCheckedOut(){
                 penalty = (float) (0.15 * (reservation.getBookedPriceWeekday() + p.getParkingFee()));
             }
         }
-       else if ((diff == 0 && cancellationHour <= 15)) {
+       else if ((diff <= 0 && cancellationHour <= 15)) {
             System.out.println("Cancellation done one day prior so only 30% of start date");
+
+//status
+// checkout hua check karna padega
+// checkout hua check karna padega
+            //checkout date comparision
 
             //User will get back below price
             float remainingDaysPrice =  ((getWeekdays(current_date,endDate)*reservation.getBookedPriceWeekday())+
@@ -354,7 +359,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
        else{
 
             current_date = current_date.plusDays(1);
-            
+
             //User will get back below price
             float remainingDaysPrice =  ((getWeekdays(current_date,endDate)*reservation.getBookedPriceWeekday())+
                     (getWeekends(current_date,endDate)*reservation.getBookedPriceWeekend()));
