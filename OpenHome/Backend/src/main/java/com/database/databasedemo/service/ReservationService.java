@@ -164,12 +164,11 @@ public List<Reservations> getReservationsToBeCheckedOut(){
             System.out.println(penalty);
             reservation.setPenaltyValue(penalty);
             reservation.setPenaltyReason("No Show");
-            reservation.setStatus("Available");
+            reservation.setStatus("Cancelled");
             reservation.setPaymentAmount(penalty);
         }
 
-        //reservation.setCheckInDate(check_in_date);
-        reservation.setCheckInDate(current_time);
+        reservation.setCheckInDate(check_in_date);
         reservationRepo.save(reservation);
 
     }
