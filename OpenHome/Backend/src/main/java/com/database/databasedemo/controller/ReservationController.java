@@ -19,6 +19,7 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @CrossOrigin(origins="http://localhost:3000")
 @RestController
@@ -33,6 +34,8 @@ public class ReservationController {
     @Autowired
     ReservationService reservationService;
 
+    @Autowired
+    TimeService timeService;
 
     @PostMapping("/reservation/add")
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -74,7 +77,7 @@ public class ReservationController {
         java.util.Date date2 = sdf1.parse(startDate);
         OffsetDateTime start_date = date2.toInstant()
                 .atOffset(ZoneOffset.UTC);
-        System.out.println("start_date "+start_date );
+        System.out.println("start_date "+start_date);
         String endDate = payload.get(payload.keySet().toArray()[5]);
         System.out.println("endDate "+endDate );
         System.out.println(endDate);
@@ -97,10 +100,9 @@ public class ReservationController {
 
         String address = payload.get(payload.keySet().toArray()[8]);
 
-        String description = payload.get(payload.keySet().toArray()[9]);
-
-        Reservations reservation=new Reservations(booked_price,booked_price_weekend,booked_price_weekday,booking_date, start_date, end_date,guest_id,id,address,description);
-        reservation.setStatus("Available");
+        Reservations reservation=new Reservations(booked_price,booked_price_weekend,booked_price_weekday,booking_date, start_date, end_date,guest_id,id);
+        reservation.setStatus("Booked");
+        reservation.setState("Booked");
         property.addReservation(reservation);
         reservationRepo.save(reservation);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -131,24 +133,65 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
     @ResponseStatus(value = HttpStatus.CREATED)
     //public Reservations(float bookedPrice, float bookedPriceWeekend, float bookedPriceWeekday, OffsetDateTime bookingDate, OffsetDateTime startDate, OffsetDateTime endDate, int guestId, int propertyId) {
     public ResponseEntity<?> checkinReservation(@RequestBody Map<String, String> payload) throws ParseException {
+
         String reservationId = payload.get(payload.keySet().toArray()[0]);
         int reservation_id = Integer.parseInt(reservationId);
-        String checkInDate = payload.get(payload.keySet().toArray()[1]);
+        Optional<Reservations> r = reservationRepo.findById(reservation_id);
+        if (!r.isPresent())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
+
+        //String checkInDate = payload.get(payload.keySet().toArray()[1]);
         Reservations reservation = reservationService.getReservation(reservation_id);
-        reservationService.checkInReservation(reservation,checkInDate);
-        return new ResponseEntity<>(HttpStatus.OK);
+        int result = reservationService.checkInReservation(reservation);
+        if(result == 1){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
     }
 
     @PostMapping("/reservation/checkout")
     @ResponseStatus(value = HttpStatus.CREATED)
-    //public Reservations(float bookedPrice, float bookedPriceWeekend, float bookedPriceWeekday, OffsetDateTime bookingDate, OffsetDateTime startDate, OffsetDateTime endDate, int guestId, int propertyId) {
+
     public ResponseEntity<?> checkoutReservation(@RequestBody Map<String, String> payload) throws ParseException {
         String reservationId = payload.get(payload.keySet().toArray()[0]);
         int reservation_id = Integer.parseInt(reservationId);
-        String checkOutDate = payload.get(payload.keySet().toArray()[1]);
+        //String checkOutDate = payload.get(payload.keySet().toArray()[1]);
         Reservations reservation = reservationService.getReservation(reservation_id);
-        reservationService.checkOutReservation(reservation,checkOutDate);
+        reservationService.checkOutReservation(reservation);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/reservation/guest/cancel")
+    @ResponseStatus(value = HttpStatus.CREATED)
+
+    public ResponseEntity<?> cancelReservationByGuest(@RequestBody Map<String, String> payload) throws ParseException {
+        String reservationId = payload.get(payload.keySet().toArray()[0]);
+        int reservation_id = Integer.parseInt(reservationId);
+        //String checkOutDate = payload.get(payload.keySet().toArray()[1]);
+        Reservations reservation = reservationService.getReservation(reservation_id);
+        reservationService.cancelReservationByGuest(reservation);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/reservation/autocheckout")
+    @ResponseStatus(value = HttpStatus.CREATED)
+
+    public List<Reservations> autocheckoutReservation() throws ParseException {
+
+        return reservationService.getReservationsToBeCheckedOut();
+        //return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/reservation/noshow")
+    @ResponseStatus(value = HttpStatus.CREATED)
+
+    public List<Reservations> noshowReservation() throws ParseException {
+
+        return reservationService.getReservationsForLateCheckIn();
+        //return new ResponseEntity<>(HttpStatus.OK);
     }
 }

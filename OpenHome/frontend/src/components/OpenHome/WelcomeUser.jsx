@@ -39,7 +39,7 @@ class WelcomeUser extends Component {
 
   render() {
     return (
-      <div className="container" style={{ backgroundColor: "white", opacity: 1, filter: "Alpha(opacity=100)", borderRadius: '10px' }}>
+      <div  style={{ backgroundColor: "white", opacity: 1, filter: "Alpha(opacity=100)", borderRadius: '10px' }}>
 
         <br />
         <h2>Openhome User Dashboard</h2>
