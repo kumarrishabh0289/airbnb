@@ -139,8 +139,6 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
         Optional<Reservations> r = reservationRepo.findById(reservation_id);
         if (!r.isPresent())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-
         //String checkInDate = payload.get(payload.keySet().toArray()[1]);
         Reservations reservation = reservationService.getReservation(reservation_id);
         int result = reservationService.checkInReservation(reservation);
@@ -172,6 +170,20 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
         String reservationId = payload.get(payload.keySet().toArray()[0]);
         int reservation_id = Integer.parseInt(reservationId);
         //String checkOutDate = payload.get(payload.keySet().toArray()[1]);
+        Reservations reservation = reservationService.getReservation(reservation_id);
+        reservationService.cancelReservationByGuest(reservation);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/reservation/host/cancel")
+    @ResponseStatus(value = HttpStatus.CREATED)
+
+    public ResponseEntity<?> cancelReservationByHost(@RequestBody Map<String, String> payload) throws ParseException {
+        String reservationId = payload.get(payload.keySet().toArray()[0]);
+        int reservation_id = Integer.parseInt(reservationId);
+        //String checkOutDate = payload.get(payload.keySet().toArray()[1]);
+        Reservations reservation = reservationService.getReservation(reservation_id);
+        reservationService.cancelReservationByHost(reservation);
         Reservations reservation = reservationService.getReservation(reservation_id);
         reservationService.cancelReservationByGuest(reservation);
         return new ResponseEntity<>(HttpStatus.OK);

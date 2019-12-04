@@ -91,11 +91,11 @@ public class OpenHomeApplication implements CommandLineRunner {
                 .atOffset(ZoneOffset.UTC);
         System.out.println("Date "+date);
         System.out.println("OffsetDateTime "+booking_date);
-        date = format.parse("2019-12-01");
+        date = format.parse("2019-12-06");
         OffsetDateTime start_date = date.toInstant()
                 .atOffset(ZoneOffset.UTC);
 
-        date = format.parse("2019-12-03");
+        date = format.parse("2019-12-09");
         OffsetDateTime end_date = date.toInstant()
                 .atOffset(ZoneOffset.UTC);
 
