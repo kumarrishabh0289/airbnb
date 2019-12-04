@@ -299,6 +299,80 @@ public List<Reservations> getReservationsToBeCheckedOut(){
         reservation.setStatus("Available");
         reservation.setState("CancelledByGuest");
         reservationRepo.save(reservation);
+
+    }
+
+    public void cancelReservationByHost(Reservations reservation) throws ParseException {
+        OffsetDateTime cancellation_date = timeservice.getCurrentTime();
+        System.out.println("offset utc date cancellation " + cancellation_date);
+        LocalDate current_date = cancellation_date.toLocalDate();
+        LocalDate startDate = reservation.getStartDate().toLocalDate();
+        LocalDate endDate = reservation.getEndDate().toLocalDate();
+        DayOfWeek startDay = startDate.getDayOfWeek();
+        String startDayVal = startDay.toString();
+        LocalDate nextDate = startDate.plusDays(1);
+        DayOfWeek nextDay = nextDate.getDayOfWeek();
+        String nextDayVal = nextDay.toString();
+        System.out.println("offset utc date from time service " + current_date);
+        System.out.println("offset utc date start date " + startDate);
+        System.out.println("Difference between start date and cancellation date " + current_date.compareTo(startDate));
+        System.out.println("Difference between cancellation date and end date " + endDate.compareTo(current_date));
+        int diff = current_date.compareTo(startDate);
+        int diffend = endDate.compareTo(current_date);
+        int cancellationHour = cancellation_date.getHour();
+        float penalty = 0;
+        System.out.println("Difference between start date and cancellation date " + diff);
+        System.out.println("cancellation hour is " + cancellationHour);
+        System.out.println("cancellation hour is " + startDayVal);
+
+        //need to get parking fee
+        Property p = propertyService.getProperty(reservation.getPropertyId());
+
+        if (diff >= 7) {
+            System.out.println("No penalty as there is a 7 days in start date");
+        }
+        else if(diff > 0){
+            //apply 15% changes to the host as penalty  (total fee for that day, including parking.)
+            if (startDayVal.equals("SATURDAY") || startDayVal.equals("SUNDAY")) {
+                penalty = (float) (0.15 * (reservation.getBookedPriceWeekend() + p.getParkingFee()));
+            } else {
+                penalty = (float) (0.15 * (reservation.getBookedPriceWeekday() + p.getParkingFee()));
+            }
+        }
+       else if ((diff == 0 && cancellationHour <= 15)) {
+            System.out.println("Cancellation done one day prior so only 30% of start date");
+
+            //User will get back below price
+            float remainingDaysPrice =  ((getWeekdays(current_date,endDate)*reservation.getBookedPriceWeekday())+
+                    (getWeekends(current_date,endDate)*reservation.getBookedPriceWeekend()));
+
+            int weekdays = getWeekdays(current_date,endDate);
+            int weekends = getWeekends(current_date,endDate);
+
+            penalty = (float) ((0.15 * weekdays * reservation.getBookedPriceWeekday()) + 0.15 * weekends * reservation.getBookedPriceWeekend());
+
+        }
+       else{
+
+            current_date = current_date.plusDays(1);
+            
+            //User will get back below price
+            float remainingDaysPrice =  ((getWeekdays(current_date,endDate)*reservation.getBookedPriceWeekday())+
+                    (getWeekends(current_date,endDate)*reservation.getBookedPriceWeekend()));
+
+            int weekdays = getWeekdays(current_date,endDate);
+            int weekends = getWeekends(current_date,endDate);
+
+            penalty = (float) ((0.15 * weekdays * reservation.getBookedPriceWeekday()) + 0.15 * weekends * reservation.getBookedPriceWeekend());
+        }
+
+        System.out.println(penalty);
+        reservation.setPenaltyValue(penalty);
+        reservation.setPenaltyReason("Cancelled by Host");
+        reservation.setStatus("Available");
+        reservation.setState("CancelledByHost");
+        reservationRepo.save(reservation);
+
     }
 
     public int getWeekdays(LocalDate startDate, LocalDate endDate) {

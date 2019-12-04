@@ -104,10 +104,12 @@ class PropertyDetails extends Component {
   ChangeAvailability = (e) => {
     e.preventDefault();
     var propertyDescription;
+
     if(this.state.agree)
       propertyDescription="true"
     else
       propertyDescription="false"
+
     var data ={
         propertyId:this.props.match.params.propertyId,
         mon:this.state.mon,
@@ -136,9 +138,14 @@ class PropertyDetails extends Component {
 
   RemoveButton = (e) => {
           e.preventDefault();
-        //  
+          var propertyDescription;
+        if(this.state.agree)
+          propertyDescription="true"
+        else
+          propertyDescription="false"
         var data ={
-          propertyId:this.props.match.params.propertyId
+          propertyId:this.props.match.params.propertyId,
+          propertyDescription:propertyDescription
         }
       var header = { "Content-Type": "application/JSON" };
     //  console.log(data);

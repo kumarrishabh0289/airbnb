@@ -91,20 +91,20 @@ public class OpenHomeApplication implements CommandLineRunner {
                 .atOffset(ZoneOffset.UTC);
         System.out.println("Date "+date);
         System.out.println("OffsetDateTime "+booking_date);
-        date = format.parse("2019-12-01");
+        date = format.parse("2019-12-06");
         OffsetDateTime start_date = date.toInstant()
                 .atOffset(ZoneOffset.UTC);
 
-        date = format.parse("2019-12-03");
+        date = format.parse("2019-12-09");
         OffsetDateTime end_date = date.toInstant()
                 .atOffset(ZoneOffset.UTC);
 
 
 
-        Reservations newReserve= new Reservations(100, 30,50,booking_date, start_date,end_date, 3,2,"33 S San joSe","AC HOTEL" );
+        Reservations newReserve= new Reservations(100, 30,50,booking_date, start_date,end_date, 3,2,"33 S San joSe","AC HOTEL" ,"Booked" );
         reservationService.createReservations(newReserve);
 
-        Reservations newReserve1= new Reservations(100, 30,50,booking_date, start_date,end_date, 3,1,"1338 The Alameda", "Motel" );
+        Reservations newReserve1= new Reservations(100, 30,50,booking_date, start_date,end_date, 3,3,"1338 The Alameda", "Motel" , "Booked");
         reservationService.createReservations(newReserve1);
 
 
