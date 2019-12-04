@@ -140,8 +140,8 @@ class FrontPage extends Component {
 
                                     <div class="col-sm-12 col-md-12">
                                         <br />
-                                        <div class="form-group required">
-                                            <label for="where"><h5>WHERE</h5></label>
+                                        <div class="form-group">
+                                            <label for="where"><h5>WHERE *</h5></label>
                                             <input type="text" onChange = {this.ChangeHandler} class="form-control" placeholder="Anywhere" name="location" id="location"/>
 
                                         </div>
@@ -153,8 +153,8 @@ class FrontPage extends Component {
 
                                     <div class="col-sm-6 col-md-6">
 
-                                        <div class="col-sm-8 col-md-8 required">
-                                            <label for="where"><h5>CHECK-IN</h5></label>
+                                        <div class="col-sm-8 col-md-8">
+                                            <label for="where"><h5>CHECK-IN *</h5></label>
                                             <input onChange = {this.ChangeHandler} type="date" name="startDate" id="startDate" class="form-control js-Date" />
                                             <i class="icon-calendar form-control-icon" aria-hidden="true">
                                             </i>
@@ -164,8 +164,8 @@ class FrontPage extends Component {
                                     
                                     <div class="col-sm-6 col-md-6">
 
-                                        <div class="col-sm-8 col-md-8 required">
-                                            <label for="where"><h5>CHECKOUT</h5></label>
+                                        <div class="col-sm-8 col-md-8">
+                                            <label for="where"><h5>CHECKOUT *</h5></label>
                                             <input onChange = {this.ChangeHandler} type="date" name="endDate" id="endDate" class="form-control js-Date"/>
                                         </div>
                                         
@@ -182,7 +182,7 @@ class FrontPage extends Component {
                                             <div class="form-group">
 
                                                 <select class="form-control" value={this.state.value} onChange = {this.handleChange} >
-                                                    <option value="">N/A</option>
+                                                    <option value="">Select</option>
                                                     <option value="Full">Full</option>
                                                     <option value="Partial">Partial</option>
                                                 </select>
@@ -199,7 +199,7 @@ class FrontPage extends Component {
                                             <div class="form-group">
 
                                                 <select class="form-control" value={this.state.value} onChange = {this.handleChangePropertyType}>
-                                                    <option value="">N/A</option>
+                                                    <option value="">Select</option>
                                                     <option value="Apartment">Apartment</option>
                                                     <option value="Condo">Condo</option>
                                                     <option value="Bed and Breakfast">Bed and Breakfast</option>
@@ -226,7 +226,7 @@ class FrontPage extends Component {
                                          <label for="where"><h5>Price Range</h5></label>
                                             <div class="form-group">
                                                 <select class="form-control" value={this.state.value} onChange = {this.handleChangePricerange}>
-                                                    <option value="">N/A</option>
+                                                    <option value="">Select</option>
                                                     <option value="1 to 100"> 1 to 100</option>
                                                     <option value="101 to 1000"> 101 to 1000</option>
                                                     <option value="1001 to 2000">1001 to 2000</option>
@@ -241,7 +241,7 @@ class FrontPage extends Component {
                                          <label for="where"><h5>Wifi Required</h5></label>
                                             <div class="form-group">
                                                 <select class="form-control" value={this.state.value} onChange = {this.handleChangeWifi}>
-                                                    <option value="">N/A</option>
+                                                    <option value="">Select</option>
                                                     <option value="true">Yes</option>
                                                     <option value="false">No</option>
                                                 </select>
@@ -253,7 +253,7 @@ class FrontPage extends Component {
 
                                 <div class="row" >
                                     <div class="col-sm-12 col-md-12">
-                                        <br />
+                                        
                                         <div class="form-group">
                                             <label for="where"><h5>Description</h5></label>
                                             <textarea type="noter-text-area" onChange = {this.ChangeHandler} class="form-control" placeholder="Describe the Place Here!" name="propertyDescription" id="propertyDescription" >

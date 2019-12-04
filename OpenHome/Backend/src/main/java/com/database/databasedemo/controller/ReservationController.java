@@ -161,8 +161,10 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
 
         Optional<Reservations> r = reservationRepo.findById(reservation_id);
         if (!r.isPresent())
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if(r.get().getState() != "CheckedIn" ){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
 
         Reservations reservation = reservationService.getReservation(reservation_id);
         reservationService.checkOutReservation(reservation);
@@ -190,7 +192,7 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
         //String checkOutDate = payload.get(payload.keySet().toArray()[1]);
         Reservations reservation = reservationService.getReservation(reservation_id);
         reservationService.cancelReservationByHost(reservation);
-        
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
