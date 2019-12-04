@@ -88,18 +88,21 @@ public class ReservationController {
         System.out.println("end_date "+end_date );
         String guestId = payload.get(payload.keySet().toArray()[6]);
 
-        System.out.println(guestId);
+        System.out.println("guestId"+guestId);
         int guest_id=Integer.parseInt(guestId);
 
         String propertyId = payload.get(payload.keySet().toArray()[7]);
 
-        System.out.println(propertyId);
+        System.out.println("propertyId"+propertyId);
 
         int id=Integer.parseInt(propertyId);
         Property property=propertyService.getProperty(id);
 
         String address = payload.get(payload.keySet().toArray()[8]);
+        System.out.println("address "+address);
         String description = payload.get(payload.keySet().toArray()[9]);
+        System.out.println("description "+description);
+
 
         Reservations reservation=new Reservations(booked_price,booked_price_weekend,booked_price_weekday,booking_date, start_date, end_date,guest_id,id,address,description);
         reservation.setStatus("Booked");
