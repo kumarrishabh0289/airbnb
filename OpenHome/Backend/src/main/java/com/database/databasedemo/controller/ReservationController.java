@@ -190,8 +190,7 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
         //String checkOutDate = payload.get(payload.keySet().toArray()[1]);
         Reservations reservation = reservationService.getReservation(reservation_id);
         reservationService.cancelReservationByHost(reservation);
-        Reservations reservation = reservationService.getReservation(reservation_id);
-        reservationService.cancelReservationByGuest(reservation);
+        
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
