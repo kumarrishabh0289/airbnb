@@ -93,20 +93,29 @@ public class PersonResource {
 
     @PostMapping("/persons")
     public ResponseEntity<Object> createStudent(@RequestBody Person person) throws MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
-        Person savedPerson;
-        savedPerson = repo.save(person);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(savedPerson.getId()).toUri();
-        System.out.println(savedPerson.getEmail());
-        String subject = "Please Verify your Email ID with Open Home";
-        String recevier = savedPerson.getEmail();
-        String body = "Hi " +savedPerson.getName()+",\n\nPlease verify your email with us by clicking on below link:\n http://localhost:8181/verifyUser/"+savedPerson.getId();
-        SendMail y = new SendMail();
-        y.sendEmail(subject,recevier,body);
+        System.out.println("Thisis" + repo.findByEmail(person.getEmail()));
+        Optional<Person>  p = Optional.ofNullable(repo.findByEmail(person.getEmail()));
+        if (!p.isPresent()) {
 
 
-        return ResponseEntity.created(location).build();
+            Person savedPerson;
+            savedPerson = repo.save(person);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                    .buildAndExpand(savedPerson.getId()).toUri();
+            System.out.println(savedPerson.getEmail());
+            String subject = "Please Verify your Email ID with Open Home";
+            String recevier = savedPerson.getEmail();
+            String body = "Hi " + savedPerson.getName() + ",\n\nPlease verify your email with us by clicking on below link:\n http://localhost:8181/verifyUser/" + savedPerson.getId();
+            SendMail y = new SendMail();
+            y.sendEmail(subject, recevier, body);
 
+
+            return ResponseEntity.created(location).build();
+
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/persons/{id}")
@@ -125,15 +134,15 @@ public class PersonResource {
     public Map<String, String> auth(@RequestBody Map<String, String> payload) {
 
 
-        String name = payload.get(payload.keySet().toArray()[0]);
+        String email = payload.get(payload.keySet().toArray()[0]);
 
-        System.out.println(name);
+        System.out.println("email"+email);
 
         String password = payload.get(payload.keySet().toArray()[1]);
 
-        System.out.println(password);
+        System.out.println("password"+password);
 
-        Optional<Person> person = Optional.ofNullable(repo.findByName(name));
+        Optional<Person> person = Optional.ofNullable(repo.findByEmail(email));
         if (!person.isPresent()){
 
             System.out.println("Person is not present in DB");
@@ -149,17 +158,20 @@ public class PersonResource {
                 System.out.println("Password Validated");
 
 
-                encodedNameAsToken = encoder.encode(name.concat(secretKey));
+                encodedNameAsToken = encoder.encode(person.get().getName().concat(secretKey));
 
 
 
 
-                System.out.println(encoder.matches(name.concat(secretKey),encodedNameAsToken));
+                System.out.println(encoder.matches(person.get().getName().concat(secretKey),encodedNameAsToken));
                 HashMap<String, String> map = new HashMap<>();
                 map.put("token", encodedNameAsToken);
                 System.out.println(encodedNameAsToken);
-                map.put("name", name);
-                //map.put("password", password);
+                map.put("name", person.get().getName());
+                map.put("role", person.get().getRole());
+                map.put("email", person.get().getEmail());
+                map.put("id", String.valueOf(person.get().getId()));
+
                 return map;
             }
             else{

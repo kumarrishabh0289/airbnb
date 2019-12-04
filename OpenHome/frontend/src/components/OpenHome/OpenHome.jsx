@@ -1,19 +1,23 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import AuthenticatedRoute from "./AuthenticatedRoute.jsx";
-import LoginComponent from "./LoginComponent.jsx";
-import ErrorComponent from "./ErrorComponent.jsx";
-import HeaderComponent from "./HeaderComponent.jsx";
-//import FooterComponent from "./FooterComponent.jsx";
-import LogoutComponent from "./LogoutComponent.jsx";
-import WelcomeComponent from "./WelcomeComponent.jsx";
+import AuthenticatedRoute from "./AuthenticatedRoute";
+import LoginComponent from "./LoginComponent";
+import ErrorComponent from "./ErrorComponent";
+import HeaderComponent from "./HeaderComponent";
+//import FooterComponent from "./FooterComponent";
+import LogoutComponent from "./LogoutComponent";
+import WelcomeComponent from "./WelcomeComponent";
 import SearchResults from "./SearchResults/SearchResults";
-import SearchResultDetails from "./SearchResults/SearchResultDetails";
-import FrontPage from "./FrontPage.jsx";
-import PropertiesDashboard from "../OwnerProperty/PropertiesDashboard.jsx";
-import PropertyDetails from "../OwnerProperty/PropertyDetails.jsx";
-import CreateProperty from "../OwnerProperty/CreateProperty.jsx";
+import SearchResultDetails from "./SearchResults/SearchResultDetails.jsx";
+import FrontPage from "./FrontPage";
+import HostDashboard from "../OwnerProperty/HostDashboard";
+import PropertyDetails from "../OwnerProperty/PropertyDetails";
+import CreateProperty from "../OwnerProperty/CreateProperty";
 import SignUP from "./SignUp";
+import BookingConfirmation from "./BookingConfirmation/BookingConfirmation"
+import WelcomeUser from "./WelcomeUser";
+
+
 // import AssetDisplay from "./AssetDisplay.jsx";
 
 class OpenHome extends Component {
@@ -28,9 +32,12 @@ class OpenHome extends Component {
               <Route path="/search/searchResults" component={SearchResults} />
               <Route path="/search/searchResult/:propertyId" component={SearchResultDetails} />
               <Route path="/login" component={LoginComponent} />
+              <AuthenticatedRoute path="/bookingconfirmation" component={BookingConfirmation} />
               <AuthenticatedRoute path="/welcome/:name" component={WelcomeComponent} />
-              <Route path="/dashboard" component={PropertiesDashboard} />
+              <Route path="/hostdashboard/:name" component={HostDashboard} />
               <Route path="/signup" component={SignUP} />
+              <Route path="/welcomeuser/:name" component={WelcomeUser} />
+            
               <Route path="/property/new" component={CreateProperty} />
               <Route path="/property/:propertyId" component={PropertyDetails} />
               <AuthenticatedRoute path="/logout" component={LogoutComponent} />

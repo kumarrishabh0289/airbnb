@@ -8,6 +8,7 @@ import com.database.databasedemo.repository.PropertyRepo;
 import com.database.databasedemo.repository.ReservationRepo;
 import com.database.databasedemo.service.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -29,13 +30,19 @@ import java.util.List;
 public class ReservationService {
 
     @Autowired
+    @Qualifier("reservations")
     ReservationRepo reservationRepo;
+
     @Autowired
     PropertyService propertyService;
     @Autowired
+
+    TimeService timeService;
+
     PersonSpringDataRepo personSpringDataRepo;
     @Autowired
     TimeService timeservice;
+
 
     public Reservations getReservation(int id) {
         return reservationRepo.findById(id).orElse(null);
@@ -49,7 +56,12 @@ public class ReservationService {
         return reservationRepo.findByGuestId(id);
     }
 
-    public List<Reservations> getReservationProperties(int id) {
+
+//    public List<Reservations> getHostReservations(int guestId) {
+//
+//        return reservationRepo.findByGuestId(guestId);
+//    }
+    public List<Reservations> getReservationProperties(int id){
         return reservationRepo.findByPropertyId(id);
     }
 
@@ -156,7 +168,8 @@ public List<Reservations> getReservationsToBeCheckedOut(){
             reservation.setPaymentAmount(penalty);
         }
 
-        reservation.setCheckInDate(check_in_date);
+        //reservation.setCheckInDate(check_in_date);
+        reservation.setCheckInDate(current_time);
         reservationRepo.save(reservation);
 
     }

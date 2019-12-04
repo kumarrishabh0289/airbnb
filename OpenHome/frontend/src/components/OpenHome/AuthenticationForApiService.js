@@ -7,9 +7,9 @@ class AuthenticationForApiService {
 
     
 
-    authenticate(username, password) {
+    authenticate(email, password) {
         return axios.post(`${API_URL}/authenticate`, {
-            username,
+            email,
             password
         })
     }
@@ -17,11 +17,19 @@ class AuthenticationForApiService {
     registerSuccessfulLogin(username, token) {
         sessionStorage.setItem(AUTHENTICATED_USER_SESSION, username)
         
+        
     }
 
     
     logout() {
         sessionStorage.removeItem(AUTHENTICATED_USER_SESSION);
+        sessionStorage.removeItem("googleEmail");
+        sessionStorage.removeItem("googleName");
+        sessionStorage.removeItem("userRole");
+        sessionStorage.removeItem("userEmail");
+        sessionStorage.removeItem("userName");
+        sessionStorage.removeItem("userId");
+        
     }
 
     isUserLoggedIn() {

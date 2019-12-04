@@ -97,6 +97,7 @@ public class ReservationController {
         int id=Integer.parseInt(propertyId);
         Property property=propertyService.getProperty(id);
 
+        String address = payload.get(payload.keySet().toArray()[8]);
 
         Reservations reservation=new Reservations(booked_price,booked_price_weekend,booked_price_weekday,booking_date, start_date, end_date,guest_id,id);
         reservation.setStatus("Booked");

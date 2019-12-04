@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import AuthenticationForApiService from './AuthenticationForApiService.js'
+// import { Link } from 'react-router-dom'
+// import AuthenticationForApiService from './AuthenticationForApiService.js'
 import axios from 'axios';
 import { API_URL } from '../../Constants'
 
@@ -8,10 +8,10 @@ class SignUp extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            name: "",
+            name: sessionStorage.getItem("googleName"),
             password: "",
             role: "",
-            email: "",
+            email: sessionStorage.getItem("googleEmail"),
             signup_status: "",
             hasFailed: false,
             showSuccessMessage: false,
@@ -45,7 +45,7 @@ class SignUp extends Component {
         }
 
         console.log("submit login called")
-        var headers = new Headers();
+      //  var headers = new Headers();
         //prevent page from refresh
         e.preventDefault();
         const data = {
@@ -54,9 +54,9 @@ class SignUp extends Component {
             name: this.state.name,
             role: role,
             verification: "no",
-            cardNumber:this.state.cardNumber,
-            cvv:this.state.cvv,
-            expiryDate:this.state.expiryDate,
+            cardNumber: this.state.cardNumber,
+            cvv: this.state.cvv,
+            expiryDate: this.state.expiryDate,
         }
         console.log("data", data)
         //set the with credentials to true
@@ -65,7 +65,7 @@ class SignUp extends Component {
         axios.post(API_URL + "/persons/", data)
             .then((response) => {
                 console.log("Status Code : ", response.status);
-                if (response.status === 200) {
+                if (response.status === 201) {
 
                     console.log(response.data);
                     this.setState({
@@ -99,10 +99,10 @@ class SignUp extends Component {
 
                         <div className="col-sm-5 col-md-5" style={{ backgroundColor: "white", opacity: .9, filter: "Alpha(opacity=90)", borderRadius: '10px' }}>
 
-                            <h1>
-                                Sign Up
-                                </h1>
-
+                            <h3>
+                                Sign Up  {!(sessionStorage.getItem("googleEmail") === null) && <div>Via Google.</div>}
+                            </h3>
+                            {!(sessionStorage.getItem("googleEmail") === null) && <p>Your Account is Not with Us. Please Enter Mandatory Details</p>}
                             <form onSubmit={this.submitSignUp}>
                                 <div className="row" >
 
@@ -110,8 +110,8 @@ class SignUp extends Component {
                                         <br />
                                         <div className="form-group">
                                             <label htmlFor="where"><h5>Email ID</h5></label>
-                                            <input type="email" className="form-control" name="email" id="email" placeholder="Your Email" value={this.state.email} onChange={this.handleChange} />
-
+                                           <input type="email" className="form-control" name="email" id="email" placeholder="Your Email" value={this.state.email} onChange={this.handleChange} required />
+                                           
                                         </div>
 
                                     </div>
@@ -126,7 +126,7 @@ class SignUp extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="where"><h5>Name</h5></label>
-                                            <input type="text" className="form-control" name="name" id="name" placeholder="Your Name" value={this.state.name} onChange={this.handleChange} />
+                                            <input type="text" className="form-control" name="name" id="name" placeholder="Your Name" value={this.state.name} onChange={this.handleChange} required />
 
                                         </div>
 
@@ -135,7 +135,7 @@ class SignUp extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="where"><h5>Password</h5></label>
-                                            <input type="password" className="form-control" name="password" id="password" placeholder="password" value={this.state.password} onChange={this.handleChange} />
+                                            <input type="password" className="form-control" name="password" id="password" placeholder="password" value={this.state.password} onChange={this.handleChange} required />
                                         </div>
 
                                     </div>
@@ -146,15 +146,15 @@ class SignUp extends Component {
                                 </div>
                                 <div className="row" >
                                     <h4>
-                                        <hr/><br/>
-                                        Add Payment Method <img src="payment.jpg" ></img>
+                                        <hr /><br />
+                                        Add Payment Method <img src="payment.jpg" alt=""></img>
                                     </h4>
 
                                     <div className="col-sm-12 col-md-12">
 
                                         <div className="form-group">
                                             <label htmlFor="where"><h5>Card Number</h5></label>
-                                            <input type="number" className="form-control" name="cardNumber" id="cardNumber" placeholder="Card Number" value={this.state.cardNumber} onChange={this.handleChange} />
+                                            <input type="text" className="form-control" name="cardNumber" id="cardNumber" placeholder="Card Number" value={this.state.cardNumber} onChange={this.handleChange} pattern="[1-9]{1}[0-9]{15}" required />
                                         </div>
 
                                     </div>
@@ -166,7 +166,7 @@ class SignUp extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="where"><h5>Card Expiry Date</h5></label>
-                                            <input type="date" className="form-control" name="expiryDate" id="expiryDate" placeholder="Card Expiry Date" value={this.state.expiryDate} onChange={this.handleChange} />
+                                            <input type="date" className="form-control" name="expiryDate" id="expiryDate" placeholder="Card Expiry Date" value={this.state.expiryDate} onChange={this.handleChange} required />
 
                                         </div>
 
@@ -175,7 +175,7 @@ class SignUp extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="where"><h5>Card Cvv</h5></label>
-                                            <input type="number" className="form-control" name="cvv" id="cvv" placeholder="cvv" value={this.state.cvv} onChange={this.handleChange} />
+                                            <input type="text" className="form-control" name="cvv" id="cvv" placeholder="cvv" value={this.state.cvv} onChange={this.handleChange} pattern="[0-9]{3}" required />
                                         </div>
 
                                     </div>

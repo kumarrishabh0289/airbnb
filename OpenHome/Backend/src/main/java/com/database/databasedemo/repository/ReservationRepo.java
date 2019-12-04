@@ -1,6 +1,7 @@
 package com.database.databasedemo.repository;
 
 
+import com.database.databasedemo.entity.Person;
 import com.database.databasedemo.entity.Property;
 import com.database.databasedemo.entity.Reservations;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,6 +37,10 @@ public interface ReservationRepo extends JpaRepository<Reservations,Integer>, Jp
 
     List<Reservations> findAllByStatusEquals(String status);
 
+
+
+//    @Query("SELECT p FROM person p WHERE p.name = ?1")
+//    Person findByName(String name);
 
 
 }
