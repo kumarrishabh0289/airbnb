@@ -20,18 +20,22 @@ public interface ReservationRepo extends JpaRepository<Reservations,Integer>, Jp
 
   //  List<Reservations> findAllByStartDateLessThanEqualAndEndDateGreaterThanEqual(OffsetDateTime start_date, OffsetDateTime end_date);
 
-
-
-    //@Query(value = "from Reservations t where yourDate BETWEEN :start_date AND :end_date")
-//    @Query("SELECT Reservations FROM Reservations WHERE end_date >= ?1 AND   start_date <= ?2 ")
-//    List<Reservations> getAllBetweenDates(OffsetDateTime start_date, OffsetDateTime end_date);
-
-
     @Query("SELECT * FROM reservations r WHERE r.guest_id = ?1")
     List<Reservations> findByGuestId(int guestId);
 
     @Query("SELECT * FROM reservations r WHERE r.property_id = ?1")
     List<Reservations> findByPropertyId(int propertyId);
+
+//    @Query("SELECT * FROM reservations r WHERE r.end_date <= ?1 AND r.status='Payment Processed'")
+//    List<Reservations> findAllByEndDate(OffsetDateTime current_date);
+//
+//    @Query("SELECT * FROM reservations r WHERE r.start_date <= ?1 AND r.status='Booked'")
+//    List<Reservations> findAllByStartDate(OffsetDateTime current_date);
+
+    List<Reservations> findAllByStatusEqualsAndCheckInDateIsNotNull(String status);
+
+    List<Reservations> findAllByStatusEquals(String status);
+
 
 
 }

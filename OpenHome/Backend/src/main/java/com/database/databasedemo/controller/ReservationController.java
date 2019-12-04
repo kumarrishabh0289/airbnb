@@ -6,6 +6,7 @@ import com.database.databasedemo.entity.Reservations;
 import com.database.databasedemo.repository.ReservationRepo;
 import com.database.databasedemo.service.PropertyService;
 import com.database.databasedemo.service.ReservationService;
+import com.database.databasedemo.service.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,10 @@ public class ReservationController {
 
     @Autowired
     ReservationService reservationService;
+
+    @Autowired
+    TimeService timeService;
+
     @PostMapping("/reservation/add")
     @ResponseStatus(value = HttpStatus.CREATED)
     public ResponseEntity<?> createReservation(@RequestBody Reservations reservation) {
@@ -94,7 +99,7 @@ public class ReservationController {
 
 
         Reservations reservation=new Reservations(booked_price,booked_price_weekend,booked_price_weekday,booking_date, start_date, end_date,guest_id,id);
-        reservation.setStatus("Available");
+        reservation.setStatus("Booked");
         property.addReservation(reservation);
         reservationRepo.save(reservation);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -155,5 +160,23 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
         Reservations reservation = reservationService.getReservation(reservation_id);
         reservationService.cancelReservationByGuest(reservation);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/reservation/autocheckout")
+    @ResponseStatus(value = HttpStatus.CREATED)
+
+    public List<Reservations> autocheckoutReservation() throws ParseException {
+
+        return reservationService.getReservationsToBeCheckedOut();
+        //return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/reservation/noshow")
+    @ResponseStatus(value = HttpStatus.CREATED)
+
+    public List<Reservations> noshowReservation() throws ParseException {
+
+        return reservationService.getReservationsForLateCheckIn();
+        //return new ResponseEntity<>(HttpStatus.OK);
     }
 }

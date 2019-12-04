@@ -3,6 +3,7 @@ package com.database.databasedemo.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.util.Date;
 
@@ -120,7 +121,6 @@ public class Reservations {
     public void setBookedPrice(float bookedPrice) {
         this.bookedPrice = bookedPrice;
     }
-
 
     public OffsetDateTime getStartDate() {
         return startDate;

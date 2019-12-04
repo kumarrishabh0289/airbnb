@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
@@ -52,6 +53,28 @@ public class ReservationService {
         return reservationRepo.findByPropertyId(id);
     }
 
+//    public List<Reservations> getReservationsToBeCheckedOut(OffsetDateTime current_date) {
+//        System.out.println(current_date);
+//        return reservationRepo.findAllByEndDate(current_date);
+//    }
+//
+//    public List<Reservations> getReservationsForLateCheckIn(OffsetDateTime current_date) {
+////        System.out.println(current_date.toInstant()
+////                .atOffset(ZoneOffset.UTC));
+////        ;
+////        return reservationRepo.findAllByStartDate(current_date.toInstant()
+////                .atOffset(ZoneOffset.UTC));
+//        java.sql.Timestamp ts = Timestamp.from( current_date.toInstant() );
+//        System.out.println(ts);
+//        return reservationRepo.findAllByStartTimeStamp(ts);
+//    }
+public List<Reservations> getReservationsToBeCheckedOut(){
+        return reservationRepo.findAllByStatusEqualsAndCheckInDateIsNotNull("Payment Processed");
+}
+
+    public List<Reservations> getReservationsForLateCheckIn(){
+        return reservationRepo.findAllByStatusEquals("Booked");
+    }
     public List<Reservations> getHostReservations(int id) {
         Person p = personSpringDataRepo.findById(id).orElse(null);
         List<Property> ownerProperties = propertyService.getHostProperties(p);
@@ -129,7 +152,7 @@ public class ReservationService {
             System.out.println(penalty);
             reservation.setPenaltyValue(penalty);
             reservation.setPenaltyReason("No Show");
-            reservation.setStatus("Cancelled");
+            reservation.setStatus("Available");
             reservation.setPaymentAmount(penalty);
         }
 
