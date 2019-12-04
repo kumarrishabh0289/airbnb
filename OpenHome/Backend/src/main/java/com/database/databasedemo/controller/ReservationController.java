@@ -102,6 +102,7 @@ public class ReservationController {
 
         Reservations reservation=new Reservations(booked_price,booked_price_weekend,booked_price_weekday,booking_date, start_date, end_date,guest_id,id);
         reservation.setStatus("Booked");
+        reservation.setState("Booked");
         property.addReservation(reservation);
         reservationRepo.save(reservation);
         return new ResponseEntity<>(HttpStatus.CREATED);

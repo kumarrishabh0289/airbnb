@@ -131,6 +131,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
             /* Proper check in, no extra charges */
             System.out.println("Proper checkin");
             reservation.setStatus("Payment Processed");
+            reservation.setState("CheckedIn");
             float totalPrice = ((reservation.getBookedPriceWeekday() * getWeekdays(startDate, endDate)) + (reservation.getBookedPriceWeekend() * getWeekends(startDate, endDate)));
             reservation.setPaymentAmount(totalPrice);
         } else {
@@ -167,7 +168,8 @@ public List<Reservations> getReservationsToBeCheckedOut(){
             System.out.println("penalty"+penalty);
             reservation.setPenaltyValue(penalty);
             reservation.setPenaltyReason("No Show");
-            reservation.setStatus("Cancelled");
+            reservation.setStatus("Available");
+            reservation.setState("NoShow");
             reservation.setPaymentAmount(penalty);
         }
 
@@ -243,6 +245,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
             System.out.println("Checkout can't be greater than end date");
         }
         reservation.setStatus("Available");
+        reservation.setState("CheckedOut");
         reservation.setCheckOutDate(check_out_date);
         reservationRepo.save(reservation);
     }
@@ -294,6 +297,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
         reservation.setPenaltyValue(penalty);
         reservation.setPenaltyReason("Cancelled by Guest");
         reservation.setStatus("Available");
+        reservation.setState("CancelledByGuest");
         reservationRepo.save(reservation);
     }
 
