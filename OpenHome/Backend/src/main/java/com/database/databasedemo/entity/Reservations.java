@@ -104,6 +104,17 @@ public class Reservations {
     @Column(name="status")
     private String status;
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    @Column(name="state")
+    private String state;
+
     public Reservations(){
 
     }

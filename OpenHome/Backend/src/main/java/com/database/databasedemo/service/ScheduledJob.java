@@ -83,6 +83,7 @@ public class ScheduledJob {
                         r.setPenaltyValue(penalty);
                         r.setPenaltyReason("No Show");
                         r.setStatus("Available");
+                        r.setState("NoShow");
                         r.setPaymentAmount(penalty);
                     }
                 }
@@ -98,6 +99,7 @@ public class ScheduledJob {
                         System.out.println("Checking out reservation id: " + r.getId());
                         r.setCheckOutDate(r.getEndDate());
                         r.setStatus("Available");
+                        r.setState("CheckedOut");
                     }
                 }
             }
