@@ -19,6 +19,7 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @CrossOrigin(origins="http://localhost:3000")
 @RestController
@@ -131,12 +132,24 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
     @ResponseStatus(value = HttpStatus.CREATED)
     //public Reservations(float bookedPrice, float bookedPriceWeekend, float bookedPriceWeekday, OffsetDateTime bookingDate, OffsetDateTime startDate, OffsetDateTime endDate, int guestId, int propertyId) {
     public ResponseEntity<?> checkinReservation(@RequestBody Map<String, String> payload) throws ParseException {
+
         String reservationId = payload.get(payload.keySet().toArray()[0]);
         int reservation_id = Integer.parseInt(reservationId);
+        Optional<Reservations> r = reservationRepo.findById(reservation_id);
+        if (!r.isPresent())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+
         //String checkInDate = payload.get(payload.keySet().toArray()[1]);
         Reservations reservation = reservationService.getReservation(reservation_id);
-        reservationService.checkInReservation(reservation);
-        return new ResponseEntity<>(HttpStatus.OK);
+        int result = reservationService.checkInReservation(reservation);
+        if(result == 1){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
     }
 
     @PostMapping("/reservation/checkout")

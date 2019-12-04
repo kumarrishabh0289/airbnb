@@ -108,7 +108,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
         reservationRepo.save(reservation);
     }
 
-    public void checkInReservation(Reservations reservation) throws ParseException {
+    public int checkInReservation(Reservations reservation) throws ParseException {
         OffsetDateTime start_date = reservation.getStartDate();
         OffsetDateTime end_date = reservation.getEndDate();
         OffsetDateTime check_in_date = timeservice.getCurrentTime();
@@ -123,7 +123,10 @@ public List<Reservations> getReservationsToBeCheckedOut(){
         System.out.println("Check in hour is " + checkInHour);
         System.out.println("No of weekdays: " + getWeekdays(startDate, checkInDate));
         System.out.println("No of weekends: " + getWeekends(startDate, checkInDate));
-
+        int diff1 = checkInDate.compareTo(endDate);
+        if (diff < 0 || diff1>0) {
+            return 0;
+        }
         if ((diff == 0 && (checkInHour >= 15 && checkInHour < 24)) || (diff == 1 && checkInHour < 3)) {
             /* Proper check in, no extra charges */
             System.out.println("Proper checkin");
@@ -161,7 +164,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
                     penalty += (0.3 * reservation.getBookedPriceWeekday());
                 }
             }
-            System.out.println(penalty);
+            System.out.println("penalty"+penalty);
             reservation.setPenaltyValue(penalty);
             reservation.setPenaltyReason("No Show");
             reservation.setStatus("Cancelled");
@@ -170,6 +173,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
 
         reservation.setCheckInDate(check_in_date);
         reservationRepo.save(reservation);
+        return 1;
 
     }
 
