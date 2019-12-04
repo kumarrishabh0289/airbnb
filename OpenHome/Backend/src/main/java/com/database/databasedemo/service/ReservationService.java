@@ -299,6 +299,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
         reservation.setStatus("Available");
         reservation.setState("CancelledByGuest");
         reservationRepo.save(reservation);
+
     }
 
     public void cancelReservationByHost(Reservations reservation) throws ParseException {
@@ -376,6 +377,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
         reservation.setStatus("Available");
         reservation.setState("CancelledByHost");
         reservationRepo.save(reservation);
+
     }
 
     public int getWeekdays(LocalDate startDate, LocalDate endDate) {
