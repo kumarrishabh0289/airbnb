@@ -115,7 +115,20 @@ public class Reservations {
         this.endDate = endDate;
         this.guestId = guestId;
         this.propertyId = propertyId;
+    }
 
+    public Reservations(float bookedPrice, float bookedPriceWeekend, float bookedPriceWeekday, OffsetDateTime bookingDate, OffsetDateTime startDate, OffsetDateTime endDate, int guestId, int propertyId, String address, String description, String status) {
+        this.bookedPrice = bookedPrice;
+        this.bookedPriceWeekend = bookedPriceWeekend;
+        this.bookedPriceWeekday = bookedPriceWeekday;
+        this.bookingDate = bookingDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.guestId = guestId;
+        this.propertyId = propertyId;
+        this.address = address;
+        this.description = description;
+        this.status = status;
     }
 
     public Reservations(float bookedPrice, float bookedPriceWeekend, float bookedPriceWeekday, OffsetDateTime bookingDate, OffsetDateTime startDate, OffsetDateTime endDate, int guestId, int propertyId, String address, String description) {

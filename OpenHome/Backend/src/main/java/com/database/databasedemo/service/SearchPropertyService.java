@@ -119,55 +119,25 @@ public class SearchPropertyService {
             }
         });
 
-        // Below logic is for Validating the price of the Room
-        HashSet<Integer> hashSet = new HashSet<Integer>();
-//        Date current = filter.getStartDate();
-//        while (current.before(filter.getEndDate())) {
-//            System.out.println(current);
-//            hashSet.add(current.getDay());
-//            Calendar calendar = Calendar.getInstance();
-//            calendar.setTime(current);
-//            calendar.add(Calendar.DATE, 1);
-//            current = calendar.getTime();
-//
-//            if(hashSet.size() > 7)
-//                break;
-//        }
-
-
-//        final Instant now = Instant.now();
-//        System.out.println("Now:\t" +  now);
-//
-//        final Instant zeroedNow = now.with(ChronoField.NANO_OF_SECOND, 0);
-//
-//        System.out.println("Zeroed:\t" + zeroedNow);
-
         Calendar start = Calendar.getInstance();
         start.setTime(filter.getStartDate());
         Calendar end = Calendar.getInstance();
         end.setTime(filter.getEndDate());
-        boolean weekD = false;
-        boolean weekE = false;
 
+        int weekDcntr = 0;
+        int weekEcntr = 0;
         OffsetDateTime now1 = OffsetDateTime.now(ZoneOffset.UTC);
-        System.out.println(now1.getHour()+":"+now1.getMinute()+":"+now1.getSecond());
 
         for (Date date = start.getTime(); start.before(end); start.add(Calendar.DATE, 1), date = start.getTime()) {
-            System.out.println(date);
-            hashSet.add(date.getDay());
+            if(date.getDay() == 0 || date.getDay() == 6) {
+                weekEcntr++;
+            }
+
+            if(date.getDay() == 1 || date.getDay() == 2 || date.getDay() == 3 || date.getDay() == 4 || date.getDay() == 5) {
+                weekDcntr++;
+            }
         }
 
-        if(hashSet.contains(0) || hashSet.contains(6))
-            weekE = true;
-
-        if(hashSet.contains(1) || hashSet.contains(2) || hashSet.contains(3) || hashSet.contains(4) || hashSet.contains(5))
-            weekD = true;
-
-        //now, hashset contains the days from the entered date
-        System.out.println("Hashset"+hashSet);
-
-        // Below logic is for Validating the price of the Room
-        System.out.println("list" + properties);
         if(!filter.getPriceRange().equals(""))
         {
             String str = filter.getPriceRange();
@@ -177,25 +147,12 @@ public class SearchPropertyService {
 
                 Property p = iter.next();
                 float weekdayP = p.getWeekdayPrice();
-                float weekendP = p.getWeekdayPrice();
-
+                float weekendP = p.getWeekendPrice();
+                float finalPrice = (weekDcntr * weekdayP) + (weekendP * weekEcntr);
                 // weekend check needs to be added depending upon the user selection of the dates
                 // If he selected for weekends then consider weekend if weekday then only weekday if both then only below.
-                if(weekD && weekE) {
-                    if ((weekdayP <= Integer.parseInt(result[0]) || weekdayP >= Integer.parseInt(result[1])) ||
-                            (weekendP <= Integer.parseInt(result[0]) || weekendP >= Integer.parseInt(result[1]))) {
+                if(finalPrice  < Float.parseFloat(result[0]) || finalPrice > Float.parseFloat(result[1])) {
                         iter.remove();
-                    }
-                }
-                else if(weekD){
-                    if ((weekdayP <= Integer.parseInt(result[0]) || weekdayP >= Integer.parseInt(result[1]))) {
-                        iter.remove();
-                    }
-                }
-                else{
-                    if ((weekendP <= Integer.parseInt(result[0]) || weekendP >= Integer.parseInt(result[1]))) {
-                        iter.remove();
-                    }
                 }
             }
         }
@@ -206,7 +163,6 @@ public class SearchPropertyService {
         List<Reservations> res = new ArrayList<>();
         Date current = filter.getStartDate();
         while (!current.after(filter.getEndDate())) {
-            System.out.println(current);
             res = dateComparision(current,filter);
             if(res.size()>0)
              finaList.addAll(res);
@@ -216,9 +172,6 @@ public class SearchPropertyService {
             current = calendar.getTime();
         }
 
-
-       System.out.println(res);
-        System.out.println(finaList.size());
         if(finaList.size()>0)
         {
             for(int i=0;i<finaList.size();i++){
@@ -242,8 +195,6 @@ public class SearchPropertyService {
 
         OffsetDateTime offsetDateTime = date.toInstant()
                 .atOffset(ZoneOffset.UTC);
-       // List<Reservations> reserv = new ArrayList<>();
-        System.out.println("offsetDateTime=="+offsetDateTime);
 
         List<Reservations> reserv = reservationRepo.findAll(new Specification <Reservations >() {
 
@@ -257,17 +208,12 @@ public class SearchPropertyService {
                 List<Predicate> predicates = new ArrayList<>();
 
                 predicates.add(cb.lessThanOrEqualTo(root.get("startDate"), offsetDateTime));
-                predicates.add(cb.greaterThanOrEqualTo(root.get("endDate"), offsetDateTime));
+                predicates.add(cb.greaterThan(root.get("endDate"), offsetDateTime));
+                predicates.add(cb.notEqual(root.get("status"), "Available"));
                 return cb.and(predicates.toArray(new Predicate[0]));
             }
         });
 
-
-
-        if(reserv.size()>0) {
-            System.out.println(reserv.get(0).getPropertyId());
-            System.out.println(reserv.get(0).getBookedPrice());
-        }
         return reserv;
 
     }

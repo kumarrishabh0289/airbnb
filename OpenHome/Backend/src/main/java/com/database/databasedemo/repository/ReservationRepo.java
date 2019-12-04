@@ -1,8 +1,5 @@
 package com.database.databasedemo.repository;
 
-
-import com.database.databasedemo.entity.Person;
-import com.database.databasedemo.entity.Property;
 import com.database.databasedemo.entity.Reservations;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jdbc.repository.query.Query;
