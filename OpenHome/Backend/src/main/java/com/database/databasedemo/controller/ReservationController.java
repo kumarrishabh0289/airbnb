@@ -99,8 +99,9 @@ public class ReservationController {
         Property property=propertyService.getProperty(id);
 
         String address = payload.get(payload.keySet().toArray()[8]);
+        String description = payload.get(payload.keySet().toArray()[9]);
 
-        Reservations reservation=new Reservations(booked_price,booked_price_weekend,booked_price_weekday,booking_date, start_date, end_date,guest_id,id);
+        Reservations reservation=new Reservations(booked_price,booked_price_weekend,booked_price_weekday,booking_date, start_date, end_date,guest_id,id,address,description);
         reservation.setStatus("Booked");
         reservation.setState("Booked");
         property.addReservation(reservation);
