@@ -328,55 +328,59 @@ public List<Reservations> getReservationsToBeCheckedOut(){
         //need to get parking fee
         Property p = propertyService.getProperty(reservation.getPropertyId());
 
-        if (diff >= 7) {
-            System.out.println("No penalty as there is a 7 days in start date");
-        }
-        else if(diff > 0){
-            //apply 15% changes to the host as penalty  (total fee for that day, including parking.)
-            if (startDayVal.equals("SATURDAY") || startDayVal.equals("SUNDAY")) {
-                penalty = (float) (0.15 * (reservation.getBookedPriceWeekend() + p.getParkingFee()));
-            } else {
-                penalty = (float) (0.15 * (reservation.getBookedPriceWeekday() + p.getParkingFee()));
+
+// checkout hua check karna padega
+// checkout hua check karna padega
+// checkout date comparision
+        float remainingDaysPrice = 0;
+        if(reservation.getStatus().equals("Booked")) {
+
+            if (diff >= 7) {
+                System.out.println("No penalty as there is a 7 days in start date");
+            } else if (diff > 0 && reservation.getCheckInDate() == null) {
+                //apply 15% changes to the host as penalty  (total fee for that day, including parking.)
+                if (startDayVal.equals("SATURDAY") || startDayVal.equals("SUNDAY")) {
+                    penalty = (float) (0.15 * (reservation.getBookedPriceWeekend() + p.getParkingFee()));
+                } else {
+                    penalty = (float) (0.15 * (reservation.getBookedPriceWeekday() + p.getParkingFee()));
+                }
+            } else if ((diff <= 0 && cancellationHour <= 15) && reservation.getCheckInDate() != null) {
+                System.out.println("Cancellation done one day prior so only 30% of start date");
+
+                //User will get back below price
+                int remainingWeekDays = getWeekdays(current_date, endDate);
+                int remainingWeekEnds = getWeekdays(current_date, endDate);
+                remainingDaysPrice = (remainingWeekDays * reservation.getBookedPriceWeekday()) +
+                        (remainingWeekEnds* reservation.getBookedPriceWeekend());
+
+
+                penalty = penalty + (float) (0.15 * remainingWeekEnds * reservation.getBookedPriceWeekend());
+                penalty = penalty + (float) (0.15 * remainingWeekDays * reservation.getBookedPriceWeekday());
+
+
+            } else if ((diff <= 0 && cancellationHour > 15) && reservation.getCheckInDate() != null) {
+
+                current_date = current_date.plusDays(1);
+
+                //User will get back below price
+                int remainingWeekDays = getWeekdays(current_date, endDate);
+                int remainingWeekEnds = getWeekdays(current_date, endDate);
+                remainingDaysPrice = (remainingWeekDays * reservation.getBookedPriceWeekday()) +
+                        (remainingWeekEnds* reservation.getBookedPriceWeekend());
+
+                penalty = penalty + (float) (0.15 * remainingWeekEnds * reservation.getBookedPriceWeekend());
+                penalty = penalty + (float) (0.15 * remainingWeekDays * reservation.getBookedPriceWeekday());
             }
+
+            System.out.println(penalty);
+            float bookp = reservation.getBookedPrice();
+            reservation.setBookedPrice(bookp - remainingDaysPrice);
+            reservation.setPenaltyValue(penalty);
+            reservation.setPenaltyReason("Cancelled by Host");
+            reservation.setStatus("Available");
+            reservation.setState("CancelledByHost");
+            reservationRepo.save(reservation);
         }
-       else if ((diff <= 0 && cancellationHour <= 15)) {
-            System.out.println("Cancellation done one day prior so only 30% of start date");
-
-//status
-// checkout hua check karna padega
-// checkout hua check karna padega
-            //checkout date comparision
-
-            //User will get back below price
-            float remainingDaysPrice =  ((getWeekdays(current_date,endDate)*reservation.getBookedPriceWeekday())+
-                    (getWeekends(current_date,endDate)*reservation.getBookedPriceWeekend()));
-
-            int weekdays = getWeekdays(current_date,endDate);
-            int weekends = getWeekends(current_date,endDate);
-
-            penalty = (float) ((0.15 * weekdays * reservation.getBookedPriceWeekday()) + 0.15 * weekends * reservation.getBookedPriceWeekend());
-
-        }
-       else{
-
-            current_date = current_date.plusDays(1);
-
-            //User will get back below price
-            float remainingDaysPrice =  ((getWeekdays(current_date,endDate)*reservation.getBookedPriceWeekday())+
-                    (getWeekends(current_date,endDate)*reservation.getBookedPriceWeekend()));
-
-            int weekdays = getWeekdays(current_date,endDate);
-            int weekends = getWeekends(current_date,endDate);
-
-            penalty = (float) ((0.15 * weekdays * reservation.getBookedPriceWeekday()) + 0.15 * weekends * reservation.getBookedPriceWeekend());
-        }
-
-        System.out.println(penalty);
-        reservation.setPenaltyValue(penalty);
-        reservation.setPenaltyReason("Cancelled by Host");
-        reservation.setStatus("Available");
-        reservation.setState("CancelledByHost");
-        reservationRepo.save(reservation);
 
     }
 
