@@ -45,6 +45,7 @@ class LoginComponent extends Component {
                 sessionStorage.setItem("userId", response.data.id)
                 sessionStorage.setItem("userRole", response.data.role)
                 sessionStorage.setItem("userName", response.data.name)
+                sessionStorage.setItem("JWT", response.data.token)
                 if(response.data.role === "user"){
                     this.props.history.push(`/welcomeuser/${response.data.name}`)
                 }
@@ -76,9 +77,15 @@ class LoginComponent extends Component {
             })
             .then(response => {
                 console.log("Status Code : ", response.status);
+                console.log("response : ", response.data);
                 if (response.status === 200) {
 
                     AuthenticationForApiService.registerSuccessfulLogin(res.profileObj.name, res.profileObj.googleId)
+                    sessionStorage.setItem("userEmail", response.data.email)
+                    sessionStorage.setItem("userId", response.data.id)
+                    sessionStorage.setItem("userRole", response.data.role)
+                    sessionStorage.setItem("userName", response.data.name)
+                    sessionStorage.setItem("JWT", response.data.token)
                     console.log(response);
                     this.props.history.push(`/`)
 
