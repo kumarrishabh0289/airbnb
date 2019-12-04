@@ -57,8 +57,7 @@ public class ReservationController {
         int booked_price=Integer.parseInt(bookedPrice);
 
         String bookedPriceWeekend = payload.get(payload.keySet().toArray()[1]);
-        int booked_price_weekend=Integer.parseInt(bookedPriceWeekend);
-
+        int booked_w
         String bookedPriceWeekday = payload.get(payload.keySet().toArray()[2]);
         int booked_price_weekday=Integer.parseInt(bookedPriceWeekday);
 
