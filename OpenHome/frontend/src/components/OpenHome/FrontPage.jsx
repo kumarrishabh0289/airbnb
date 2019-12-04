@@ -17,7 +17,9 @@ class FrontPage extends Component {
             propertyDescription: '',
             wifi : '',
             priceRange : '',
-            responseData: ''
+            responseData: '',
+            currentdate:'',
+            datefound:false
         }
         this.ChangeHandler = this.ChangeHandler.bind(this);
         this.SearchButton = this.SearchButton.bind(this);
@@ -32,22 +34,44 @@ class FrontPage extends Component {
     }
 
     SearchButton = (e) => {
-        //var headers = new Headers();
         e.preventDefault();
+
+        var date1 = new Date(this.state.startDate);
+        var date2 = new Date(this.state.endDate);
+        var difference = date2- date1;
+        var days = difference/(24*3600*1000);
+
+        // now get the current date    from backend
+
+        var utcstartDate = new Date(date1.getTime() + date1.getTimezoneOffset() * 60000);
+        var utcendDate = new Date(date1.getTime() + date1.getTimezoneOffset() * 60000);
+
+        //below is current date from backend
+        var date3 = new Date((this.state.currentdate).slice(0, 10));
+        var utcCurrentDate = new Date(date3.getTime() + date3.getTimezoneOffset() * 60000);
+        var difference1 = utcstartDate - utcCurrentDate;
+        var days1 = difference1/(24*3600*1000);
+
+        var difference2 = utcendDate - utcCurrentDate;
+        var days2 = difference2/(24*3600*1000);
+
+
+
         if(this.state.location === "")
             alert("Address is Empty");
         else if(this.state.startDate === "")
             alert("CHECK-IN Date is Empty");
         else if(this.state.endDate === "")
             alert("CHECKOUT Date is Empty");
+        else if(days1 > 365 || days2 > 365)
+            alert("You cannot book for next Year. Please try adjusting your search by changing your dates.");
+        else if(days <= 0)
+            alert("CHECKOUT date cannot be same or less than Check-IN date. Please try adjusting your search by changing your dates.");
+        else if(days1 < 0)
+            alert("CheckIN Date cannot be less that Today's date. Please try adjusting your search by changing your dates.");
+        else if(days > 14)
+            alert("You can't book for more than 14 days. Please try adjusting your search by changing your dates.");
         else{
-                console.log(new Date());
-
-
-                console.log(new Date(this.state.startDate));
-
-                var doo = new Date(this.state.startDate);
-                console.log(doo.toUTCString());
 
             const data = {
                 city : this.state.location,
@@ -105,6 +129,33 @@ class FrontPage extends Component {
         let change = {}
         change[e.target.name] = e.target.value
         this.setState(change)
+    }
+
+    componentDidMount(){
+
+        axios.get(API_URL + `/admin/time/`)
+        .then(response => {
+            console.log("Status Code : ", response.status);
+            if (response.status === 200) {
+                this.setState({
+                    currentdate: response.data,
+                    datefound: true
+                })
+                console.log("response data",response.data)
+
+                if (!response.data) {
+                    alert("No Available Properties")
+                }
+            }
+            else {
+                this.setState({
+                    flag: false
+                })
+            }
+        })
+        .catch(err => {
+            alert(err);
+        });
     }
     
 

@@ -58,6 +58,12 @@ class SearchResultDetails extends Component {
                         else
                             weekendCnt++;
                     }
+
+                    console.log("weekendCnt",weekendCnt)
+                    console.log("weekdayCnt",weekdayCnt)
+
+                    console.log("weekday price",this.state.responseData.weekdayPrice)
+                    console.log("weekend price",this.state.responseData.weekendPrice)
                     var finalp = 0;
                     finalp = weekdayCnt * this.state.responseData.weekdayPrice;
                     finalp = finalp + weekendCnt * this.state.responseData.weekendPrice;
