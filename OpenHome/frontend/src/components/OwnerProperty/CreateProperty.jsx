@@ -34,8 +34,7 @@ class CreateProperty extends Component {
       thu: false,
       fri: false,
       sat: false,
-      status: "",
-      mobileNumber: ''
+      status: ""
     };
   }
   changeHandler = (name, e) => {
@@ -443,7 +442,7 @@ class CreateProperty extends Component {
                       />
                     </div>
                   </div>
-                  <div class="col-sm-6 col-md-6">
+                  {this.state.sharingType === "Full" && (<div class="col-sm-6 col-md-6">
                     <div class="form-group">
                       <label for="where">
                         <h5>Number of Rooms</h5>
@@ -459,16 +458,19 @@ class CreateProperty extends Component {
                         >
                           <option value="1">1</option>
                           <option value="2">2</option>
+                          <option value="1">3</option>
+                          <option value="2">4</option>
+                          <option value="1">5</option>
                         </select>
                       </div>
                     </div>
-                  </div>
+                  </div>)}
                 </div>
                 <div class="row">
                   <div class="col-sm-6 col-md-6">
                     <div class="form-group">
                       <label for="where">
-                        <h5>Weekday Price/day(for each room)</h5>
+                        <h5>Weekday Price/day</h5>
                       </label>
                       <input
                         type="text"
@@ -482,7 +484,7 @@ class CreateProperty extends Component {
                   <div class="col-sm-6 col-md-6">
                     <div class="form-group">
                       <label for="where">
-                        <h5>Weekend Price/day(for each room)</h5>
+                        <h5>Weekend Price/day</h5>
                       </label>
                       <input
                         type="text"
@@ -585,24 +587,8 @@ class CreateProperty extends Component {
                         </select>
                       </div>
                     </div>
-                    
+                  
                   </div>
-
-                  <div class="col-sm-6 col-md-6">
-                    <div class="form-group">
-                      <label for="Contact">
-                        <h5>Contact Details</h5>
-                      </label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="mobilenumber"
-                        placeholder="Mobile Number"
-                        onChange={this.changeHandler.bind(this, "mobileNumber")}
-                      />
-                    </div>
-                  </div>
-
                 </div>
                 
                 <div class="row">

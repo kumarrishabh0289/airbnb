@@ -198,8 +198,8 @@ public class Property {
     @Column(name = "weekday_price", nullable = false)
     private float weekdayPrice;
 
-    @Column(name = "mobile_number")
-    private int mobileNumber;
+    @Column(name="status")
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
@@ -418,12 +418,12 @@ public class Property {
         this.owner = owner;
     }
 
-    public int getMobileNumber() {
-        return mobileNumber;
+    public String getStatus() {
+        return status;
     }
 
-    public void setMobileNumber(int mobileNumber) {
-        this.mobileNumber = mobileNumber;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 
