@@ -1,5 +1,6 @@
 package com.database.databasedemo.service;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -8,6 +9,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.database.databasedemo.entity.Reservations;
+import com.database.databasedemo.mail.SendMail;
+import com.database.databasedemo.repository.PersonJPARepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +21,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
+
 @Component
 @Service
 public class ScheduledJob {
         @Autowired
         TimeService timeService;
+
+        @Autowired
+        PersonJPARepo personJPARepo;
 
         @Autowired
         ReservationService reservationService;
@@ -33,7 +41,7 @@ public class ScheduledJob {
         @Async
         @Scheduled(fixedRate = 10000)
         @Transactional(propagation = Propagation.REQUIRES_NEW)
-        public void processAutomatedJobs() {
+        public void processAutomatedJobs() throws MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
             //log.info("The time is now {}", dateFormat.format(new Date()));
            // log.info("The time form time service {}", timeService.getCurrentTime().getHour());
             OffsetDateTime currentTime=timeService.getCurrentTime();
@@ -85,6 +93,12 @@ public class ScheduledJob {
                         r.setStatus("Available");
                         r.setState("NoShow");
                         r.setPaymentAmount(penalty);
+                        String receiver = personJPARepo.findById(r.getGuestId()).getEmail();
+                        SendMail y = new SendMail();
+                        y.sendEmail("You didn't show up to your reservation", receiver,
+                                "Dear Customer, \n\n We regret to inform you that you missed the deadline to checkin to your place in Open." +
+                                        "Unfortunately we had to cancel your reservation." + "\n\n" + "  We look forward to having you stay with us." + "\n\n " +
+                                        "Thanks and Regards, \n OpenHome Team");
                     }
                 }
             }
@@ -100,6 +114,11 @@ public class ScheduledJob {
                         r.setCheckOutDate(r.getEndDate());
                         r.setStatus("Available");
                         r.setState("CheckedOut");
+                        String recevier = personJPARepo.findById(r.getGuestId()).getEmail();
+                        SendMail y = new SendMail();
+                        y.sendEmail("Thank you for choosing OpenHome", recevier,
+                                "Dear Customer, \n\n Thank you for considering OpenHome for your accommodation." + "\n\n" + "  We look forward to having you stay with us." + "\n\n " +
+                                        "Thanks and Regards, \n OpenHome Team");
                     }
                 }
             }
