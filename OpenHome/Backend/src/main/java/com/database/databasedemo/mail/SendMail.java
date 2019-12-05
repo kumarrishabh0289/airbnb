@@ -34,6 +34,8 @@ public class SendMail {
         msg.setText(body);
 
         Transport.send(msg);
+
+
         return "Email sent successfully";
     }
 }

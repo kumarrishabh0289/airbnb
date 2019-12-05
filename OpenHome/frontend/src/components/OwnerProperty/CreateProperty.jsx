@@ -125,7 +125,7 @@ class CreateProperty extends Component {
       mon: this.state.mon,
       tue: this.state.tue,
       wed: this.state.wed,
-      thur: this.state.thur,
+      thu: this.state.thu,
       fri: this.state.fri,
       sat: this.state.sat,
       mobileNumber: this.state.mobileNumber,
@@ -144,7 +144,7 @@ class CreateProperty extends Component {
     else if(this.state.phone === ""){
       alert("Phone Number is Empty");
     }
-    else if(this.state.roomSquareFootage === ""){
+    else if(this.state.totalSquareFootage === ""){
       alert("Total Square Footage is Empty");
     }
     else if(this.state.weekdayPrice === ""){
