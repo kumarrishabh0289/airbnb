@@ -126,7 +126,7 @@ class PropertyDetails extends Component {
     axios.post(API_URL + "/property/availability", data, header).then(response => {
       if (response.status === 201) {
         this.setState({ status: "Success" });
-        this.props.history.push("/dashboard");
+        this.props.history.push(`/hostdashboard/${sessionStorage.userName}`)
       } else {
         //console.log(response);
         alert("Error in creating property");
@@ -152,7 +152,7 @@ class PropertyDetails extends Component {
       axios.post(API_URL + "/property/delete", data, header).then(response => {
         if (response.status === 201) {
           this.setState({ status: "Success" });
-          this.props.history.push(`/dashboard`);
+          this.props.history.push(`/hostdashboard/${sessionStorage.userName}`)
         } else {
        //   console.log(response);
           alert("Error in creating property");

@@ -240,6 +240,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
 
     public int checkOutReservation(Reservations reservation) throws ParseException, MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
         String recevier = personJPARepo.findById(reservation.getGuestId()).getEmail();
+        
         if(reservation.getStatus().equals("Payment Processed")) {
 
             OffsetDateTime check_out_date = timeservice.getCurrentTime();

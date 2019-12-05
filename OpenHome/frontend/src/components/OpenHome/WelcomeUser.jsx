@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { API_URL } from "../../Constants";
 import axios from "axios";
 class WelcomeUser extends Component {
@@ -9,7 +9,9 @@ class WelcomeUser extends Component {
     this.state = {
       booking: [],
       msg: "",
-      flag: false
+      flag: false,
+      month: "",
+      year: ""
     };
   }
 
@@ -31,6 +33,12 @@ class WelcomeUser extends Component {
           booking: this.state.booking.concat(response.data)
         });
       });
+  }
+
+  handleChange = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
   }
 
   checkIn = (booking) => {
@@ -203,7 +211,7 @@ class WelcomeUser extends Component {
           flag: true
         })
       })
-    
+
   };
 
   render() {
@@ -214,259 +222,255 @@ class WelcomeUser extends Component {
         <h2>Openhome User Dashboard</h2>
         <br />
         <h4>Welcome {this.props.match.params.name}</h4>
+        <h7><Link className="nav-link" to="/userbilling"  >Monthly Billing Overview</Link></h7>
 
 
- 
-  <ul class="nav nav-tabs" role="tablist">
-    <li class="nav-item">
-      <a class="nav-link active" data-toggle="tab" href="#home">Up Coming Bookings</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#menu1">On Going Bookings</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#menu3">Completed</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#menu2">Cancelled Or Missed Bookings</a>
-    </li>
-  </ul>
 
-  
-  <div class="tab-content">
-    <div id="home" class="tab-pane active"><br/>
-      <h3>Up Coming Bookings</h3>
-      <table className="table">
-          <tr>
-            <th>Booking ID</th>
-            <th>Address</th>
-            <th>Description</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Check-IN</th>
-            <th>Check-Out</th>
-            <th>Penalty Reason</th>
-            <th>Penalty Amount</th>
-            <th>Booking Amount Per weekday</th>
-            <th>Booking Amount Per weekend</th>
-            <th>Total Payable</th>
-            <th>Status</th>
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#home">Up Coming Bookings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#menu1">On Going Bookings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#menu3">Completed</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#menu2">Cancelled Or Missed Bookings</a>
+          </li>
+        </ul>
 
-            <th></th>
-            <th></th>
-            <th></th>
 
-          </tr>
-          {this.state.booking.map(booking => { 
-            if(booking.state === "Booked"){
-            return (
+        <div class="tab-content">
+          <div id="home" class="tab-pane active"><br />
+            <h3>Up Coming Bookings</h3>
+            <table className="table">
               <tr>
-                <td>{booking.id}</td>
-                <td>{booking.address}</td>
-                <td>{booking.description}</td>
-                <td>{booking.startDate}</td>
-                <td>{booking.endDate}</td>
-                <td>{booking.checkInDate}</td>
-                <td>{booking.checkOutDate}</td>
-                <td>{booking.penaltyReason}</td>
-                <td>{booking.penaltyValue}</td>
-                <td>{booking.bookedPriceWeekday}</td>
-                <td>{booking.bookedPriceWeekend}</td>
-                <td>{booking.paymentAmount}</td>
+                <th>Booking ID</th>
+                <th>Address</th>
+                <th>Description</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Check-IN</th>
+                <th>Check-Out</th>
+                <th>Penalty Reason</th>
+                <th>Penalty Amount</th>
+                <th>Booking Amount</th>
+                <th>Total Payable</th>
+                <th>Status</th>
 
-                <td>{booking.state}</td>
-                <td> <button onClick={() => this.checkIn(booking)} class="btn btn-primary">Check-In</button></td>
-                <td> <button onClick={() => this.checkOut(booking)} class="btn btn-primary">Check-Out</button></td>
-                <td> <button onClick={() => this.cancel(booking)} class="btn btn-primary">Cancel</button></td>
+                <th></th>
+                <th></th>
+                <th></th>
+
               </tr>
-            )
-          }
-          else{
-            return(
-              <>
-              </>
-            )
-          }
-          })}
-        </table>
-      </div>
-    <div id="menu1" class=" tab-pane fade"><br/>
-      
-      <h3>On Going Bookings</h3>
-      <table className="table">
-          <tr>
-            <th>Booking ID</th>
-            <th>Address</th>
-            <th>Description</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Check-IN</th>
-            <th>Check-Out</th>
-            <th>Penalty Reason</th>
-            <th>Penalty Amount</th>
-            <th>Booking Amount Per weekday</th>
-            <th>Booking Amount Per weekend</th>
-            <th>Total Payable</th>
-            <th>Status</th>
+              {this.state.booking.map(booking => {
+                if (booking.state === "Booked") {
+                  return (
+                    <tr>
+                      <td>{booking.id}</td>
+                      <td>{booking.address}</td>
+                      <td>{booking.description}</td>
+                      <td>{booking.startDate}</td>
+                      <td>{booking.endDate}</td>
+                      <td>{booking.checkInDate}</td>
+                      <td>{booking.checkOutDate}</td>
+                      <td>{booking.penaltyReason}</td>
+                      <td>{booking.penaltyValue}</td>
+                      <td>{booking.bookedPrice}</td>
+                      <td>{booking.paymentAmount}</td>
 
-            <th></th>
-            <th></th>
-            <th></th>
+                      <td>{booking.state}</td>
+                      <td> <button onClick={() => this.checkIn(booking)} class="btn btn-primary">Check-In</button></td>
+                      <td> <button onClick={() => this.checkOut(booking)} class="btn btn-primary">Check-Out</button></td>
+                      <td> <button onClick={() => this.cancel(booking)} class="btn btn-primary">Cancel</button></td>
+                    </tr>
+                  )
+                }
+                else {
+                  return (
+                    <>
+                    </>
+                  )
+                }
+              })}
+            </table>
+          </div>
+          <div id="menu1" class=" tab-pane fade"><br />
 
-          </tr>
-          {this.state.booking.map(booking => { 
-            if(booking.state === "CheckedIn"){
-            return (
+            <h3>On Going Bookings</h3>
+            <table className="table">
               <tr>
-                <td>{booking.id}</td>
-                <td>{booking.address}</td>
-                <td>{booking.description}</td>
-                <td>{booking.startDate}</td>
-                <td>{booking.endDate}</td>
-                <td>{booking.checkInDate}</td>
-                <td>{booking.checkOutDate}</td>
-                <td>{booking.penaltyReason}</td>
-                <td>{booking.penaltyValue}</td>
-                <td>{booking.bookedPriceWeekday}</td>
-                <td>{booking.bookedPriceWeekend}</td>
-                <td>{booking.paymentAmount}</td>
+                <th>Booking ID</th>
+                <th>Address</th>
+                <th>Description</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Check-IN</th>
+                <th>Check-Out</th>
+                <th>Penalty Reason</th>
+                <th>Penalty Amount</th>
+                <th>Booking Amount</th>
+                <th>Total Payable</th>
+                <th>Status</th>
 
-                <td>{booking.state}</td>
-                <td> <button onClick={() => this.checkIn(booking)} class="btn btn-primary">Check-In</button></td>
-                <td> <button onClick={() => this.checkOut(booking)} class="btn btn-primary">Check-Out</button></td>
-                <td> <button onClick={() => this.cancel(booking)} class="btn btn-primary">Cancel</button></td>
+                <th></th>
+                <th></th>
+                <th></th>
+
               </tr>
-            )
-          }
-          else{
-            return(
-              <>
-              </>
-            )
-          }
-          })}
-        </table>
-    </div>
-    <div id="menu2" class=" tab-pane fade"><br/>
-      
-      <h3>Cancelled Or Missed Bookings</h3>
-      <table className="table">
-          <tr>
-            <th>Booking ID</th>
-            <th>Address</th>
-            <th>Description</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Check-IN</th>
-            <th>Check-Out</th>
-            <th>Penalty Reason</th>
-            <th>Penalty Amount</th>
-            <th>Booking Amount Per weekday</th>
-            <th>Booking Amount Per weekend</th>
-            <th>Total Payable</th>
-            <th>Status</th>
+              {this.state.booking.map(booking => {
+                if (booking.state === "CheckedIn") {
+                  return (
+                    <tr>
+                      <td>{booking.id}</td>
+                      <td>{booking.address}</td>
+                      <td>{booking.description}</td>
+                      <td>{booking.startDate}</td>
+                      <td>{booking.endDate}</td>
+                      <td>{booking.checkInDate}</td>
+                      <td>{booking.checkOutDate}</td>
+                      <td>{booking.penaltyReason}</td>
+                      <td>{booking.penaltyValue}</td>
+                      <td>{booking.bookedPrice}</td>
+                      <td>{booking.paymentAmount}</td>
 
-           
+                      <td>{booking.state}</td>
+                      <td> <button onClick={() => this.checkIn(booking)} class="btn btn-primary">Check-In</button></td>
+                      <td> <button onClick={() => this.checkOut(booking)} class="btn btn-primary">Check-Out</button></td>
+                      <td> <button onClick={() => this.cancel(booking)} class="btn btn-primary">Cancel</button></td>
+                    </tr>
+                  )
+                }
+                else {
+                  return (
+                    <>
+                    </>
+                  )
+                }
+              })}
+            </table>
+          </div>
+          <div id="menu2" class=" tab-pane fade"><br />
 
-          </tr>
-          {this.state.booking.map(booking => { 
-            if(booking.state !== "Booked" && booking.state !== "CheckedIn" && booking.state !== "CheckedOut"){
-            return (
+            <h3>Cancelled Or Missed Bookings</h3>
+            <table className="table">
               <tr>
-                <td>{booking.id}</td>
-                <td>{booking.address}</td>
-                <td>{booking.description}</td>
-                <td>{booking.startDate}</td>
-                <td>{booking.endDate}</td>
-                <td>{booking.checkInDate}</td>
-                <td>{booking.checkOutDate}</td>
-                <td>{booking.penaltyReason}</td>
-                <td>{booking.penaltyValue}</td>
-                <td>{booking.bookedPriceWeekday}</td>
-                <td>{booking.bookedPriceWeekend}</td>
-                <td>{booking.paymentAmount}</td>
+                <th>Booking ID</th>
+                <th>Address</th>
+                <th>Description</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Check-IN</th>
+                <th>Check-Out</th>
+                <th>Penalty Reason</th>
+                <th>Penalty Amount</th>
+                <th>Booking Amount</th>
+                <th>Total Payable</th>
+                <th>Status</th>
 
-                <td>{booking.state}</td>
-              
+
+
               </tr>
-            )
-          }
-          else{
-            return(
-              <>
-              </>
-            )
-          }
-          })}
-        </table>
-    </div>
+              {this.state.booking.map(booking => {
+                if (booking.state !== "Booked" && booking.state !== "CheckedIn" && booking.state !== "CheckedOut") {
+                  return (
+                    <tr>
+                      <td>{booking.id}</td>
+                      <td>{booking.address}</td>
+                      <td>{booking.description}</td>
+                      <td>{booking.startDate}</td>
+                      <td>{booking.endDate}</td>
+                      <td>{booking.checkInDate}</td>
+                      <td>{booking.checkOutDate}</td>
+                      <td>{booking.penaltyReason}</td>
+                      <td>{booking.penaltyValue}</td>
+                      <td>{booking.bookedPrice}</td>
+                      <td>{booking.paymentAmount}</td>
 
-    <div id="menu3" class=" tab-pane fade"><br/>
-      
-      <h3>Completed Bookings</h3>
-      <table className="table">
-          <tr>
-            <th>Booking ID</th>
-            <th>Address</th>
-            <th>Description</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Check-IN</th>
-            <th>Check-Out</th>
-            <th>Penalty Reason</th>
-            <th>Penalty Amount</th>
-            <th>Booking Amount Per weekday</th>
-            <th>Booking Amount Per weekend</th>
-            <th>Total Payable</th>
-            <th>Status</th>
+                      <td>{booking.state}</td>
 
-          
+                    </tr>
+                  )
+                }
+                else {
+                  return (
+                    <>
+                    </>
+                  )
+                }
+              })}
+            </table>
+          </div>
 
-          </tr>
-          {this.state.booking.map(booking => { 
-            if(booking.state === "CheckedOut"){
-            return (
+          <div id="menu3" class=" tab-pane fade"><br />
+
+            <h3>Completed Bookings</h3>
+            <table className="table">
               <tr>
-                <td>{booking.id}</td>
-                <td>{booking.address}</td>
-                <td>{booking.description}</td>
-                <td>{booking.startDate}</td>
-                <td>{booking.endDate}</td>
-                <td>{booking.checkInDate}</td>
-                <td>{booking.checkOutDate}</td>
-                <td>{booking.penaltyReason}</td>
-                <td>{booking.penaltyValue}</td>
-                <td>{booking.bookedPriceWeekday}</td>
-                <td>{booking.bookedPriceWeekend}</td>
-                <td>{booking.paymentAmount}</td>
+                <th>Booking ID</th>
+                <th>Address</th>
+                <th>Description</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Check-IN</th>
+                <th>Check-Out</th>
+                <th>Penalty Reason</th>
+                <th>Penalty Amount</th>
+                <th>Booking Amount</th>
+                <th>Total Payable</th>
+                <th>Status</th>
 
-                <td>{booking.state}</td>
-              
+
+
               </tr>
-            )
-          }
-          else{
-            return(
-              <>
-              </>
-            )
-          }
-          })}
-        </table>
-    </div>
-    
+              {this.state.booking.map(booking => {
+                if (booking.state === "CheckedOut") {
+                  return (
+                    <tr>
+                      <td>{booking.id}</td>
+                      <td>{booking.address}</td>
+                      <td>{booking.description}</td>
+                      <td>{booking.startDate}</td>
+                      <td>{booking.endDate}</td>
+                      <td>{booking.checkInDate}</td>
+                      <td>{booking.checkOutDate}</td>
+                      <td>{booking.penaltyReason}</td>
+                      <td>{booking.penaltyValue}</td>
+                      <td>{booking.bookedPrice}</td>
+                      <td>{booking.paymentAmount}</td>
 
-  </div>
+                      <td>{booking.state}</td>
+
+                    </tr>
+                  )
+                }
+                else {
+                  return (
+                    <>
+                    </>
+                  )
+                }
+              })}
+            </table>
+          </div>
 
 
-        
-       
+        </div>
+
+
+
+
 
         <h4 style={{ backgroundColor: "powderblue" }}>{this.state.flag && <>{this.state.msg}</>}</h4>
       </div>
 
 
     );
+              
+    
+              
   }
 }
 
