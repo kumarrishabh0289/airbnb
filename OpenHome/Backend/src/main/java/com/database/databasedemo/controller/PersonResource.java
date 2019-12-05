@@ -62,14 +62,31 @@ public class PersonResource {
     }
 
     @GetMapping("/verifyemail/{email}")
-    @ResponseStatus(value = HttpStatus.OK)
-    public ResponseEntity<?> validatePersonWithEmail(@PathVariable String email) {
+    public Map<String, String> validatePersonWithEmail(@PathVariable String email) {
         Optional<Person> person = Optional.ofNullable(repo.findByEmail(email));
 
         if (!person.isPresent())
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new PersonNotFound("Not Present");
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        String encodedNameAsToken = "";
+        System.out.println("Password Validated");
+
+
+        encodedNameAsToken = encoder.encode(person.get().getName().concat(secretKey));
+
+
+
+
+        System.out.println(encoder.matches(person.get().getName().concat(secretKey),encodedNameAsToken));
+        HashMap<String, String> map = new HashMap<>();
+        map.put("token", encodedNameAsToken);
+        System.out.println(encodedNameAsToken);
+        map.put("name", person.get().getName());
+        map.put("role", person.get().getRole());
+        map.put("email", person.get().getEmail());
+        map.put("id", String.valueOf(person.get().getId()));
+
+        return map;
     }
 
     @GetMapping("/persons")

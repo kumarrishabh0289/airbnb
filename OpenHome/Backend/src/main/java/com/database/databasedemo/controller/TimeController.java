@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.time.LocalDate;
 
 import java.time.OffsetDateTime;
 
@@ -17,6 +18,11 @@ public class TimeController {
     @GetMapping("/admin/time")
     public OffsetDateTime getTime() {
         return timeService.getCurrentTime();
+    }
+
+    @GetMapping("/admin/date")
+    public LocalDate getDate() {
+        return timeService.getCurrentTime().minusHours(8).toLocalDate();
     }
 
     @GetMapping("/admin/time/hours")

@@ -47,15 +47,19 @@ class FrontPage extends Component {
         var utcendDate = new Date(date1.getTime() + date1.getTimezoneOffset() * 60000);
 
         //below is current date from backend
+        // console.log("this.state.currentdate",this.state.currentdate)
         var date3 = new Date((this.state.currentdate).slice(0, 10));
         var utcCurrentDate = new Date(date3.getTime() + date3.getTimezoneOffset() * 60000);
+
+        console.log("selected date",utcstartDate)
+        console.log("current date from backend",utcCurrentDate)
         var difference1 = utcstartDate - utcCurrentDate;
         var days1 = difference1/(24*3600*1000);
 
         var difference2 = utcendDate - utcCurrentDate;
         var days2 = difference2/(24*3600*1000);
 
-
+        console.log("Days1 data",days1);
 
         if(this.state.location === "")
             alert("Address is Empty");
@@ -133,7 +137,7 @@ class FrontPage extends Component {
 
     componentDidMount(){
 
-        axios.get(API_URL + `/admin/time/`)
+        axios.get(API_URL + `/admin/date/`)
         .then(response => {
             console.log("Status Code : ", response.status);
             if (response.status === 200) {
@@ -191,8 +195,8 @@ class FrontPage extends Component {
 
                                     <div class="col-sm-12 col-md-12">
                                         <br />
-                                        <div class="form-group required">
-                                            <label for="where"><h5>WHERE</h5></label>
+                                        <div class="form-group">
+                                            <label for="where"><h5>WHERE *</h5></label>
                                             <input type="text" onChange = {this.ChangeHandler} class="form-control" placeholder="Anywhere" name="location" id="location"/>
 
                                         </div>
@@ -204,8 +208,8 @@ class FrontPage extends Component {
 
                                     <div class="col-sm-6 col-md-6">
 
-                                        <div class="col-sm-8 col-md-8 required">
-                                            <label for="where"><h5>CHECK-IN</h5></label>
+                                        <div class="col-sm-8 col-md-8">
+                                            <label for="where"><h5>CHECK-IN *</h5></label>
                                             <input onChange = {this.ChangeHandler} type="date" name="startDate" id="startDate" class="form-control js-Date" />
                                             <i class="icon-calendar form-control-icon" aria-hidden="true">
                                             </i>
@@ -215,8 +219,8 @@ class FrontPage extends Component {
                                     
                                     <div class="col-sm-6 col-md-6">
 
-                                        <div class="col-sm-8 col-md-8 required">
-                                            <label for="where"><h5>CHECKOUT</h5></label>
+                                        <div class="col-sm-8 col-md-8">
+                                            <label for="where"><h5>CHECKOUT *</h5></label>
                                             <input onChange = {this.ChangeHandler} type="date" name="endDate" id="endDate" class="form-control js-Date"/>
                                         </div>
                                         
@@ -285,6 +289,7 @@ class FrontPage extends Component {
                                                     <option value="1501 to 2000">1501 to 2000</option>
                                                     <option value="1001 to 1500">2001 to 2500</option>
                                                     <option value="1501 to 2000">2501 to 3000</option>
+
                                                 </select>
                                             </div>
                                         </div>
@@ -307,7 +312,7 @@ class FrontPage extends Component {
 
                                 <div class="row" >
                                     <div class="col-sm-12 col-md-12">
-                                        <br />
+                                        
                                         <div class="form-group">
                                             <label for="where"><h5>Description</h5></label>
                                             <textarea type="noter-text-area" onChange = {this.ChangeHandler} class="form-control" placeholder="Describe the Place Here!" name="propertyDescription" id="propertyDescription" >
