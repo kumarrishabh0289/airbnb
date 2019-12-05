@@ -242,17 +242,20 @@ public class PropertyService {
         propertyRepo.save(property);
     }
 
-    // removal of the property is not working due to Primary key and Foreign Key Relationship. Look into it.
     public void removeEntireProperty(Property property) {
 
+        Property p1 = getProperty(property.getPropertyId());
+
         if(property.getPropertyDescription().equals("true")) {
-            deductfor7DaysRemovalProperty(property);
-            notDeductedRemovalProperty(property);
+            deductfor7DaysRemovalProperty(p1);
+            notDeductedRemovalProperty(p1);
         }
         else{
-            notDeductedRemovalProperty(property);
+            notDeductedRemovalProperty(p1);
         }
-        propertyRepo.delete(property);
+
+        p1.setStatus("Removed");
+        propertyRepo.save(p1);
     }
 
     public void removeProperty(int id) {

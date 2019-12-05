@@ -16,7 +16,7 @@ public class Property {
     @Column(name = "property_description", nullable = false, length = 100)
     private String propertyDescription;
 
-    public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String picture,String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage,Person owner, int weekdayPrice,int weekendPrice, boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat, boolean sun) {
+    public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String picture,String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage,Person owner, int weekdayPrice,int weekendPrice, boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat, boolean sun, String wifi, String status) {
         this.propertyDescription = propertyDescription;
         this.streetName = streetName;
         this.city = city;
@@ -37,9 +37,11 @@ public class Property {
         this.fri = fri;
         this.sat = sat;
         this.sun = sun;
+        this.wifi = wifi;
+        this.status = status;
     }
 
-    public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage, boolean parking, float parkingFee, boolean wifi, boolean laundry, String view, boolean smoking, boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat, boolean sun, String picture, Person owner) {
+    public Property(String propertyDescription, String streetName, String city, String state, int zipcode, String propertyType, String sharingType, int numberOfRooms, int totalSquareFootage, boolean parking, float parkingFee, String wifi, boolean laundry, String view, boolean smoking, boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat, boolean sun, String picture, Person owner) {
         this.propertyDescription = propertyDescription;
         this.streetName = streetName;
         this.city = city;
@@ -147,7 +149,7 @@ public class Property {
     private float parkingFee;
 
     @Column(name = "wifi", nullable = false)
-    private boolean wifi;
+    private String wifi;
 
     @Column(name="laundry")
     private boolean laundry;
@@ -196,6 +198,9 @@ public class Property {
 
     @Column(name = "weekday_price", nullable = false)
     private float weekdayPrice;
+
+    @Column(name="status")
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
@@ -310,11 +315,11 @@ public class Property {
         this.parkingFee = parkingFee;
     }
 
-    public boolean isWifi() {
+    public String isWifi() {
         return wifi;
     }
 
-    public void setWifi(boolean wifi) {
+    public void setWifi(String wifi) {
         this.wifi = wifi;
     }
 
@@ -412,6 +417,14 @@ public class Property {
 
     public void setOwner(Person owner) {
         this.owner = owner;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 
