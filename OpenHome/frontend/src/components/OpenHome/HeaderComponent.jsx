@@ -78,7 +78,7 @@ class HeaderComponent extends Component {
                 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
                     <div><img src="logo.png" height="40" width="55" alt="Logo"></img> <a href="/" className="navbar-brand">Open Home</a></div>
                     <ul className="navbar-nav">
-                        {isUserLoggedIn && <li><Link className="nav-link" to="/welcome/OpenHome">Home</Link></li>}
+                        {isUserLoggedIn && <li><Link className="nav-link" to="/welcome">Home</Link></li>}
                        
                         <li><Link className="nav-link" to="">Current Environment: {this.state.date}</Link></li>
                         <li>
