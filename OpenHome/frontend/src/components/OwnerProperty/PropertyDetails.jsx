@@ -333,22 +333,23 @@ class PropertyDetails extends Component {
                 </div>
             </div>
             <br/>
+            </div>
+              </div>
 
                       <hr></hr>
                       <button class="btn btn-danger" name="BookButton"  onClick={this.RemoveButton} >
                           <span>Previous Page</span>
-                      </button>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                      </button>&nbsp;
                       <button class="btn btn-danger" name="BookButton"  onClick={this.RemoveButton}>
                           <span>Remove Property</span>
-                      </button>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                      </button>&nbsp;
                       <button class="btn btn-danger" name="BookButton"  onClick={this.ChangeAvailability}>
                           <span>Change Availability</span>
-                      </button>
+                      </button>&nbsp;
                       <button class="btn btn-danger" name="BookButton"  onClick={this.showReservation}>
                           <span>Reservation Details</span>
                       </button>
-                  </div>
-              </div>
+               
           </div>
       </div>
       <br/>
