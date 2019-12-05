@@ -160,6 +160,9 @@ class PropertyDetails extends Component {
         }
       });
   };
+  showReservation = property => {
+    this.props.history.push(`/reservation/${this.props.match.params.propertyId}`);
+  };
 
 
   render() {
@@ -340,6 +343,9 @@ class PropertyDetails extends Component {
                       </button>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
                       <button class="btn btn-danger" name="BookButton"  onClick={this.ChangeAvailability}>
                           <span>Change Availability</span>
+                      </button>
+                      <button class="btn btn-danger" name="BookButton"  onClick={this.showReservation}>
+                          <span>Reservation Details</span>
                       </button>
                   </div>
               </div>
