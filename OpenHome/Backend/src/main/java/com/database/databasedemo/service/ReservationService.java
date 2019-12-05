@@ -335,17 +335,25 @@ public List<Reservations> getReservationsToBeCheckedOut(){
                 reservation.setPenaltyValue(penalty);
                 reservation.setPenaltyReason("Early Checkout");
 
-                if(!recevier.equals("")) {
-                    SendMail y = new SendMail();
-                    y.sendEmail("You have checked out early and your Penalty is:", recevier,
-                            "Dear Customer, \n\n Thank you for considering OpenHome Guam for your accommodation." + "\n\n" + " You have checked out early and your Penalty is:" + penalty + "\n\n " +
-                                    "Thanks and Regards, \n OpenHome Team");
+                String body = "";
+
+                if(penalty == 0){
+                    body = "Dear Customer, \n\n Thank you for considering OpenHome for your accommodation." + "\n\n" + "  We look forward to having you stay with us." + "\n\n " +
+                            "Thanks and Regards, \n OpenHome Team";
+                }else{
+                    body = "Dear Customer, \n\n Thank you for considering OpenHome for your accommodation." + "\n\n" + " You have checked out early and your Penalty is:" + penalty + "\n\n " +
+                            "Thanks and Regards, \n OpenHome Team";
                 }
 
+                if(!recevier.equals("")) {
+                    SendMail y = new SendMail();
+                    y.sendEmail("Thank you for choosing OpenHome.", recevier, body);
+                }
             } else {
                 System.out.println("Checkout can't be greater than end date");
                 return 0;
             }
+
             reservation.setStatus("Available");
             reservation.setState("CheckedOut");
             reservation.setCheckOutDate(check_out_date.plusHours(8));
@@ -353,8 +361,8 @@ public List<Reservations> getReservationsToBeCheckedOut(){
 
             if(!recevier.equals("")) {
                 SendMail y = new SendMail();
-                y.sendEmail("You have checked out early and your Penalty is:", recevier,
-                        "Dear Customer, \n\n Thank you for considering OpenHome Guam for your accommodation." + "\n\n" + "  We look forward to having you stay with us." + "\n\n " +
+                y.sendEmail("Thank you for choosing OpenHome", recevier,
+                        "Dear Customer, \n\n Thank you for considering OpenHome for your accommodation." + "\n\n" + "  We look forward to having you stay with us." + "\n\n " +
                                 "Thanks and Regards, \n OpenHome Team");
             }
 
@@ -366,7 +374,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
         }
     }
 
-    public int cancelReservationByGuest(Reservations reservation) throws ParseException {
+    public int cancelReservationByGuest(Reservations reservation) throws ParseException, MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
         OffsetDateTime cancellation_date = timeservice.getCurrentTime();
         System.out.println("offset utc date cancellation " + cancellation_date);
         LocalDate current_date = cancellation_date.toLocalDate();
@@ -416,7 +424,20 @@ public List<Reservations> getReservationsToBeCheckedOut(){
             reservation.setStatus("Available");
             reservation.setState("CancelledByGuest");
             reservationRepo.save(reservation);
+
+            String recevier = personJPARepo.findById(reservation.getGuestId()).getEmail();
+
+            String subject = "You cancelled your Reservation at OpenHome";
+
+
+            String body = "Dear Customer, \n\n You have cancelled your booking. We regret any inconvenience caused you." + "\n\n" + "  We look forward to having you stay with us." + "\n\n " +
+                    "Thanks and Regards, \n OpenHome Team";
+
+            SendMail y = new SendMail();
+            y.sendEmail(subject,recevier,body);
+
             return 1;
+
         }
         else{
             System.out.println("Can't cancel an invalid reservation");

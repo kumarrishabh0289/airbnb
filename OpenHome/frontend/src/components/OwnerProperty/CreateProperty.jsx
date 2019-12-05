@@ -132,6 +132,37 @@ class CreateProperty extends Component {
       status: "Created"
     };
     console.log(data);
+    if(this.state.street === ""){
+      alert("Street Address is Empty");
+    }
+    else if(this.state.city === ""){
+      alert("City is Empty");
+    }
+    else if(this.state.zipcode === ""){
+      alert("ZipCode is Empty");
+    }
+    else if(this.state.phone === ""){
+      alert("Phone Number is Empty");
+    }
+    else if(this.state.roomSquareFootage === ""){
+      alert("Total Square Footage is Empty");
+    }
+    else if(this.state.weekdayPrice === ""){
+      alert("Weekday Price/day is Empty");
+    }
+    else if(this.state.weekendPrice === ""){
+      alert("Weekend Price/day is Empty");
+    }
+    else if(this.state.picture === ""){
+      alert("Property Picture not added");
+    }
+    else if(this.state.propertyDescription === ""){
+      alert("Property Description is Empty");
+    }
+    else if(this.state.parkingFee === ""){
+      alert(" Parking fee per day not added");
+    }
+    else{
     axios.post(API_URL + "/property/add", data, header).then(response => {
       if (response.status === 201) {
         this.setState({ status: "Success" });
@@ -141,7 +172,8 @@ class CreateProperty extends Component {
         alert("Error in creating property");
         this.setState({ status: "Error in creating property" });
       }
-    });
+      });
+    }
   };
   componentWillMount() {}
 
