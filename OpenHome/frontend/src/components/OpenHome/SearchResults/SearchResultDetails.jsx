@@ -49,7 +49,7 @@ class SearchResultDetails extends Component {
                     var newDate2 = myDate1.setDate(myDate1.getDate() + 1);
                     myDate1 = new Date(newDate2);
                     var weekdayCnt = 0, weekendCnt = 0;
-                    while (loop <= myDate1) {
+                    while (loop < myDate1) {
                         var newDate = loop.setDate(loop.getDate() + 1);
                         loop = new Date(newDate);
 

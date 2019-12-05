@@ -34,7 +34,7 @@ class OpenHome extends Component {
               <Route path="/search/searchResult/:propertyId" component={SearchResultDetails} />
               <Route path="/login" component={LoginComponent} />
               <AuthenticatedRoute path="/bookingconfirmation" component={BookingConfirmation} />
-              <AuthenticatedRoute path="/welcome/:name" component={WelcomeComponent} />
+              <AuthenticatedRoute path="/welcome" component={WelcomeComponent} />
               <Route path="/hostdashboard/:name" component={HostDashboard} />
               <Route path="/signup" component={SignUP} />
               <Route path="/welcomeuser/:name" component={WelcomeUser} />
