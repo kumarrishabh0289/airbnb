@@ -103,19 +103,17 @@ public class SearchPropertyService {
                 }
 
                 if (!filter.getPropertyDescription().equals("")) {
-
-
                     String[] splited = filter.getPropertyDescription().split("\\s+");
-
                     for(int i=0;i<splited.length;i++){
                         predicates.add(cb.like(root.get("propertyDescription"),"%"+splited[i]+"%"));
                     }
-
                 }
 
                 if (!filter.getWifi().equals("")) {
-                    predicates.add(cb.equal(root.get("wifi"),filter.getWifi()));
+                    predicates.add(cb.equal(root.get("wifi"), filter.getWifi()));
                 }
+
+                predicates.add(cb.equal(root.get("status"), "Created"));
 
                   return cb.and(predicates.toArray(new Predicate[0]));
             }
@@ -146,7 +144,6 @@ public class SearchPropertyService {
             String[] result = str.split(" to ");
             ListIterator<Property> iter = properties.listIterator();
             while(iter.hasNext()){
-
                 Property p = iter.next();
                 float weekdayP = p.getWeekdayPrice();
                 float weekendP = p.getWeekendPrice();
@@ -158,8 +155,6 @@ public class SearchPropertyService {
                 }
             }
         }
-
-
 
         List<Reservations> finaList = new ArrayList<>();
         List<Reservations> res = new ArrayList<>();
@@ -187,7 +182,6 @@ public class SearchPropertyService {
                 }
             }
         }
-
         return properties;
     }
 

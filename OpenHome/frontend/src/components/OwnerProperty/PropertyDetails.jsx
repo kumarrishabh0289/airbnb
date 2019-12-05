@@ -337,9 +337,6 @@ class PropertyDetails extends Component {
               </div>
 
                       <hr></hr>
-                      <button class="btn btn-danger" name="BookButton"  onClick={this.RemoveButton} >
-                          <span>Previous Page</span>
-                      </button>&nbsp;
                       <button class="btn btn-danger" name="BookButton"  onClick={this.RemoveButton}>
                           <span>Remove Property</span>
                       </button>&nbsp;
