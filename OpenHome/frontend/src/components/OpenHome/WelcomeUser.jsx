@@ -149,7 +149,61 @@ class WelcomeUser extends Component {
   }
 
   cancel = (booking) => {
-    alert("Cancel for this Booking ID : " + booking.id)
+    var data = {
+      "reservationId": booking.id
+
+    };
+
+    axios.post(API_URL + `/reservation/guest/cancel`, data)
+      .then(response => {
+        let id = sessionStorage.userId;
+        axios
+          .get(API_URL + `/reservation/guest/${id}`, {
+            headers: { "Content-Type": "application/json" }
+          })
+          .then(response => {
+
+            this.setState({
+              booking: response.data
+            });
+          });
+        console.log("Status Code : ", response.status);
+        if (response.status === 200) {
+          this.setState({
+            msg: "Cancel Successful",
+            flag: true
+          })
+          console.log(response);
+          if (!response.data) {
+            // alert("No Available Properties")
+          }
+        }
+        else {
+          this.setState({
+            msg: "Unable to Cancel",
+            flag: true
+          })
+        }
+      })
+      .catch(err => {
+        let id = sessionStorage.userId;
+        axios
+          .get(API_URL + `/reservation/guest/${id}`, {
+            headers: { "Content-Type": "application/json" }
+          })
+          .then(response => {
+            console.log(response.data);
+            this.setState({
+              booking: response.data
+            });
+          });
+
+        this.setState({
+          msg: "Unable to Check-Out",
+          flag: true
+        })
+      })
+    
   };
 
   render() {
