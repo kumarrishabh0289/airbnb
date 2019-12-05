@@ -177,8 +177,11 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
         }
 
         Reservations reservation = reservationService.getReservation(reservation_id);
-        reservationService.checkOutReservation(reservation);
+        int result = reservationService.checkOutReservation(reservation);
+        if(result==1)
         return new ResponseEntity<>(HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
     @PostMapping("/reservation/guest/cancel")
@@ -189,8 +192,11 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
         int reservation_id = Integer.parseInt(reservationId);
         //String checkOutDate = payload.get(payload.keySet().toArray()[1]);
         Reservations reservation = reservationService.getReservation(reservation_id);
-        reservationService.cancelReservationByGuest(reservation);
-        return new ResponseEntity<>(HttpStatus.OK);
+        int result=reservationService.cancelReservationByGuest(reservation);
+        if(result==1)
+            return new ResponseEntity<>(HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
     @PostMapping("/reservation/host/cancel")
@@ -201,9 +207,11 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
         int reservation_id = Integer.parseInt(reservationId);
         //String checkOutDate = payload.get(payload.keySet().toArray()[1]);
         Reservations reservation = reservationService.getReservation(reservation_id);
-        reservationService.cancelReservationByHost(reservation);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        int result=reservationService.cancelReservationByHost(reservation);
+        if(result==1)
+            return new ResponseEntity<>(HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
     @GetMapping("/reservation/autocheckout")
