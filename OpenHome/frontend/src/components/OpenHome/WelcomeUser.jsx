@@ -199,7 +199,7 @@ class WelcomeUser extends Component {
           });
 
         this.setState({
-          msg: "Unable to Check-Out",
+          msg: "Unable to Cancel",
           flag: true
         })
       })
