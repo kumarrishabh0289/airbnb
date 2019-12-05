@@ -14,6 +14,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -200,32 +201,60 @@ public class SearchPropertyService {
 
         List<Property> properties1 = new ArrayList<>();
 
+        Boolean[] array = new Boolean[7];
 
-        System.out.println(properties.size());
+
         for (int i = 0; i < properties.size(); i++) {
-            Property p = properties.get(i);
 
-            if (p.isSun() && !hashSet.contains(0)) {
+            Arrays.fill(array, Boolean.TRUE);
+            Property p = properties.get(i);
+            if (hashSet.contains(0)) {
+                if(!p.isSun()){
+                   array[0] = Boolean.FALSE;
+                }
+            }
+
+            if (hashSet.contains(1)) {
+                if(!p.isMon()){
+                    array[1] = Boolean.FALSE;
+                }
+            }
+
+            if (hashSet.contains(2)) {
+                if(!p.isTue()){
+                    array[2] = Boolean.FALSE;
+                }
+            }
+            if (hashSet.contains(3)) {
+                if(!p.isWed()){
+                    array[3] = Boolean.FALSE;
+                }
+            }
+            if (hashSet.contains(4)) {
+                if(!p.isThu()){
+                    array[4] = Boolean.FALSE;
+                }
+            }
+            if (hashSet.contains(5)) {
+                if(!p.isFri()){
+                    array[5] = Boolean.FALSE;
+                }
+            }
+            if (hashSet.contains(6)) {
+                if(!p.isSat()){
+                    array[6] = Boolean.FALSE;
+                }
+            }
+
+
+
+            if(array[0] && array[1] && array[2] && array[3] && array[4] && array[5] && array[6]){
                 properties1.add(p);
             }
-            else if (p.isMon() && !hashSet.contains(1)) {
-                properties1.add(p);
-            }
-            else if (p.isTue() && !hashSet.contains(2)) {
-                properties1.add(p);
-            }
-            else if (p.isWed() && !hashSet.contains(3)) {
-                properties1.add(p);
-            }
-            else if (p.isThu() && !hashSet.contains(4)) {
-                properties1.add(p);
-            }
-            else if (p.isFri() && !hashSet.contains(5)) {
-                properties1.add(p);
-            }
-            else if (p.isSat() && !hashSet.contains(6)) {
-                properties1.add(p);
-            }
+
+            System.out.println(array.toString());
+
+            System.out.println(Arrays.toString(array));
         }
 
         return properties1;
