@@ -361,9 +361,7 @@ class WelcomeUser extends Component {
             <th>Total Payable</th>
             <th>Status</th>
 
-            <th></th>
-            <th></th>
-            <th></th>
+           
 
           </tr>
           {this.state.booking.map(booking => { 
@@ -383,9 +381,7 @@ class WelcomeUser extends Component {
                 <td>{booking.paymentAmount}</td>
 
                 <td>{booking.state}</td>
-                <td> <button onClick={() => this.checkIn(booking)} class="btn btn-primary">Check-In</button></td>
-                <td> <button onClick={() => this.checkOut(booking)} class="btn btn-primary">Check-Out</button></td>
-                <td> <button onClick={() => this.cancel(booking)} class="btn btn-primary">Cancel</button></td>
+              
               </tr>
             )
           }
@@ -417,9 +413,7 @@ class WelcomeUser extends Component {
             <th>Total Payable</th>
             <th>Status</th>
 
-            <th></th>
-            <th></th>
-            <th></th>
+          
 
           </tr>
           {this.state.booking.map(booking => { 
@@ -439,9 +433,7 @@ class WelcomeUser extends Component {
                 <td>{booking.paymentAmount}</td>
 
                 <td>{booking.state}</td>
-                <td> <button onClick={() => this.checkIn(booking)} class="btn btn-primary">Check-In</button></td>
-                <td> <button onClick={() => this.checkOut(booking)} class="btn btn-primary">Check-Out</button></td>
-                <td> <button onClick={() => this.cancel(booking)} class="btn btn-primary">Cancel</button></td>
+              
               </tr>
             )
           }
