@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
@@ -161,7 +163,7 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
     @PostMapping("/reservation/checkin")
     @ResponseStatus(value = HttpStatus.CREATED)
     //public Reservations(float bookedPrice, float bookedPriceWeekend, float bookedPriceWeekday, OffsetDateTime bookingDate, OffsetDateTime startDate, OffsetDateTime endDate, int guestId, int propertyId) {
-    public ResponseEntity<?> checkinReservation(@RequestBody Map<String, String> payload) throws ParseException {
+    public ResponseEntity<?> checkinReservation(@RequestBody Map<String, String> payload) throws ParseException, MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
 
         String reservationId = payload.get(payload.keySet().toArray()[0]);
         int reservation_id = Integer.parseInt(reservationId);
@@ -224,7 +226,7 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
     @PostMapping("/reservation/host/cancel")
     @ResponseStatus(value = HttpStatus.CREATED)
 
-    public ResponseEntity<?> cancelReservationByHost(@RequestBody Map<String, String> payload) throws ParseException {
+    public ResponseEntity<?> cancelReservationByHost(@RequestBody Map<String, String> payload) throws ParseException, MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
         String reservationId = payload.get(payload.keySet().toArray()[0]);
         int reservation_id = Integer.parseInt(reservationId);
         //String checkOutDate = payload.get(payload.keySet().toArray()[1]);

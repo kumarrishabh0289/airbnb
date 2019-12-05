@@ -3,6 +3,7 @@ package com.database.databasedemo.service;
 import com.database.databasedemo.entity.Person;
 import com.database.databasedemo.entity.Property;
 import com.database.databasedemo.entity.Reservations;
+import com.database.databasedemo.repository.PersonJPARepo;
 import com.database.databasedemo.repository.PersonSpringDataRepo;
 import com.database.databasedemo.repository.PropertyRepo;
 import com.database.databasedemo.repository.ReservationRepo;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,6 +26,9 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import com.database.databasedemo.mail.SendMail;
+
+import javax.mail.MessagingException;
 
 @Service
 @Transactional
@@ -43,6 +48,8 @@ public class ReservationService {
     @Autowired
     TimeService timeservice;
 
+    @Autowired
+    PersonJPARepo personJPARepo;
 
     public Reservations getReservation(int id) {
         return reservationRepo.findById(id).orElse(null);
@@ -135,7 +142,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
         reservationRepo.save(reservation);
     }
 
-    public int checkInReservation(Reservations reservation) throws ParseException {
+    public int checkInReservation(Reservations reservation) throws ParseException, MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
         OffsetDateTime start_date = reservation.getStartDate();
         OffsetDateTime end_date = reservation.getEndDate();
         OffsetDateTime check_in_date = timeservice.getCurrentTime();
@@ -213,6 +220,16 @@ public List<Reservations> getReservationsToBeCheckedOut(){
 
             reservation.setCheckInDate(check_in_date.plusHours(8));
             reservationRepo.save(reservation);
+
+            String recevier = personJPARepo.findById(reservation.getGuestId()).getEmail();
+
+            if(!recevier.equals("")) {
+                SendMail y = new SendMail();
+                y.sendEmail("You have checked in to one of your reservations in Open Home", recevier,
+                        "You have checked in to one of your reservations in Open Home.\n\n For more details check the dashboard\n\n " +
+                                "Thanks and Regards, \n OpenHome Team");
+            }
+
             return 1;
         }else{
             System.out.println("Not a booked property");
@@ -221,8 +238,11 @@ public List<Reservations> getReservationsToBeCheckedOut(){
 
     }
 
-    public int checkOutReservation(Reservations reservation) throws ParseException {
+    public int checkOutReservation(Reservations reservation) throws ParseException, MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
+        String recevier = personJPARepo.findById(reservation.getGuestId()).getEmail();
+        
         if(reservation.getStatus().equals("Payment Processed")) {
+
             OffsetDateTime check_out_date = timeservice.getCurrentTime();
             System.out.println("offset utc date checkout " + check_out_date);
             LocalDate current_date = check_out_date.toLocalDate();
@@ -314,6 +334,14 @@ public List<Reservations> getReservationsToBeCheckedOut(){
                 System.out.println(penalty);
                 reservation.setPenaltyValue(penalty);
                 reservation.setPenaltyReason("Early Checkout");
+
+                if(!recevier.equals("")) {
+                    SendMail y = new SendMail();
+                    y.sendEmail("You have checked out early and your Penalty is:", recevier,
+                            "Dear Customer, \n\n Thank you for considering OpenHome Guam for your accommodation." + "\n\n" + " You have checked out early and your Penalty is:" + penalty + "\n\n " +
+                                    "Thanks and Regards, \n OpenHome Team");
+                }
+
             } else {
                 System.out.println("Checkout can't be greater than end date");
                 return 0;
@@ -322,6 +350,14 @@ public List<Reservations> getReservationsToBeCheckedOut(){
             reservation.setState("CheckedOut");
             reservation.setCheckOutDate(check_out_date.plusHours(8));
             reservationRepo.save(reservation);
+
+            if(!recevier.equals("")) {
+                SendMail y = new SendMail();
+                y.sendEmail("You have checked out early and your Penalty is:", recevier,
+                        "Dear Customer, \n\n Thank you for considering OpenHome Guam for your accommodation." + "\n\n" + "  We look forward to having you stay with us." + "\n\n " +
+                                "Thanks and Regards, \n OpenHome Team");
+            }
+
             return 1;
         }
         else{
@@ -388,7 +424,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
         }
     }
 
-    public int cancelReservationByHost(Reservations reservation) throws ParseException {
+    public int cancelReservationByHost(Reservations reservation) throws ParseException, MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
         OffsetDateTime cancellation_date = timeservice.getCurrentTime();
         System.out.println("offset utc date cancellation " + cancellation_date);
         LocalDate current_date = cancellation_date.toLocalDate();
@@ -462,11 +498,24 @@ public List<Reservations> getReservationsToBeCheckedOut(){
             reservation.setStatus("Available");
             reservation.setState("CancelledByHost");
             reservationRepo.save(reservation);
+
+            String recevier = personJPARepo.findById(reservation.getGuestId()).getEmail();
+
+            String subject = "Your Reservation got Cancelled at OpenHome";
+
+            String body = "We are really sorry to inform you that your booking got cancelled due to unavailability of the place. \n\n We regret any inconvenience this may cause you, even though We have tried my best to inform everyone as soon as possible. " +
+                    "\n\n We appreciate your understanding. \n\n  \"Thanks and Regards, \\n OpenHome Team\");";
+
+            SendMail y = new SendMail();
+            y.sendEmail(subject,recevier,body);
+
             return 1;
         }
         else{
             return 0;
         }
+
+
 
     }
 
