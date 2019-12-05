@@ -127,12 +127,12 @@ public class ReservationController {
 public List<Reservations> getGuestReservations(@PathVariable int id) {
     return reservationService.getGuestReservations(id);
 }
-    @GetMapping("/reservation/billing/guest")
+    @PostMapping("/reservation/billing/guest")
     public List<Reservations> getGuestReservationsByMonthYear(@RequestBody Map<String, String> payload) throws ParseException {
         System.out.println("payload"+payload);
         String guestId = (String)payload.get("guestId");
         int guest_id=Integer.parseInt(guestId);
-        String month =(String)payload.get("month");
+        String month =(String)payload.get("month").toUpperCase();
         String year =(String)payload.get("year");
         int year_value=Integer.parseInt(year);
         return reservationService.getGuestReservationsByMonthYear(guest_id,month,year_value);
@@ -147,12 +147,12 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
         return reservationService.getHostReservations(id);
     }
 
-    @GetMapping("/reservation/billing/host")
+    @PostMapping("/reservation/billing/host")
     public List<Reservations> getHostReservationsByMonthYear(@RequestBody Map<String, String> payload) throws ParseException {
         System.out.println("payload"+payload);
         String hostId = (String)payload.get("hostId");
         int hostid=Integer.parseInt(hostId);
-        String month =(String)payload.get("month");
+        String month =(String)payload.get("month").toUpperCase();
         String year =(String)payload.get("year");
         int year_value=Integer.parseInt(year);
         return reservationService.getHostReservationsByMonthYear(hostid,month,year_value);
