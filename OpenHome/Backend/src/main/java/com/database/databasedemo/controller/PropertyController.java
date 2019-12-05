@@ -75,7 +75,7 @@ public class PropertyController {
 
     @PostMapping("/property/availability")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseEntity<?> changeAvailaibility(@RequestBody Property property) {
+    public ResponseEntity<?> changeAvailaibility(@RequestBody Property property) throws MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
 
         propertyService.updateProperty(property);
         return new ResponseEntity<>(HttpStatus.CREATED);

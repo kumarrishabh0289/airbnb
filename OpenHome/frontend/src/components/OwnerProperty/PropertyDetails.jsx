@@ -18,7 +18,9 @@ class PropertyDetails extends Component {
       fri: false,
       sat: false,
       agree: false,
-      changed: false
+      changed: false,
+      weekdayp: '',
+      weekendp :''
     };
   }
 
@@ -31,7 +33,7 @@ class PropertyDetails extends Component {
 
   sunCheckboxHandler = () => {
     this.setState({
-      sun: this.state.sun
+      sun: !this.state.sun
     });
   };
 
@@ -96,6 +98,8 @@ class PropertyDetails extends Component {
           fri : this.state.properties.fri,
           sat : this.state.properties.sat,
           sun : this.state.properties.sun,
+          weekdayp: this.state.properties.weekdayPrice,
+          weekendp: this.state.properties.weekendPrice,
         });
        // console.log("properties",this.state.properties)
       });
@@ -110,6 +114,7 @@ class PropertyDetails extends Component {
     else
       propertyDescription="false"
 
+
     var data ={
         propertyId:this.props.match.params.propertyId,
         mon:this.state.mon,
@@ -119,8 +124,11 @@ class PropertyDetails extends Component {
         fri:false,
         sat:this.state.sat,
         sun:this.state.sun,
+        weekdayPrice:this.state.weekdayp,
+        weekendPrice:this.state.weekdayp,
         propertyDescription:propertyDescription
     }
+
     var header = { "Content-Type": "application/JSON" };
     console.log("Data",data);
     axios.post(API_URL + "/property/availability", data, header).then(response => {
@@ -218,8 +226,9 @@ class PropertyDetails extends Component {
                             onChange={this.onChange.bind(this)} 
                             defaultValue={this.state.properties.weekdayPrice}
                               type="text" 
+                              id="weekdayp"
                               class="form-control" 
-                              name="Dollar" 
+                              name="weekdayp" 
                               placeholder="Dollar" 
                             /> <b>per weekday night</b>
                         </div>
@@ -228,8 +237,9 @@ class PropertyDetails extends Component {
                             onChange={this.onChange.bind(this)} 
                             defaultValue={this.state.properties.weekendPrice}
                               type="text" 
+                              id="weekendp"
                               class="form-control" 
-                              name="Dollar" 
+                              name="weekendp" 
                               placeholder="Dollar" 
                             /> <b>per weekend night</b>
                         </div>

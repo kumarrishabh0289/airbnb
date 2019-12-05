@@ -76,10 +76,10 @@ public class PropertyService {
 
 
 
-        Property p1 = getProperty(property.getPropertyId());
-
-        System.out.println("fri"+ p1.isFri());
-        System.out.println("description"+ property.getPropertyDescription());
+         Property p1 = getProperty(property.getPropertyId());
+//
+//        System.out.println("fri"+ p1.isFri());
+//        System.out.println("description"+ property.getPropertyDescription());
         if(property.getPropertyDescription().equals("true")) {
             if (p1.isMon() == true && property.isMon() == false) {
                 deductfor7Days(property, "MONDAY");
@@ -155,7 +155,7 @@ public class PropertyService {
         }
     }
 
-    public void deductfor7Days(Property property, String day) {
+    public void deductfor7Days(Property property, String day) throws MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
 
         System.out.println("Get day of a week");
         OffsetDateTime nextSevenDate = timeService.getCurrentTime().plusDays(7);
@@ -166,8 +166,8 @@ public class PropertyService {
             System.out.println("Get day of a week"+date.getDayOfWeek());
             if(day.equals(date.getDayOfWeek().toString())) {
                 res = dateComparision(date, property.getPropertyId());
-                System.out.println(date.getDayOfWeek());
-                System.out.println(res);
+//                System.out.println(date.getDayOfWeek());
+//                System.out.println(res);
             }
             if(res.size()>0)
                 finaList.addAll(res);
@@ -180,10 +180,20 @@ public class PropertyService {
             reservations.setPenaltyReason("Penalty Paid by Host");
             reservations.setStatus("Available");
             reservationRepo.save(reservations);
+
+            String receiver = personJPARepo.findById(reservations.getGuestId()).getEmail();
+
+            if(!receiver.equals("")) {
+                SendMail y = new SendMail();
+                y.sendEmail("Your Booking got Cancelled in Open Home", receiver,
+                        "Dear Customer, \n\n Your Booking got Cancelled in Open Home\n\n For more details check your dashboard\n\n " +
+                                "Thanks and Regards, \n OpenHome Team");
+            }
+
         }
     }
 
-    public void notDeducted(Property property, String day) {
+    public void notDeducted(Property property, String day) throws MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
 
         OffsetDateTime nextSevenDate = timeService.getCurrentTime().plusDays(7);
         OffsetDateTime nextEntireYear = timeService.getCurrentTime().plusDays(365);
@@ -203,11 +213,20 @@ public class PropertyService {
             Reservations reservations = reservationService.getReservation((int)finaList.get(i).getId());
             reservations.setStatus("Available");
             reservationRepo.save(reservations);
+
+            String receiver = personJPARepo.findById(reservations.getGuestId()).getEmail();
+
+            if(!receiver.equals("")) {
+                SendMail y = new SendMail();
+                y.sendEmail("Your Booking got Cancelled in Open Home", receiver,
+                        "Dear Customer, \n\n Your Booking got Cancelled in Open Home\n\n For more details check your dashboard\n\n " +
+                                "Thanks and Regards, \n OpenHome Team");
+            }
         }
 
     }
 
-    public void deductfor7DaysRemovalProperty(Property property) {
+    public void deductfor7DaysRemovalProperty(Property property) throws MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
 
         System.out.println("Get day of a week");
         OffsetDateTime nextSevenDate = timeService.getCurrentTime().plusDays(7);
@@ -215,7 +234,7 @@ public class PropertyService {
         List<Reservations> res = new ArrayList<>();
         for (OffsetDateTime date = timeService.getCurrentTime(); date.compareTo(nextSevenDate) <= 0; date = date.plusHours(24)) {
 
-            System.out.println("Get day of a week"+date.getDayOfWeek());
+           // System.out.println("Get day of a week"+date.getDayOfWeek());
 
             res = dateComparision(date, property.getPropertyId());
 
@@ -229,12 +248,22 @@ public class PropertyService {
             reservations.setPenaltyValue((float)penaltyPrice);
             reservations.setPenaltyReason("Penalty Paid by Host");
             reservations.setPropertyId(0);
-            reservations.setStatus("Cancelled due to Removal of Property");
+           // reservations.setStatus("Cancelled due to Removal of Property");
+            reservations.setStatus("Available");
             reservationRepo.save(reservations);
+
+            String receiver = personJPARepo.findById(reservations.getGuestId()).getEmail();
+
+            if(!receiver.equals("")) {
+                SendMail y = new SendMail();
+                y.sendEmail("Your Booking got Cancelled in Open Home", receiver,
+                        "Dear Customer, \n\n Your Booking got Cancelled in Open Home\n\n For more details check your dashboard\n\n " +
+                                "Thanks and Regards, \n OpenHome Team");
+            }
         }
     }
 
-    public void notDeductedRemovalProperty(Property property) {
+    public void notDeductedRemovalProperty(Property property) throws MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
 
         OffsetDateTime nextSevenDate = timeService.getCurrentTime().plusDays(7);
         OffsetDateTime nextEntireYear = timeService.getCurrentTime().plusDays(365);
@@ -249,8 +278,19 @@ public class PropertyService {
 
         for(int i=0;i<finaList.size();i++){
             Reservations reservations = reservationService.getReservation((int)finaList.get(i).getId());
-            reservations.setStatus("Cancelled due to Removal of Property");
+        //    reservations.setStatus("Cancelled due to Removal of Property");
+            reservations.setStatus("Available");
             reservationRepo.save(reservations);
+
+            String receiver = personJPARepo.findById(reservations.getGuestId()).getEmail();
+
+            if(!receiver.equals("")) {
+                SendMail y = new SendMail();
+                y.sendEmail("Your Booking got Cancelled in Open Home", receiver,
+                        "Dear Customer, \n\n Your Booking got Cancelled in Open Home\n\n For more details check your dashboard\n\n " +
+                                "Thanks and Regards, \n OpenHome Team");
+            }
+
         }
 
     }
