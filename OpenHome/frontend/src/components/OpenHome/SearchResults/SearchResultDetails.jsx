@@ -220,7 +220,7 @@ render() {
                                     <span>Previous Page</span>
                                 </button>
                                 &nbsp;
-                                    {!(sessionStorage.getItem("authenticatedUser") === null) && <button class="btn btn-danger" name="BookButton" onClick={this.BookButton} > <span>Book Property</span></button>}
+                                    {(!(sessionStorage.getItem("authenticatedUser") === null) && (sessionStorage.getItem("userRole") === "user")) && <button class="btn btn-danger" name="BookButton" onClick={this.BookButton} > <span>Book Property</span></button>}
                                 {(sessionStorage.getItem("authenticatedUser") === null) && <div><Link to="/login">Login</Link> to Continue Booking....</div>}
                             </div>
                         </div>

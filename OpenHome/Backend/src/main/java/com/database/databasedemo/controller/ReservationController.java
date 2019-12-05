@@ -55,8 +55,6 @@ public class ReservationController {
         System.out.println("payload"+payload);
         String bookedPrice = (String)payload.get("bookedPrice");
         int booked_price=Integer.parseInt(bookedPrice);
-
-
         String bookedPriceWeekend = (String)payload.get("bookedPriceWeekend");//=payload.get(payload.keySet().toArray()[1]);
         int booked_price_weekend=Integer.parseInt(bookedPriceWeekend);
 
@@ -129,6 +127,11 @@ public class ReservationController {
 public List<Reservations> getGuestReservations(@PathVariable int id) {
     return reservationService.getGuestReservations(id);
 }
+
+    @GetMapping("/reservation/property/{id}")
+    public List<Reservations> getReservationProperties(@PathVariable int id) {
+        return reservationService.getReservationProperties(id);
+    }
 
     @GetMapping("/reservation/host/{id}")
     public List<Reservations> getHostReservations(@PathVariable int id) {
