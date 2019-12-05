@@ -2,7 +2,7 @@ import React, { Component } from "react";
 // import { Link } from "react-router-dom";
 import { API_URL } from "../../Constants";
 import axios from "axios";
-class WelcomeUser extends Component {
+class PropertyReservationDetails extends Component {
   constructor(props) {
     super(props);
 
@@ -20,9 +20,9 @@ class WelcomeUser extends Component {
     });
 
 
-    let id = sessionStorage.userId;
+    let id = this.props.match.params.propertyId;
     axios
-      .get(API_URL + `/reservation/guest/${id}`, {
+      .get(API_URL + `/reservation/property/${id}`, {
         headers: { "Content-Type": "application/json" }
       })
       .then(response => {
@@ -33,18 +33,18 @@ class WelcomeUser extends Component {
       });
   }
 
-  checkIn = (booking) => {
+  cancelBooking = (booking) => {
 
     var data = {
       "reservationId": booking.id
 
     };
 
-    axios.post(API_URL + `/reservation/checkin`, data)
+    axios.post(API_URL + `/reservation/host/cancel`, data)
       .then(response => {
-        let id = sessionStorage.userId;
+        let id = this.props.match.params.propertyId;
         axios
-          .get(API_URL + `/reservation/guest/${id}`, {
+          .get(API_URL + `/reservation/property/${id}`, {
             headers: { "Content-Type": "application/json" }
           })
           .then(response => {
@@ -56,7 +56,7 @@ class WelcomeUser extends Component {
         console.log("Status Code : ", response.status);
         if (response.status === 200) {
           this.setState({
-            msg: "Check-in Successful",
+            msg: "Cancel Successful",
             flag: true
           })
           console.log(response);
@@ -66,7 +66,7 @@ class WelcomeUser extends Component {
         }
         else {
           this.setState({
-            msg: "Unable to Check-in",
+            msg: "Unable to Cancel",
             flag: true
           })
         }
@@ -74,7 +74,7 @@ class WelcomeUser extends Component {
       .catch(err => {
         let id = sessionStorage.userId;
         axios
-          .get(API_URL + `/reservation/guest/${id}`, {
+          .get(API_URL + `/reservation/property/${id}`, {
             headers: { "Content-Type": "application/json" }
           })
           .then(response => {
@@ -85,79 +85,19 @@ class WelcomeUser extends Component {
           });
 
         this.setState({
-          msg: "Unable to Check-in",
+          msg: "Unable to Cancel",
           flag: true
         })
       })
   }
 
-  checkOut = (booking) => {
-    var data = {
-      "reservationId": booking.id
-
-    };
-
-    axios.post(API_URL + `/reservation/checkout`, data)
-      .then(response => {
-        let id = sessionStorage.userId;
-        axios
-          .get(API_URL + `/reservation/guest/${id}`, {
-            headers: { "Content-Type": "application/json" }
-          })
-          .then(response => {
-
-            this.setState({
-              booking: response.data
-            });
-          });
-        console.log("Status Code : ", response.status);
-        if (response.status === 200) {
-          this.setState({
-            msg: "Check-Out Successful",
-            flag: true
-          })
-          console.log(response);
-          if (!response.data) {
-            // alert("No Available Properties")
-          }
-        }
-        else {
-          this.setState({
-            msg: "Unable to Check-Out",
-            flag: true
-          })
-        }
-      })
-      .catch(err => {
-        let id = sessionStorage.userId;
-        axios
-          .get(API_URL + `/reservation/guest/${id}`, {
-            headers: { "Content-Type": "application/json" }
-          })
-          .then(response => {
-            console.log(response.data);
-            this.setState({
-              booking: response.data
-            });
-          });
-
-        this.setState({
-          msg: "Unable to Check-Out",
-          flag: true
-        })
-      })
-  }
-
-  cancel = (booking) => {
-    alert("Cancel for this Booking ID : " + booking.id)
-  };
-
+  
   render() {
     return (
       <div style={{ backgroundColor: "white", opacity: 1, filter: "Alpha(opacity=100)", borderRadius: '10px' }}>
 
         <br />
-        <h2>Openhome User Dashboard</h2>
+    <h2>Openhome Host Dashboard for reservations of Property {this.props.match.params.propertyId}</h2>
         <br />
         <h4>Welcome {this.props.match.params.name}</h4>
 
@@ -219,9 +159,8 @@ class WelcomeUser extends Component {
                 <td>{booking.paymentAmount}</td>
 
                 <td>{booking.state}</td>
-                <td> <button onClick={() => this.checkIn(booking)} class="btn btn-primary">Check-In</button></td>
-                <td> <button onClick={() => this.checkOut(booking)} class="btn btn-primary">Check-Out</button></td>
-                <td> <button onClick={() => this.cancel(booking)} class="btn btn-primary">Cancel</button></td>
+                
+                <td> <button onClick={() => this.cancelBooking(booking)} class="btn btn-primary">Cancel</button></td>
               </tr>
             )
           }
@@ -274,9 +213,8 @@ class WelcomeUser extends Component {
                 <td>{booking.paymentAmount}</td>
 
                 <td>{booking.state}</td>
-                <td> <button onClick={() => this.checkIn(booking)} class="btn btn-primary">Check-In</button></td>
-                <td> <button onClick={() => this.checkOut(booking)} class="btn btn-primary">Check-Out</button></td>
-                <td> <button onClick={() => this.cancel(booking)} class="btn btn-primary">Cancel</button></td>
+                
+                <td> <button onClick={() => this.cancelBooking(booking)} class="btn btn-primary">Cancel</button></td>
               </tr>
             )
           }
@@ -329,9 +267,8 @@ class WelcomeUser extends Component {
                 <td>{booking.paymentAmount}</td>
 
                 <td>{booking.state}</td>
-                <td> <button onClick={() => this.checkIn(booking)} class="btn btn-primary">Check-In</button></td>
-                <td> <button onClick={() => this.checkOut(booking)} class="btn btn-primary">Check-Out</button></td>
-                <td> <button onClick={() => this.cancel(booking)} class="btn btn-primary">Cancel</button></td>
+                
+                <td> <button onClick={() => this.cancelBooking(booking)} class="btn btn-primary">Cancel</button></td>
               </tr>
             )
           }
@@ -385,9 +322,8 @@ class WelcomeUser extends Component {
                 <td>{booking.paymentAmount}</td>
 
                 <td>{booking.state}</td>
-                <td> <button onClick={() => this.checkIn(booking)} class="btn btn-primary">Check-In</button></td>
-                <td> <button onClick={() => this.checkOut(booking)} class="btn btn-primary">Check-Out</button></td>
-                <td> <button onClick={() => this.cancel(booking)} class="btn btn-primary">Cancel</button></td>
+               
+                <td> <button onClick={() => this.cancelBooking(booking)} class="btn btn-primary">Cancel</button></td>
               </tr>
             )
           }
@@ -416,4 +352,4 @@ class WelcomeUser extends Component {
   }
 }
 
-export default WelcomeUser;
+export default PropertyReservationDetails;

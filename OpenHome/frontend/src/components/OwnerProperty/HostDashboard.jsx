@@ -13,7 +13,7 @@ class HostDashboard extends Component {
   }
 
   componentDidMount() {
-    let id = 5;
+    let id = sessionStorage.userId;
     axios
       .get(API_URL + `/property/owner/${id}`, {
         headers: { "Content-Type": "application/json" }
