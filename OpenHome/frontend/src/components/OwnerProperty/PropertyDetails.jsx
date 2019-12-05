@@ -219,8 +219,8 @@ class PropertyDetails extends Component {
                             defaultValue={this.state.properties.weekdayPrice}
                               type="text" 
                               class="form-control" 
-                              name="Doller" 
-                              placeholder="Doller" 
+                              name="Dollar" 
+                              placeholder="Dollar" 
                             /> <b>per weekday night</b>
                         </div>
                         <div style={{width: '30%'}} class="form-group">
@@ -229,8 +229,8 @@ class PropertyDetails extends Component {
                             defaultValue={this.state.properties.weekendPrice}
                               type="text" 
                               class="form-control" 
-                              name="Doller" 
-                              placeholder="Doller" 
+                              name="Dollar" 
+                              placeholder="Dollar" 
                             /> <b>per weekend night</b>
                         </div>
 
@@ -337,9 +337,6 @@ class PropertyDetails extends Component {
               </div>
 
                       <hr></hr>
-                      <button class="btn btn-danger" name="BookButton"  onClick={this.RemoveButton} >
-                          <span>Previous Page</span>
-                      </button>&nbsp;
                       <button class="btn btn-danger" name="BookButton"  onClick={this.RemoveButton}>
                           <span>Remove Property</span>
                       </button>&nbsp;

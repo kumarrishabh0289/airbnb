@@ -47,15 +47,19 @@ class FrontPage extends Component {
         var utcendDate = new Date(date1.getTime() + date1.getTimezoneOffset() * 60000);
 
         //below is current date from backend
+        // console.log("this.state.currentdate",this.state.currentdate)
         var date3 = new Date((this.state.currentdate).slice(0, 10));
         var utcCurrentDate = new Date(date3.getTime() + date3.getTimezoneOffset() * 60000);
+
+        console.log("selected date",utcstartDate)
+        console.log("current date from backend",utcCurrentDate)
         var difference1 = utcstartDate - utcCurrentDate;
         var days1 = difference1/(24*3600*1000);
 
         var difference2 = utcendDate - utcCurrentDate;
         var days2 = difference2/(24*3600*1000);
 
-
+        console.log("Days1 data",days1);
 
         if(this.state.location === "")
             alert("Address is Empty");
@@ -73,7 +77,7 @@ class FrontPage extends Component {
             alert("You can't book for more than 14 days. Please try adjusting your search by changing your dates.");
         else{
 
-            const data = {
+             const data = {
                 city : this.state.location,
                 endDate : this.state.endDate,
                 startDate : this.state.startDate,
@@ -83,6 +87,7 @@ class FrontPage extends Component {
                 wifi : this.state.wifi,
                 priceRange : this.state.priceRange
             }
+        console.log("data",data);
             localStorage.setItem('product_details', JSON.stringify(data));
            
             axios.post( API_URL + `/search/property`,data)
@@ -133,7 +138,7 @@ class FrontPage extends Component {
 
     componentDidMount(){
 
-        axios.get(API_URL + `/admin/time/`)
+        axios.get(API_URL + `/admin/date/`)
         .then(response => {
             console.log("Status Code : ", response.status);
             if (response.status === 200) {
@@ -235,7 +240,7 @@ class FrontPage extends Component {
                                                 <select class="form-control" value={this.state.value} onChange = {this.handleChange} >
                                                     <option value="">Select</option>
                                                     <option value="Full">Full</option>
-                                                    <option value="Partial">Partial</option>
+                                                    <option value="Private">Private</option>
                                                 </select>
                                                 
                                             </div>
@@ -278,10 +283,14 @@ class FrontPage extends Component {
                                             <div class="form-group">
                                                 <select class="form-control" value={this.state.value} onChange = {this.handleChangePricerange}>
                                                     <option value="">Select</option>
-                                                    <option value="1 to 100"> 1 to 100</option>
-                                                    <option value="101 to 1000"> 101 to 1000</option>
-                                                    <option value="1001 to 2000">1001 to 2000</option>
-                                                    <option value="2001 to 3000">2001 to 3000</option>
+                                                    <option value="1 to 100">1 to 100</option>
+                                                    <option value="101 to 1000">101 to 500</option>
+                                                    <option value="501 to 1000">501 to 1000</option>
+                                                    <option value="1001 to 1500">1001 to 1500</option>
+                                                    <option value="1501 to 2000">1501 to 2000</option>
+                                                    <option value="1001 to 1500">2001 to 2500</option>
+                                                    <option value="1501 to 2000">2501 to 3000</option>
+
                                                 </select>
                                             </div>
                                         </div>
@@ -293,8 +302,8 @@ class FrontPage extends Component {
                                             <div class="form-group">
                                                 <select class="form-control" value={this.state.value} onChange = {this.handleChangeWifi}>
                                                     <option value="">Select</option>
-                                                    <option value="true">Yes</option>
-                                                    <option value="false">No</option>
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
                                                 </select>
                                             </div>
                                         </div>

@@ -168,6 +168,8 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
         Optional<Reservations> r = reservationRepo.findById(reservation_id);
         if (!r.isPresent())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+
         //String checkInDate = payload.get(payload.keySet().toArray()[1]);
         Reservations reservation = reservationService.getReservation(reservation_id);
         int result = reservationService.checkInReservation(reservation);

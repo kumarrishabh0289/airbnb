@@ -113,7 +113,11 @@ public class SearchPropertyService {
 
                 }
 
-                predicates.add(cb.equal(root.get("wifi"),filter.getWifi()));
+                if (!filter.getWifi().equals("")) {
+                    predicates.add(cb.equal(root.get("wifi"), filter.getWifi()));
+                }
+
+                predicates.add(cb.equal(root.get("status"), "Created"));
 
                   return cb.and(predicates.toArray(new Predicate[0]));
             }
@@ -127,8 +131,10 @@ public class SearchPropertyService {
         int weekDcntr = 0;
         int weekEcntr = 0;
         OffsetDateTime now1 = OffsetDateTime.now(ZoneOffset.UTC);
-
+        HashSet<Integer> hashSet= new HashSet<>();
         for (Date date = start.getTime(); start.before(end); start.add(Calendar.DATE, 1), date = start.getTime()) {
+
+            hashSet.add(date.getDay());
             if(date.getDay() == 0 || date.getDay() == 6) {
                 weekEcntr++;
             }
@@ -136,8 +142,9 @@ public class SearchPropertyService {
             if(date.getDay() == 1 || date.getDay() == 2 || date.getDay() == 3 || date.getDay() == 4 || date.getDay() == 5) {
                 weekDcntr++;
             }
-        }
+        }   
 
+        System.out.println("Hashset"+hashSet);
         if(!filter.getPriceRange().equals(""))
         {
             String str = filter.getPriceRange();

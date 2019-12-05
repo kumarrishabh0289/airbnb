@@ -52,6 +52,8 @@ class SearchResultDetails extends Component {
                     while (loop < myDate1) {
                         var newDate = loop.setDate(loop.getDate() + 1);
                         loop = new Date(newDate);
+                        console.log("Date of loop ",loop);
+                        console.log("Day of loop ",loop.getDay());
 
                         if (loop.getDay() === 6 || loop.getDay() === 0)
                             weekendCnt++;
@@ -214,7 +216,8 @@ render() {
                                 <p class="info"> <b> Sharing Type : </b> {this.state.responseData.sharingType} </p>
                                 <p class="info">  <b>Total Square Footage :</b> {this.state.responseData.totalSquareFootage}</p>
                                 <p class="info">  <b>Number Of Rooms :</b> {this.state.responseData.numberOfRooms}</p>
-                                <p class="price">$ {this.state.bookingPrice} per night</p>
+                                <p class="price"> ${this.state.responseData.weekendPrice} per  weekend night</p>
+                                <p class="price"> ${this.state.responseData.weekdayPrice} per  weekday night</p>
                                 <hr />
                                 <button class="btn btn-danger" name="BookButton" onClick={this.SearchButton} >
                                     <span>Previous Page</span>
