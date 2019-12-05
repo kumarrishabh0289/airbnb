@@ -3,6 +3,8 @@ package com.database.databasedemo.controller;
 import com.database.databasedemo.entity.Person;
 import com.database.databasedemo.entity.Property;
 import com.database.databasedemo.entity.Reservations;
+import com.database.databasedemo.mail.SendMail;
+import com.database.databasedemo.repository.PersonJPARepo;
 import com.database.databasedemo.repository.ReservationRepo;
 import com.database.databasedemo.service.PropertyService;
 import com.database.databasedemo.service.ReservationService;
@@ -39,20 +41,24 @@ public class ReservationController {
     @Autowired
     TimeService timeService;
 
+    @Autowired
+    PersonJPARepo personJPARepo;
+
     @PostMapping("/reservation/add")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseEntity<?> createReservation(@RequestBody Reservations reservation) {
+    public ResponseEntity<?> createReservation(@RequestBody Reservations reservation) throws MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
         int propertyId=reservation.getPropertyId();
         Property property=propertyService.getProperty(propertyId);
         property.addReservation(reservation);
         reservationRepo.save(reservation);
+
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/reservation/new")
     @ResponseStatus(value = HttpStatus.CREATED)
     //public Reservations(float bookedPrice, float bookedPriceWeekend, float bookedPriceWeekday, OffsetDateTime bookingDate, OffsetDateTime startDate, OffsetDateTime endDate, int guestId, int propertyId) {
-    public ResponseEntity<?> newReservation(@RequestBody Map<String, String> payload) throws ParseException {
+    public ResponseEntity<?> newReservation(@RequestBody Map<String, String> payload) throws ParseException, MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
 
         System.out.println("payload"+payload);
         String bookedPrice = (String)payload.get("bookedPrice");
@@ -111,6 +117,17 @@ public class ReservationController {
         reservation.setState("Booked");
         property.addReservation(reservation);
         reservationRepo.save(reservation);
+
+        String recevier = personJPARepo.findById(reservation.getGuestId()).getEmail();
+
+        if(!recevier.equals("")) {
+            System.out.println("mailsent");
+            SendMail y = new SendMail();
+            y.sendEmail("You have successfully booked your home at Open Home.", recevier,
+                    "You have successfully booked your home at Open Home. Thank you for considering OpenHome\n\n For more details check the dashboard.\n\n " +
+                            "Thanks and Regards, \n OpenHome Team");
+        }
+
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -186,7 +203,7 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
 
     @PostMapping("/reservation/checkout")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseEntity<?> checkoutReservation(@RequestBody Map<String, String> payload) throws ParseException {
+    public ResponseEntity<?> checkoutReservation(@RequestBody Map<String, String> payload) throws ParseException, MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
         String reservationId = payload.get(payload.keySet().toArray()[0]);
         int reservation_id = Integer.parseInt(reservationId);
         //String checkOutDate = payload.get(payload.keySet().toArray()[1]);
@@ -211,7 +228,7 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
     @PostMapping("/reservation/guest/cancel")
     @ResponseStatus(value = HttpStatus.CREATED)
 
-    public ResponseEntity<?> cancelReservationByGuest(@RequestBody Map<String, String> payload) throws ParseException {
+    public ResponseEntity<?> cancelReservationByGuest(@RequestBody Map<String, String> payload) throws ParseException, MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
         String reservationId = payload.get(payload.keySet().toArray()[0]);
         int reservation_id = Integer.parseInt(reservationId);
         //String checkOutDate = payload.get(payload.keySet().toArray()[1]);

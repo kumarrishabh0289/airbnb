@@ -56,7 +56,7 @@ class UserBilling extends Component {
   }
 
   render() {
-    if (this.state.billing.length == 0){
+    if (this.state.billing.length === 0){
       var msg = " No Details"
      
     }
