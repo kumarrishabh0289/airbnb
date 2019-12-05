@@ -245,7 +245,7 @@ public class SearchPropertyService {
                     array[6] = Boolean.FALSE;
                 }
             }
-            
+
 
 
             if(array[0] && array[1] && array[2] && array[3] && array[4] && array[5] && array[6]){
@@ -256,33 +256,6 @@ public class SearchPropertyService {
 
             System.out.println(Arrays.toString(array));
         }
-
-//        System.out.println(properties.size());
-//        for (int i = 0; i < properties.size(); i++) {
-//            Property p = properties.get(i);
-//
-//            if (p.isSun() && hashSet.contains(0)) {
-//                properties1.add(p);
-//            }
-//            else if (p.isMon() && hashSet.contains(1)) {
-//                properties1.add(p);
-//            }
-//            else if (p.isTue() && hashSet.contains(2)) {
-//                properties1.add(p);
-//            }
-//            else if (p.isWed() && hashSet.contains(3)) {
-//                properties1.add(p);
-//            }
-//            else if (p.isThu() && hashSet.contains(4)) {
-//                properties1.add(p);
-//            }
-//            else if (p.isFri() && hashSet.contains(5)) {
-//                properties1.add(p);
-//            }
-//            else if (p.isSat() && hashSet.contains(6)) {
-//                properties1.add(p);
-//            }
-//        }
 
         return properties1;
     }
