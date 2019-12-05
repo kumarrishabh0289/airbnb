@@ -246,6 +246,44 @@ public class SearchPropertyService {
                 }
             }
 
+            if (hashSet.contains(0)) {
+                if(!p.isSun()){
+                    array[0] = Boolean.FALSE;
+                }
+            }
+
+            if (hashSet.contains(1)) {
+                if(!p.isMon()){
+                    array[1] = Boolean.FALSE;
+                }
+            }
+
+            if (hashSet.contains(2)) {
+                if(!p.isTue()){
+                    array[2] = Boolean.FALSE;
+                }
+            }
+            if (hashSet.contains(3)) {
+                if(!p.isWed()){
+                    array[3] = Boolean.FALSE;
+                }
+            }
+            if (hashSet.contains(4)) {
+                if(!p.isThu()){
+                    array[4] = Boolean.FALSE;
+                }
+            }
+            if (hashSet.contains(5)) {
+                if(!p.isFri()){
+                    array[5] = Boolean.FALSE;
+                }
+            }
+            if (hashSet.contains(6)) {
+                if(!p.isSat()){
+                    array[6] = Boolean.FALSE;
+                }
+            }
+
 
 
             if(array[0] && array[1] && array[2] && array[3] && array[4] && array[5] && array[6]){
