@@ -37,6 +37,7 @@ class HostDashboard extends Component {
           <h2>Openhome Host Dashboard</h2>
           <br />
           <h4>Welcome {this.props.match.params.name}</h4>
+          <h7><Link className="nav-link" to="/hostbilling"  >Monthly Billing Overview</Link></h7>
           <br></br>
           <Link to="/property/new">
             <a href="/#" class="btn btn-info btn-lg">

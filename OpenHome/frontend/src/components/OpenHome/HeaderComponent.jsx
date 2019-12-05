@@ -80,12 +80,12 @@ class HeaderComponent extends Component {
                     <ul className="navbar-nav">
                         {isUserLoggedIn && <li><Link className="nav-link" to="/welcome">Home</Link></li>}
                        
-                        <li><Link className="nav-link" to="">Current Environment: {this.state.date}</Link></li>
+                        <li><Link className="nav-link" to=""><font color="red">Current Environment: {this.state.date}</font></Link></li>
                         <li>
                             <form onSubmit={this.changeTime}>
                             <h7 style={{ backgroundColor: "powderblue" }}>Hours:</h7><input type="number" name="hours" value={this.state.hours} onChange={this.handleChange} required />    
                             <h7 style={{ backgroundColor: "powderblue" }}>Mins:</h7><input type="number" name="mins" value={this.state.mins} onChange={this.handleChange} required />  
-                            <input type="submit" />
+                            &nbsp;<input type="submit" className="btn btn-danger" />
                             </form>
                         </li>
                     </ul>
