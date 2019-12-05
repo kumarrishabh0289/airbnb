@@ -17,6 +17,8 @@ import SignUP from "./SignUp";
 import BookingConfirmation from "./BookingConfirmation/BookingConfirmation"
 import WelcomeUser from "./WelcomeUser";
 import PropertyReservationDetails from "./PropertyReservationDetails";
+import UserBilling from "./UserBilling";
+import HostBilling from "./HostBilling";
 
 
 // import AssetDisplay from "./AssetDisplay.jsx";
@@ -40,6 +42,8 @@ class OpenHome extends Component {
               <Route path="/welcomeuser/:name" component={WelcomeUser} />
             
               <Route path="/property/new" component={CreateProperty} />
+              <Route path="/userbilling" component={UserBilling} />
+              <Route path="/hostbilling" component={HostBilling} />
               <Route path="/property/:propertyId" component={PropertyDetails} />
               <Route path="/reservation/:propertyId" component={PropertyReservationDetails} />
               <AuthenticatedRoute path="/logout" component={LogoutComponent} />

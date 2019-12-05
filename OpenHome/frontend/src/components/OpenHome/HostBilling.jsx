@@ -2,7 +2,7 @@ import React, { Component } from "react";
 // import { Link } from "react-router-dom";
 import { API_URL } from "../../Constants";
 import axios from "axios";
-class UserBilling extends Component {
+class HostBilling extends Component {
   constructor(props) {
     super(props);
 
@@ -37,7 +37,7 @@ class UserBilling extends Component {
 
     };
 
-    axios.post(API_URL + `/reservation/billing/guest`, data)
+    axios.post(API_URL + `/reservation/billing/host`, data)
       .then(response => {
         console.log("response",response)
         this.setState({
@@ -195,4 +195,4 @@ class UserBilling extends Component {
   }
 }
 
-export default UserBilling;
+export default HostBilling;

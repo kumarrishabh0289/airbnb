@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { API_URL } from "../../Constants";
 import axios from "axios";
 class WelcomeUser extends Component {
@@ -222,6 +222,7 @@ class WelcomeUser extends Component {
         <h2>Openhome User Dashboard</h2>
         <br />
         <h4>Welcome {this.props.match.params.name}</h4>
+        <h7><Link className="nav-link" to="/userbilling"  >Monthly Billing Overview</Link></h7>
 
 
 
