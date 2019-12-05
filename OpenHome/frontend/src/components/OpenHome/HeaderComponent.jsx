@@ -10,11 +10,20 @@ class HeaderComponent extends Component {
         super(props)
         
         this.state = {
-            date: ''
+            date: '',
+            hours:0,
+            mins:0
+
         }
-        
-        
+       
     }
+
+    handleChange = (event) => {
+        this.setState({
+            [event.target.name]: event.target.value
+        })
+    }
+
     async componentDidMount() {
         try {
           setInterval(async () => {
@@ -28,25 +37,37 @@ class HeaderComponent extends Component {
 
                        date: response.data
                     })
-                   
 
                 }
                 else {
-                   
+     
                 }
             })
             .catch(err => {
                 console.log(err);
-               
 
             });
-
-           
           }, 3000);
         } catch(e) {
           console.log(e);
         }
   }
+
+  changeTime = (e) => {
+   
+    console.log("changeTime login called")
+  //  var headers = new Headers();
+    //prevent page from refresh
+    e.preventDefault();
+ 
+    axios.post(API_URL + `/admin/time/addoffset/${this.state.hours}/${this.state.mins}`)
+        .then((response) => {
+            console.log("Status Code : ", response.status);
+            console.log("response : ", response);
+        });
+}
+
+
     render() {
         const isUserLoggedIn = AuthenticationForApiService.isUserLoggedIn();
         
@@ -60,6 +81,13 @@ class HeaderComponent extends Component {
                         {isUserLoggedIn && <li><Link className="nav-link" to="/welcome/OpenHome">Home</Link></li>}
                        
                         <li><Link className="nav-link" to="">Current Environment: {this.state.date}</Link></li>
+                        <li>
+                            <form onSubmit={this.changeTime}>
+                            <h7 style={{ backgroundColor: "powderblue" }}>Hours:</h7><input type="number" name="hours" value={this.state.hours} onChange={this.handleChange} required />    
+                            <h7 style={{ backgroundColor: "powderblue" }}>Mins:</h7><input type="number" name="mins" value={this.state.mins} onChange={this.handleChange} required />  
+                            <input type="submit" />
+                            </form>
+                        </li>
                     </ul>
                     <ul className="navbar-nav navbar-collapse justify-content-end">
                     {!isUserLoggedIn && <li><Link className="nav-link" to="/signup"  onClick={AuthenticationForApiService.logout}>Sign Up</Link></li>}
