@@ -56,6 +56,17 @@ public class ReservationService {
         return reservationRepo.findByGuestId(id);
     }
 
+    public List<Reservations> getGuestReservationsByMonthYear(int id,String month,int year) {
+        List<Reservations> allReservations=getGuestReservations(id);
+        List<Reservations> respReservations=new ArrayList<>();
+        for (Reservations r:allReservations) {
+            System.out.println(r.getEndDate().getMonth().toString());
+            if(r.getEndDate().getMonth().toString().equals(month) && r.getEndDate().getYear()==year){
+                respReservations.add(r);
+            }
+        }
+        return respReservations;
+    }
 
 //    public List<Reservations> getHostReservations(int guestId) {
 //
@@ -96,6 +107,22 @@ public List<Reservations> getReservationsToBeCheckedOut(){
             propertyIdReservations = getReservationProperties(property.getPropertyId());
             for (Reservations r : propertyIdReservations) {
                 ownerPropertyReservations.add(r);
+            }
+        }
+        return ownerPropertyReservations;
+    }
+
+    public List<Reservations> getHostReservationsByMonthYear(int id,String month,int year) {
+        Person p = personSpringDataRepo.findById(id).orElse(null);
+        List<Property> ownerProperties = propertyService.getHostProperties(p);
+        List<Reservations> ownerPropertyReservations = new ArrayList<>();
+        List<Reservations> propertyIdReservations;
+        for (Property property : ownerProperties) {
+            propertyIdReservations = getReservationProperties(property.getPropertyId());
+            for (Reservations r : propertyIdReservations) {
+                System.out.println(r.getEndDate().getMonth().toString());
+                if(r.getEndDate().getMonth().toString().equals(month) && r.getEndDate().getYear()==year)
+                    ownerPropertyReservations.add(r);
             }
         }
         return ownerPropertyReservations;
