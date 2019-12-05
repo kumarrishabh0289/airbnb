@@ -136,8 +136,11 @@ public List<Reservations> getReservationsToBeCheckedOut(){
                 reservation.setState("CheckedIn");
                 int weekdays=getWeekdays(startDate, endDate);
                 int weekends=getWeekends(startDate, endDate);
+                System.out.println("No of weekdays "+weekdays);
+                System.out.println("No of weekends "+weekends);
                 float totalPrice = ((reservation.getBookedPriceWeekday() *weekdays ) + (reservation.getBookedPriceWeekend() * weekends));
                 Property p = propertyService.getProperty(reservation.getPropertyId());
+                System.out.println("Adding parking fee"+p.getParkingFee());
                 totalPrice+=(weekdays+weekends)*p.getParkingFee();
                 reservation.setPaymentAmount(totalPrice);
             } else {
@@ -224,11 +227,14 @@ public List<Reservations> getReservationsToBeCheckedOut(){
                         } else {
                             penalty = (float) (0.3 * reservation.getBookedPriceWeekday());
                         }
+                        float returnAmount=0;
                         if (nextDayVal.equals("SATURDAY") || nextDayVal.equals("SUNDAY")) {
-                            penalty += (float) (reservation.getBookedPriceWeekend());
+                            returnAmount  = (float) (reservation.getBookedPriceWeekend());
                         } else {
-                            penalty += (float) (reservation.getBookedPriceWeekday());
+                            returnAmount = (float) (reservation.getBookedPriceWeekday());
                         }
+                        System.out.println("Updating return amount"+returnAmount);
+                        reservation.setPaymentAmount(reservation.getPaymentAmount()-returnAmount);
                     }
                 } else if (diff <= -2) {
                     if (checkOutHour >= 15) {
@@ -238,7 +244,13 @@ public List<Reservations> getReservationsToBeCheckedOut(){
                         } else {
                             penalty = (float) (0.3 * reservation.getBookedPriceWeekday());
                         }
-                        penalty += ((reservation.getBookedPriceWeekday() * getWeekdays(nextDate.plusDays(1), end_date)) + (reservation.getBookedPriceWeekend() * getWeekends(nextDate.plusDays(1), end_date)));
+                        int remainingWeekDays = getWeekdays(nextDate.plusDays(1), end_date);
+                        int remainingWeekEnds = getWeekdays(nextDate.plusDays(1), end_date);
+                        float remainingDaysPrice = (remainingWeekDays * reservation.getBookedPriceWeekday()) +
+                                (remainingWeekEnds* reservation.getBookedPriceWeekend());
+                        //penalty += ((reservation.getBookedPriceWeekday() * getWeekdays(nextDate.plusDays(1), end_date)) + (reservation.getBookedPriceWeekend() * getWeekends(nextDate.plusDays(1), end_date)));
+                        System.out.println("Updating return amount"+remainingDaysPrice);
+                        reservation.setPaymentAmount(reservation.getPaymentAmount()-remainingDaysPrice);
                     } else {
                         System.out.println("Check out happened before 3 pm before 2 days so 30% for current day and no further charges from next day");
                         if (checkOutDayVal.equals("SATURDAY") || checkOutDayVal.equals("SUNDAY")) {
@@ -246,7 +258,14 @@ public List<Reservations> getReservationsToBeCheckedOut(){
                         } else {
                             penalty = (float) (0.3 * reservation.getBookedPriceWeekday());
                         }
-                        penalty += ((reservation.getBookedPriceWeekday() * getWeekdays(nextDate, end_date)) + (reservation.getBookedPriceWeekend() * getWeekends(nextDate, end_date)));
+                        int remainingWeekDays = getWeekdays(nextDate, end_date);
+                        int remainingWeekEnds = getWeekdays(nextDate, end_date);
+                        float remainingDaysPrice = (remainingWeekDays * reservation.getBookedPriceWeekday()) +
+                                (remainingWeekEnds* reservation.getBookedPriceWeekend());
+                        //penalty += ((reservation.getBookedPriceWeekday() * getWeekdays(nextDate.plusDays(1), end_date)) + (reservation.getBookedPriceWeekend() * getWeekends(nextDate.plusDays(1), end_date)));
+                        System.out.println("Updating return amount"+remainingDaysPrice);
+                        reservation.setPaymentAmount(reservation.getPaymentAmount()-remainingDaysPrice);
+                        //penalty += ((reservation.getBookedPriceWeekday() * getWeekdays(nextDate, end_date)) + (reservation.getBookedPriceWeekend() * getWeekends(nextDate, end_date)));
                     }
                 }
                 System.out.println(penalty);
@@ -321,7 +340,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
             return 1;
         }
         else{
-            System.out.println("Can't cancel an invalid property");
+            System.out.println("Can't cancel an invalid reservation");
             return 0;
         }
     }
@@ -353,7 +372,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
         Property p = propertyService.getProperty(reservation.getPropertyId());
 
         float remainingDaysPrice = 0;
-        if(reservation.getStatus().equals("Booked")) {
+        if(reservation.getStatus().equals("Booked")||reservation.getStatus().equals("Payment Processed")) {
 
             if (diff >= 7) {
                 System.out.println("No penalty as there is a 7 days in start date");
@@ -410,7 +429,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
 
     public int getWeekdays(LocalDate startDate, LocalDate endDate) {
         int weekdays = 0;
-        for (LocalDate date = startDate; date.compareTo(endDate) <= 0; date = date.plusDays(1)) {
+        for (LocalDate date = startDate; date.compareTo(endDate) < 0; date = date.plusDays(1)) {
             System.out.println("Traversing date " + date);
             System.out.println("Day is " + date.getDayOfWeek());
             if (!date.getDayOfWeek().toString().equals("SATURDAY") && !date.getDayOfWeek().toString().equals("SUNDAY")) {
@@ -422,7 +441,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
 
     public int getWeekends(LocalDate startDate, LocalDate endDate) {
         int weekend = 0;
-        for (LocalDate date = startDate; date.compareTo(endDate) <= 0; date = date.plusDays(1)) {
+        for (LocalDate date = startDate; date.compareTo(endDate) < 0; date = date.plusDays(1)) {
             System.out.println("Traversing date " + date);
             System.out.println("Day is " + date.getDayOfWeek());
             if (date.getDayOfWeek().toString().equals("SATURDAY") || date.getDayOfWeek().toString().equals("SUNDAY")) {
