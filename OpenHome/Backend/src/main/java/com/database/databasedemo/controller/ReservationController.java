@@ -127,7 +127,16 @@ public class ReservationController {
 public List<Reservations> getGuestReservations(@PathVariable int id) {
     return reservationService.getGuestReservations(id);
 }
-
+    @GetMapping("/reservation/billing/guest")
+    public List<Reservations> getGuestReservationsByMonthYear(@RequestBody Map<String, String> payload) throws ParseException {
+        System.out.println("payload"+payload);
+        String guestId = (String)payload.get("guestId");
+        int guest_id=Integer.parseInt(guestId);
+        String month =(String)payload.get("month");
+        String year =(String)payload.get("year");
+        int year_value=Integer.parseInt(year);
+        return reservationService.getGuestReservationsByMonthYear(guest_id,month,year_value);
+    }
     @GetMapping("/reservation/property/{id}")
     public List<Reservations> getReservationProperties(@PathVariable int id) {
         return reservationService.getReservationProperties(id);
@@ -136,6 +145,17 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
     @GetMapping("/reservation/host/{id}")
     public List<Reservations> getHostReservations(@PathVariable int id) {
         return reservationService.getHostReservations(id);
+    }
+
+    @GetMapping("/reservation/billing/host")
+    public List<Reservations> getHostReservationsByMonthYear(@RequestBody Map<String, String> payload) throws ParseException {
+        System.out.println("payload"+payload);
+        String hostId = (String)payload.get("hostId");
+        int hostid=Integer.parseInt(hostId);
+        String month =(String)payload.get("month");
+        String year =(String)payload.get("year");
+        int year_value=Integer.parseInt(year);
+        return reservationService.getHostReservationsByMonthYear(hostid,month,year_value);
     }
 
     @PostMapping("/reservation/checkin")

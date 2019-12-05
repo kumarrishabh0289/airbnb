@@ -467,72 +467,9 @@ class WelcomeUser extends Component {
 
 
     );
-
-    return (
-      <>
-        <hr /><hr />
-        <div class="col-sm-5 col-md-5 container" style={{ backgroundColor: "yellow", opacity: 1, filter: "Alpha(opacity=100)", borderRadius: '10px' }}>
-          <br />
-          <h1>Billing</h1>
-          <div className="container">
-            <div class="row" >
-
-              <div class="col-sm-6 col-md-6">
-
-                <div class="form-group">
-                  <label for="where"><h5>Month</h5></label>
-                  <div class="form-group">
-
-                    <select class="form-control" value={this.state.month} onChange={this.handleChange} name="month" >
-                      <option value="">Select</option>
-                      <option value="January">January</option>
-                      <option value="February">February</option>
-                      <option value="March">March</option>
-                      <option value="April">April</option>
-                      <option value="May">May</option>
-                      <option value="June">June</option>
-                      <option value="July">July</option>
-                      <option value="August">August</option>
-                      <option value="September">September</option>
-                      <option value="October">October</option>
-                      <option value="November">November</option>
-                      <option value="December">December</option>
-
-                    </select>
-
-                  </div>
-
-                </div>
-              </div>
-
-              <div class="col-sm-6 col-md-6">
-
-                <div class="form-group">
-                  <label for="where"><h5>Month</h5></label>
-                  <div class="form-group">
-
-                    <select class="form-control" value={this.state.year} onChange={this.handleChange} name="year" >
-                      <option value="">Select</option>
-                      <option value="2018">2018</option>
-                      <option value="2019">2019</option>
-                      <option value="2020">2020</option>
-                      <option value="2021">2021</option>
-                     
-
-                    </select>
-
-                  </div>
-
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-
-      </>
-    )
+              
+    
+              
   }
 }
 
