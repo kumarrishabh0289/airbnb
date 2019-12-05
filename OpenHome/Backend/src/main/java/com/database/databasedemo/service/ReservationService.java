@@ -40,11 +40,13 @@ public class ReservationService {
 
     @Autowired
     PropertyService propertyService;
-    @Autowired
 
+    @Autowired
     TimeService timeService;
 
+    @Autowired
     PersonSpringDataRepo personSpringDataRepo;
+
     @Autowired
     TimeService timeservice;
 
@@ -300,8 +302,8 @@ public List<Reservations> getReservationsToBeCheckedOut(){
                             penalty = (float) (0.3 * reservation.getBookedPriceWeekday());
                             returnAmount=reservation.getBookedPriceWeekday();
                         }
-                        int remainingWeekDays = getWeekdays(nextDate.plusDays(1), end_date.minusDays(1));
-                        int remainingWeekEnds = getWeekdays(nextDate.plusDays(1), end_date.minusDays(1));
+                        int remainingWeekDays = getWeekdays(nextDate.plusDays(1), end_date);
+                        int remainingWeekEnds = getWeekdays(nextDate.plusDays(1), end_date);
                         float remainingDaysPrice = (remainingWeekDays * reservation.getBookedPriceWeekday()) +
                                 (remainingWeekEnds* reservation.getBookedPriceWeekend());
                         returnAmount+=remainingDaysPrice;
@@ -318,8 +320,8 @@ public List<Reservations> getReservationsToBeCheckedOut(){
                             penalty = (float) (0.3 * reservation.getBookedPriceWeekday());
                             returnAmount=reservation.getBookedPriceWeekday();
                         }
-                        int remainingWeekDays = getWeekdays(nextDate, end_date.minusDays(1));
-                        int remainingWeekEnds = getWeekdays(nextDate, end_date.minusDays(1));
+                        int remainingWeekDays = getWeekdays(nextDate, end_date);
+                        int remainingWeekEnds = getWeekdays(nextDate, end_date);
 
                         float remainingDaysPrice = (remainingWeekDays * reservation.getBookedPriceWeekday()) +
                                 (remainingWeekEnds* reservation.getBookedPriceWeekend());
@@ -495,7 +497,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
 
                 penalty = penalty + (float) (0.15 * remainingWeekEnds * reservation.getBookedPriceWeekend());
                 penalty = penalty + (float) (0.15 * remainingWeekDays * reservation.getBookedPriceWeekday());
-
+                reservation.setCheckOutDate(cancellation_date.plusHours(8));
 
             } else if ((diff <= 0 && cancellationHour > 15) && reservation.getCheckInDate() != null) {
 
@@ -509,6 +511,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
 
                 penalty = penalty + (float) (0.15 * remainingWeekEnds * reservation.getBookedPriceWeekend());
                 penalty = penalty + (float) (0.15 * remainingWeekDays * reservation.getBookedPriceWeekday());
+                reservation.setCheckOutDate(cancellation_date.plusHours(8));
             }
 
             System.out.println(penalty);
@@ -518,6 +521,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
             reservation.setPenaltyReason("Cancelled by Host");
             reservation.setStatus("Available");
             reservation.setState("CancelledByHost");
+
             reservationRepo.save(reservation);
 
             String recevier = personJPARepo.findById(reservation.getGuestId()).getEmail();
