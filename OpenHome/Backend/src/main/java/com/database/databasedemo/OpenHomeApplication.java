@@ -75,10 +75,10 @@ public class OpenHomeApplication implements CommandLineRunner {
 
         logger.info("Find By ID -> {}", repo.findById(2));
         repo.deleteById(2);
-        Property newProp=new Property("San Jose Property notes in the list","North First","San Jose","California",95112,"https://photos.zillowstatic.com/p_e/ISynct0mwkakxh0000000000.jpg","Condo","Full",2,900,p,40,50,false,true,false,true,true,false,true);
-        Property newProp2=new Property("San Jose Property1 yet to not in the list","North First 1","San Jose 1","California",95113,"https://photos.zillowstatic.com/p_e/ISynct0mwkakxh0000000000.jpg","Condo","Partial",5,1200,p,10,110,true,false,false,true,true,true,true);
+        Property newProp=new Property("San Jose Property notes in the list","North First","San Jose","California",95112,"https://photos.zillowstatic.com/p_e/ISynct0mwkakxh0000000000.jpg","Condo","Full",2,900,p,40,50,false,true,false,true,true,false,true,"Yes");
+        Property newProp2=new Property("San Jose Property1 yet to not in the list","North First 1","San Jose 1","California",95113,"https://photos.zillowstatic.com/p_e/ISynct0mwkakxh0000000000.jpg","Condo","Partial",5,1200,p,10,110,true,false,false,true,true,true,true,"No");
 
-        Property newProp1=new Property("Sunnyvale Property is one of the wonderful city","North First","Sunnyvale","California",95112,"https://cdn.cnn.com/cnnnext/dam/assets/150511105029-airbnb-architecture--fox-island-full-169.jpg","Condo","Partial",2,900,p,12,24,true,true,false,true,true,false,false);
+        Property newProp1=new Property("Sunnyvale Property is one of the wonderful city","North First","Sunnyvale","California",95112,"https://cdn.cnn.com/cnnnext/dam/assets/150511105029-airbnb-architecture--fox-island-full-169.jpg","Condo","Partial",2,900,p,12,24,true,true,false,true,true,false,false,"Yes");
 
         logger.info("Insert  Property-> {}");
 

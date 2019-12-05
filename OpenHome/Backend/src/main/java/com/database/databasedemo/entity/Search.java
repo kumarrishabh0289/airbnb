@@ -19,7 +19,7 @@ public class Search {
 
     private String propertyDescription;
 
-    private boolean wifi;
+    private String wifi;
 
 
     public String getPropertyDescription() {
@@ -78,11 +78,11 @@ public class Search {
         this.endDate = endDate;
     }
 
-    public boolean getWifi() {
+    public String getWifi() {
         return wifi;
     }
 
-    public void setWifi(boolean wifi) {
+    public void setWifi(String wifi) {
         this.wifi = wifi;
     }
 

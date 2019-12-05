@@ -43,15 +43,14 @@ public class SearchController {
 
 
             System.out.println(property.getPropertyType());
-                System.out.println(property.getPriceRange());
+            System.out.println(property.getPriceRange());
             System.out.println(property.getSharingType());
             System.out.println(property.getCity());
             System.out.println(property.getEndDate());
             System.out.println(property.getStartDate());
-//            System.out.println(property.getStartDate().getDay());
+//          System.out.println(property.getStartDate().getDay());
             System.out.println(property.getWifi());
             System.out.println(property.getPropertyDescription());
-
 
 //        System.out.println(property1);
        // return searchPropertyService.retrievePropertiesByCriteria(property);

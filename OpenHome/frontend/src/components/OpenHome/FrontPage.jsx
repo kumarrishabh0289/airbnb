@@ -77,7 +77,7 @@ class FrontPage extends Component {
             alert("You can't book for more than 14 days. Please try adjusting your search by changing your dates.");
         else{
 
-            const data = {
+             const data = {
                 city : this.state.location,
                 endDate : this.state.endDate,
                 startDate : this.state.startDate,
@@ -87,6 +87,7 @@ class FrontPage extends Component {
                 wifi : this.state.wifi,
                 priceRange : this.state.priceRange
             }
+        console.log("data",data);
             localStorage.setItem('product_details', JSON.stringify(data));
            
             axios.post( API_URL + `/search/property`,data)
@@ -301,8 +302,8 @@ class FrontPage extends Component {
                                             <div class="form-group">
                                                 <select class="form-control" value={this.state.value} onChange = {this.handleChangeWifi}>
                                                     <option value="">Select</option>
-                                                    <option value="true">Yes</option>
-                                                    <option value="false">No</option>
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
                                                 </select>
                                             </div>
                                         </div>

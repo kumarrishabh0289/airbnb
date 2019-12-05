@@ -113,7 +113,9 @@ public class SearchPropertyService {
 
                 }
 
-                predicates.add(cb.equal(root.get("wifi"),filter.getWifi()));
+                if (!filter.getWifi().equals("")) {
+                    predicates.add(cb.equal(root.get("wifi"),filter.getWifi()));
+                }
 
                   return cb.and(predicates.toArray(new Predicate[0]));
             }
