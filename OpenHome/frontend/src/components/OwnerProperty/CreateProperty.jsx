@@ -127,7 +127,9 @@ class CreateProperty extends Component {
       wed: this.state.wed,
       thur: this.state.thur,
       fri: this.state.fri,
-      sat: this.state.sat
+      sat: this.state.sat,
+      mobileNumber: this.state.mobileNumber,
+      status: "Created"
     };
     console.log(data);
     axios.post(API_URL + "/property/add", data, header).then(response => {
@@ -441,7 +443,7 @@ class CreateProperty extends Component {
                       />
                     </div>
                   </div>
-                  <div class="col-sm-6 col-md-6">
+                  {this.state.sharingType === "Full" && (<div class="col-sm-6 col-md-6">
                     <div class="form-group">
                       <label for="where">
                         <h5>Number of Rooms</h5>
@@ -457,16 +459,19 @@ class CreateProperty extends Component {
                         >
                           <option value="1">1</option>
                           <option value="2">2</option>
+                          <option value="1">3</option>
+                          <option value="2">4</option>
+                          <option value="1">5</option>
                         </select>
                       </div>
                     </div>
-                  </div>
+                  </div>)}
                 </div>
                 <div class="row">
                   <div class="col-sm-6 col-md-6">
                     <div class="form-group">
                       <label for="where">
-                        <h5>Weekday Price/day(for each room)</h5>
+                        <h5>Weekday Price/day</h5>
                       </label>
                       <input
                         type="text"
@@ -480,7 +485,7 @@ class CreateProperty extends Component {
                   <div class="col-sm-6 col-md-6">
                     <div class="form-group">
                       <label for="where">
-                        <h5>Weekend Price/day(for each room)</h5>
+                        <h5>Weekend Price/day</h5>
                       </label>
                       <input
                         type="text"
@@ -583,8 +588,10 @@ class CreateProperty extends Component {
                         </select>
                       </div>
                     </div>
+                  
                   </div>
                 </div>
+                
                 <div class="row">
                   <div class="col-sm-12 col-md-12">
                     <div class="form-group">

@@ -44,4 +44,5 @@ public class TimeService {
     public OffsetDateTime getCurrentTime() {
         return OffsetDateTime.now(Clock.systemUTC()).plusHours(this.hours).plusMinutes(this.mins);
     }
+
 }
