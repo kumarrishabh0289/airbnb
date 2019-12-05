@@ -22,9 +22,7 @@ class PropertyReservationDetails extends Component {
 
     let id = this.props.match.params.propertyId;
     axios
-      .get(API_URL + `/reservation/property/${id}`, {
-        headers: { "Content-Type": "application/json" }
-      })
+      .get(API_URL + `/reservation/property/${id}`)
       .then(response => {
         console.log(response.data);
         this.setState({

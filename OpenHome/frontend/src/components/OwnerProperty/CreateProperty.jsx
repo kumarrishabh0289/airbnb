@@ -88,7 +88,7 @@ class CreateProperty extends Component {
   createProperty = e => {
     e.preventDefault();
     var header = { "Content-Type": "application/JSON" };
-    let user = 5;
+    let user = sessionStorage.userId;
     // var i;
     // let rooms = [];
     // for (i = 0; i < this.state.numberOfRooms; i++) {
@@ -135,7 +135,7 @@ class CreateProperty extends Component {
     axios.post(API_URL + "/property/add", data, header).then(response => {
       if (response.status === 201) {
         this.setState({ status: "Success" });
-        this.props.history.push("/property/dashboard");
+        this.props.history.push(`/hostdashboard/${sessionStorage.userName}`);
       } else {
         console.log(response);
         alert("Error in creating property");
