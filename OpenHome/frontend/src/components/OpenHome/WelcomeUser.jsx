@@ -257,7 +257,8 @@ class WelcomeUser extends Component {
                 <th>Check-Out</th>
                 <th>Penalty Reason</th>
                 <th>Penalty Amount</th>
-                <th>Booking Amount</th>
+                <th>Booking Amount Per weekday</th>
+                <th>Booking Amount Per weekend</th>
                 <th>Total Payable</th>
                 <th>Status</th>
 
@@ -279,7 +280,8 @@ class WelcomeUser extends Component {
                       <td>{booking.checkOutDate}</td>
                       <td>{booking.penaltyReason}</td>
                       <td>{booking.penaltyValue}</td>
-                      <td>{booking.bookedPrice}</td>
+                      <td>{booking.bookedPriceWeekday}</td>
+                      <td>{booking.bookedPriceWeekend}</td>
                       <td>{booking.paymentAmount}</td>
 
                       <td>{booking.state}</td>
@@ -312,7 +314,8 @@ class WelcomeUser extends Component {
                 <th>Check-Out</th>
                 <th>Penalty Reason</th>
                 <th>Penalty Amount</th>
-                <th>Booking Amount</th>
+                <th>Booking Amount Per weekday</th>
+                <th>Booking Amount Per weekend</th>
                 <th>Total Payable</th>
                 <th>Status</th>
 
@@ -334,7 +337,8 @@ class WelcomeUser extends Component {
                       <td>{booking.checkOutDate}</td>
                       <td>{booking.penaltyReason}</td>
                       <td>{booking.penaltyValue}</td>
-                      <td>{booking.bookedPrice}</td>
+                      <td>{booking.bookedPriceWeekday}</td>
+                      <td>{booking.bookedPriceWeekend}</td>
                       <td>{booking.paymentAmount}</td>
 
                       <td>{booking.state}</td>
@@ -367,7 +371,8 @@ class WelcomeUser extends Component {
                 <th>Check-Out</th>
                 <th>Penalty Reason</th>
                 <th>Penalty Amount</th>
-                <th>Booking Amount</th>
+                <th>Booking Amount Per weekday</th>
+                <th>Booking Amount Per weekend</th>
                 <th>Total Payable</th>
                 <th>Status</th>
 
@@ -387,7 +392,8 @@ class WelcomeUser extends Component {
                       <td>{booking.checkOutDate}</td>
                       <td>{booking.penaltyReason}</td>
                       <td>{booking.penaltyValue}</td>
-                      <td>{booking.bookedPrice}</td>
+                      <td>{booking.bookedPriceWeekday}</td>
+                      <td>{booking.bookedPriceWeekend}</td>
                       <td>{booking.paymentAmount}</td>
 
                       <td>{booking.state}</td>
@@ -419,7 +425,8 @@ class WelcomeUser extends Component {
                 <th>Check-Out</th>
                 <th>Penalty Reason</th>
                 <th>Penalty Amount</th>
-                <th>Booking Amount</th>
+                <th>Booking Amount Per weekday</th>
+                <th>Booking Amount Per weekend</th>
                 <th>Total Payable</th>
                 <th>Status</th>
               </tr>
@@ -436,7 +443,8 @@ class WelcomeUser extends Component {
                       <td>{booking.checkOutDate}</td>
                       <td>{booking.penaltyReason}</td>
                       <td>{booking.penaltyValue}</td>
-                      <td>{booking.bookedPrice}</td>
+                      <td>{booking.bookedPriceWeekday}</td>
+                      <td>{booking.bookedPriceWeekend}</td>
                       <td>{booking.paymentAmount}</td>
 
                       <td>{booking.state}</td>

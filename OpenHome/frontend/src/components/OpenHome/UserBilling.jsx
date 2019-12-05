@@ -31,7 +31,7 @@ class UserBilling extends Component {
     console.log("billing called")
     e.preventDefault();
     var data = {
-      "guestId":3,
+      "guestId":sessionStorage.userId,
       "month":this.state.month,
       "year":this.state.year,
 
