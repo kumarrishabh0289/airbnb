@@ -128,7 +128,8 @@ class CreateProperty extends Component {
       thur: this.state.thur,
       fri: this.state.fri,
       sat: this.state.sat,
-      mobileNumber: this.state.mobileNumber
+      mobileNumber: this.state.mobileNumber,
+      status: "Created"
     };
     console.log(data);
     axios.post(API_URL + "/property/add", data, header).then(response => {
