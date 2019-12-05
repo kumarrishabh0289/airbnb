@@ -170,7 +170,7 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
         Optional<Reservations> r = reservationRepo.findById(reservation_id);
         if (!r.isPresent())
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        if(r.get().getState() != "CheckedIn" ){
+        if(r.get().getState().equals("CheckedIn") ){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
