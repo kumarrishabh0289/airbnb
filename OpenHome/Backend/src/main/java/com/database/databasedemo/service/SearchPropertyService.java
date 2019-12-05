@@ -1,6 +1,7 @@
 package com.database.databasedemo.service;
 import com.database.databasedemo.entity.Reservations;
 import com.database.databasedemo.entity.Search;
+import com.database.databasedemo.repository.PersonJPARepo;
 import com.database.databasedemo.repository.PropertyRepo;
 import com.database.databasedemo.repository.ReservationRepo;
 import com.database.databasedemo.repository.SearchRepo;
@@ -43,6 +44,8 @@ public class SearchPropertyService {
     @Autowired
     @Qualifier("reservations")
     ReservationRepo reservationRepo;
+
+
 
     public List<Property> searchProperties(){
         return propertyRepo.findAll();
