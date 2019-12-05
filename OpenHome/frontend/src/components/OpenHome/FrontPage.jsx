@@ -233,9 +233,9 @@ class FrontPage extends Component {
                                             <div class="form-group">
 
                                                 <select class="form-control" value={this.state.value} onChange = {this.handleChange} >
-                                                    <option value="">N/A</option>
+                                                    <option value="">Select</option>
                                                     <option value="Full">Full</option>
-                                                    <option value="Partial">Partial</option>
+                                                    <option value="Private">Private</option>
                                                 </select>
                                                 
                                             </div>
@@ -250,7 +250,7 @@ class FrontPage extends Component {
                                             <div class="form-group">
 
                                                 <select class="form-control" value={this.state.value} onChange = {this.handleChangePropertyType}>
-                                                    <option value="">N/A</option>
+                                                    <option value="">Select</option>
                                                     <option value="Apartment">Apartment</option>
                                                     <option value="Condo">Condo</option>
                                                     <option value="Bed and Breakfast">Bed and Breakfast</option>
@@ -277,11 +277,14 @@ class FrontPage extends Component {
                                          <label for="where"><h5>Price Range</h5></label>
                                             <div class="form-group">
                                                 <select class="form-control" value={this.state.value} onChange = {this.handleChangePricerange}>
-                                                    <option value="">N/A</option>
-                                                    <option value="1 to 100"> 1 to 100</option>
-                                                    <option value="101 to 1000"> 101 to 1000</option>
-                                                    <option value="1001 to 2000">1001 to 2000</option>
-                                                    <option value="2001 to 3000">2001 to 3000</option>
+                                                    <option value="">Select</option>
+                                                    <option value="1 to 100">1 to 100</option>
+                                                    <option value="101 to 1000">101 to 500</option>
+                                                    <option value="501 to 1000">501 to 1000</option>
+                                                    <option value="1001 to 1500">1001 to 1500</option>
+                                                    <option value="1501 to 2000">1501 to 2000</option>
+                                                    <option value="1001 to 1500">2001 to 2500</option>
+                                                    <option value="1501 to 2000">2501 to 3000</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -292,7 +295,7 @@ class FrontPage extends Component {
                                          <label for="where"><h5>Wifi Required</h5></label>
                                             <div class="form-group">
                                                 <select class="form-control" value={this.state.value} onChange = {this.handleChangeWifi}>
-                                                    <option value="">N/A</option>
+                                                    <option value="">Select</option>
                                                     <option value="true">Yes</option>
                                                     <option value="false">No</option>
                                                 </select>
