@@ -259,8 +259,8 @@ class PropertyDetails extends Component {
                             <input
                               type="checkbox"
                               name="mon"
-                             // value="true"
-                              defaultChecked={this.state.properties.mon}
+                             //value={this.state.properties.mon}
+                             defaultChecked={this.state.properties.mon}
                               onChange={this.monCheckboxHandler.bind()}
                             />{" "}
                             Monday
