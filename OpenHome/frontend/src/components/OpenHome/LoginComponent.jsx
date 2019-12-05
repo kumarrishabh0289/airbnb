@@ -86,8 +86,16 @@ class LoginComponent extends Component {
                     sessionStorage.setItem("userRole", response.data.role)
                     sessionStorage.setItem("userName", response.data.name)
                     sessionStorage.setItem("JWT", response.data.token)
-                    console.log(response);
-                    this.props.history.push(`/`)
+                    if(response.data.role === "user"){
+                        this.props.history.push(`/welcomeuser/${response.data.name}`)
+                    }
+                    if(response.data.role === "host"){
+                        this.props.history.push(`/hostdashboard/${response.data.name}`)
+                    }
+                    else{
+                        //this.props.history.push(`/welcome/${response.data.name}`)
+                    }
+                    
 
                 }
                 else {
