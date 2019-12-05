@@ -71,26 +71,25 @@ public class SearchPropertyService {
 
     public List<Property> retrievePropertiesByCriteria(Search filter) throws ParseException {
 
-      //  Reservations reservations = reservationService.getReservation(1);
+        //  Reservations reservations = reservationService.getReservation(1);
 
-        List<Property> properties = propertyRepo.findAll(new Specification <Property >() {
+        List<Property> properties = propertyRepo.findAll(new Specification<Property>() {
 
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
             CriteriaQuery<Property> query = builder.createQuery(Property.class);
             Root<Property> root = query.from(Property.class);
 
             @Override
-            public Predicate toPredicate(Root<Property> root, CriteriaQuery< ?> query, CriteriaBuilder cb) {
+            public Predicate toPredicate(Root<Property> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 
                 List<Predicate> predicates = new ArrayList<>();
 
                 // If designation is specified in filter, add equal where clause
                 if (!filter.getCity().equals("")) {
-                    if(isNumeric(filter.getCity())) {
+                    if (isNumeric(filter.getCity())) {
                         predicates.add(cb.equal(root.get("zipcode"), Integer.parseInt(filter.getCity())));
-                    }
-                    else{
-                        predicates.add(cb.like(root.get("city"), "%"+filter.getCity()+"%"));
+                    } else {
+                        predicates.add(cb.like(root.get("city"), "%" + filter.getCity() + "%"));
                     }
                 }
 
@@ -107,8 +106,8 @@ public class SearchPropertyService {
 
                     String[] splited = filter.getPropertyDescription().split("\\s+");
 
-                    for(int i=0;i<splited.length;i++){
-                        predicates.add(cb.like(root.get("propertyDescription"),"%"+splited[i]+"%"));
+                    for (int i = 0; i < splited.length; i++) {
+                        predicates.add(cb.like(root.get("propertyDescription"), "%" + splited[i] + "%"));
                     }
 
                 }
@@ -119,52 +118,54 @@ public class SearchPropertyService {
 
                 predicates.add(cb.equal(root.get("status"), "Created"));
 
-                  return cb.and(predicates.toArray(new Predicate[0]));
+                return cb.and(predicates.toArray(new Predicate[0]));
             }
         });
 
         Calendar start = Calendar.getInstance();
         start.setTime(filter.getStartDate());
+        start.add(Calendar.DATE, 1);
         Calendar end = Calendar.getInstance();
         end.setTime(filter.getEndDate());
+        end.add(Calendar.DATE, 1);
+
 
         int weekDcntr = 0;
         int weekEcntr = 0;
         OffsetDateTime now1 = OffsetDateTime.now(ZoneOffset.UTC);
-        HashSet<Integer> hashSet= new HashSet<>();
+        HashSet<Integer> hashSet = new HashSet<>();
         for (Date date = start.getTime(); start.before(end); start.add(Calendar.DATE, 1), date = start.getTime()) {
 
             hashSet.add(date.getDay());
-            if(date.getDay() == 0 || date.getDay() == 6) {
+            System.out.println("date" + date);
+            System.out.println("date" + date.getDay());
+            if (date.getDay() == 0 || date.getDay() == 6) {
                 weekEcntr++;
             }
 
-            if(date.getDay() == 1 || date.getDay() == 2 || date.getDay() == 3 || date.getDay() == 4 || date.getDay() == 5) {
+            if (date.getDay() == 1 || date.getDay() == 2 || date.getDay() == 3 || date.getDay() == 4 || date.getDay() == 5) {
                 weekDcntr++;
             }
-        }   
+        }
 
-        System.out.println("Hashset"+hashSet);
-        if(!filter.getPriceRange().equals(""))
-        {
+        System.out.println("Hashset" + hashSet);
+        if (!filter.getPriceRange().equals("")) {
             String str = filter.getPriceRange();
             String[] result = str.split(" to ");
             ListIterator<Property> iter = properties.listIterator();
-            while(iter.hasNext()){
+            while (iter.hasNext()) {
 
                 Property p = iter.next();
                 float weekdayP = p.getWeekdayPrice();
                 float weekendP = p.getWeekendPrice();
                 float finalPrice = (weekDcntr * weekdayP) + (weekendP * weekEcntr);
                 // weekend check needs to be added depending upon the user selection of the dates
-                // If he selected for weekends then consider weekend if weekday then only weekday if both then only below.
-                if(finalPrice  < Float.parseFloat(result[0]) || finalPrice > Float.parseFloat(result[1])) {
-                        iter.remove();
+                // If he selected for weekends then consider weekend if weekday then only weekday if both then only below
+                if (finalPrice < Float.parseFloat(result[0]) || finalPrice > Float.parseFloat(result[1])) {
+                    iter.remove();
                 }
             }
         }
-
-
 
         List<Reservations> finaList = new ArrayList<>();
         List<Reservations> res = new ArrayList<>();
@@ -193,7 +194,38 @@ public class SearchPropertyService {
             }
         }
 
-        return properties;
+
+        List<Property> properties1 = new ArrayList<>();
+
+
+        System.out.println(properties.size());
+        for (int i = 0; i < properties.size(); i++) {
+            Property p = properties.get(i);
+
+            if (p.isSun() && !hashSet.contains(0)) {
+                properties1.add(p);
+            }
+            else if (p.isMon() && !hashSet.contains(1)) {
+                properties1.add(p);
+            }
+            else if (p.isTue() && !hashSet.contains(2)) {
+                properties1.add(p);
+            }
+            else if (p.isWed() && !hashSet.contains(3)) {
+                properties1.add(p);
+            }
+            else if (p.isThu() && !hashSet.contains(4)) {
+                properties1.add(p);
+            }
+            else if (p.isFri() && !hashSet.contains(5)) {
+                properties1.add(p);
+            }
+            else if (p.isSat() && !hashSet.contains(6)) {
+                properties1.add(p);
+            }
+        }
+
+        return properties1;
     }
 
 
