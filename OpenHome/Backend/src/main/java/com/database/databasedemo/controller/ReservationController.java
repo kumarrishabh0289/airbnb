@@ -186,7 +186,7 @@ public List<Reservations> getGuestReservations(@PathVariable int id) {
 
     @PostMapping("/reservation/checkout")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseEntity<?> checkoutReservation(@RequestBody Map<String, String> payload) throws ParseException {
+    public ResponseEntity<?> checkoutReservation(@RequestBody Map<String, String> payload) throws ParseException, MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
         String reservationId = payload.get(payload.keySet().toArray()[0]);
         int reservation_id = Integer.parseInt(reservationId);
         //String checkOutDate = payload.get(payload.keySet().toArray()[1]);

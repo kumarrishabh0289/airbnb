@@ -104,7 +104,7 @@ class CreateProperty extends Component {
       owner: { id: user },
       propertyType: this.state.propertyType,
       sharingType: this.state.sharingType,
-      street: this.state.street,
+      streetName: this.state.street,
       city: this.state.city,
       state: this.state.state,
       zipcode: this.state.zipcode,
