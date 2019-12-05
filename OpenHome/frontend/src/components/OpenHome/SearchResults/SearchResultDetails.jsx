@@ -54,9 +54,9 @@ class SearchResultDetails extends Component {
                         loop = new Date(newDate);
 
                         if (loop.getDay() === 6 || loop.getDay() === 0)
-                            weekdayCnt++;
-                        else
                             weekendCnt++;
+                        else
+                            weekdayCnt++;
                     }
 
                     console.log("weekendCnt",weekendCnt)
