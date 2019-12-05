@@ -53,17 +53,19 @@ public class ReservationController {
     public ResponseEntity<?> newReservation(@RequestBody Map<String, String> payload) throws ParseException {
 
         System.out.println("payload"+payload);
-        String bookedPrice = payload.get(payload.keySet().toArray()[0]);
+        String bookedPrice = (String)payload.get("bookedPrice");
         int booked_price=Integer.parseInt(bookedPrice);
 
-        String bookedPriceWeekend = payload.get(payload.keySet().toArray()[1]);
+
+        String bookedPriceWeekend = (String)payload.get("bookedPriceWeekend");//=payload.get(payload.keySet().toArray()[1]);
         int booked_price_weekend=Integer.parseInt(bookedPriceWeekend);
 
-        String bookedPriceWeekday = payload.get(payload.keySet().toArray()[2]);
+        String bookedPriceWeekday =(String)payload.get("bookedPriceWeekday");//= payload.get(payload.keySet().toArray()[2]);
+
         int booked_price_weekday=Integer.parseInt(bookedPriceWeekday);
 
 
-        String bookingDate = payload.get(payload.keySet().toArray()[3]);
+        String bookingDate = (String)payload.get("bookingDate");//=payload.get(payload.keySet().toArray()[3]);
 
         System.out.println(bookingDate);
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -71,14 +73,14 @@ public class ReservationController {
         OffsetDateTime booking_date = date1.toInstant()
                 .atOffset(ZoneOffset.UTC);
         System.out.println("booking_date"+booking_date);
-        String startDate = payload.get(payload.keySet().toArray()[4]);
+        String startDate =(String)payload.get("startDate");//= payload.get(payload.keySet().toArray()[4]);
         System.out.println("startDate"+startDate);
         System.out.println(startDate);
         java.util.Date date2 = sdf1.parse(startDate);
         OffsetDateTime start_date = date2.toInstant()
                 .atOffset(ZoneOffset.UTC);
         System.out.println("start_date "+start_date);
-        String endDate = payload.get(payload.keySet().toArray()[5]);
+        String endDate = (String)payload.get("endDate");//=payload.get(payload.keySet().toArray()[5]);
         System.out.println("endDate "+endDate );
         System.out.println(endDate);
         java.util.Date date3 = sdf1.parse(endDate);
@@ -86,20 +88,23 @@ public class ReservationController {
                 .atOffset(ZoneOffset.UTC);
 
         System.out.println("end_date "+end_date );
-        String guestId = payload.get(payload.keySet().toArray()[6]);
+        String guestId =(String)payload.get("guestId");//= payload.get(payload.keySet().toArray()[6]);
 
-        System.out.println(guestId);
+        System.out.println("guestId"+guestId);
         int guest_id=Integer.parseInt(guestId);
 
-        String propertyId = payload.get(payload.keySet().toArray()[7]);
+        String propertyId =(String)payload.get("propertyId");//= payload.get(payload.keySet().toArray()[7]);
 
-        System.out.println(propertyId);
+        System.out.println("propertyId"+propertyId);
 
         int id=Integer.parseInt(propertyId);
         Property property=propertyService.getProperty(id);
 
-        String address = payload.get(payload.keySet().toArray()[8]);
-        String description = payload.get(payload.keySet().toArray()[9]);
+        String address =(String)payload.get("address");//= payload.get(payload.keySet().toArray()[8]);
+        System.out.println("address "+address);
+        String description =(String)payload.get("description");//= payload.get(payload.keySet().toArray()[9]);
+        System.out.println("description "+description);
+
 
         Reservations reservation=new Reservations(booked_price,booked_price_weekend,booked_price_weekday,booking_date, start_date, end_date,guest_id,id,address,description);
         reservation.setStatus("Booked");
