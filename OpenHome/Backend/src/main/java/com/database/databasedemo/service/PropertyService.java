@@ -76,7 +76,7 @@ public class PropertyService {
 
 
 
-         Property p1 = getProperty(property.getPropertyId());
+        Property p1 = getProperty(property.getPropertyId());
 //
 //        System.out.println("fri"+ p1.isFri());
 //        System.out.println("description"+ property.getPropertyDescription());
