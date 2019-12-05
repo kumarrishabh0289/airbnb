@@ -134,7 +134,11 @@ public List<Reservations> getReservationsToBeCheckedOut(){
                 System.out.println("Proper checkin");
                 reservation.setStatus("Payment Processed");
                 reservation.setState("CheckedIn");
-                float totalPrice = ((reservation.getBookedPriceWeekday() * getWeekdays(startDate, endDate)) + (reservation.getBookedPriceWeekend() * getWeekends(startDate, endDate)));
+                int weekdays=getWeekdays(startDate, endDate);
+                int weekends=getWeekends(startDate, endDate);
+                float totalPrice = ((reservation.getBookedPriceWeekday() *weekdays ) + (reservation.getBookedPriceWeekend() * weekends));
+                Property p = propertyService.getProperty(reservation.getPropertyId());
+                totalPrice+=(weekdays+weekends)*p.getParkingFee();
                 reservation.setPaymentAmount(totalPrice);
             } else {
 //            System.out.println("Check in after 3 am");
