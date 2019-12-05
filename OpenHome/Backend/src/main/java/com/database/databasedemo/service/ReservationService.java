@@ -225,8 +225,6 @@ public List<Reservations> getReservationsToBeCheckedOut(){
                         } else {
                             penalty += (float) (reservation.getBookedPriceWeekday());
                         }
-
-
                     }
                 } else if (diff <= -2) {
                     if (checkOutHour >= 15) {

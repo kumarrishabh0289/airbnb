@@ -34,7 +34,8 @@ class CreateProperty extends Component {
       thu: false,
       fri: false,
       sat: false,
-      status: ""
+      status: "",
+      mobileNumber: ''
     };
   }
   changeHandler = (name, e) => {
@@ -127,7 +128,8 @@ class CreateProperty extends Component {
       wed: this.state.wed,
       thur: this.state.thur,
       fri: this.state.fri,
-      sat: this.state.sat
+      sat: this.state.sat,
+      mobileNumber: this.state.mobileNumber
     };
     console.log(data);
     axios.post(API_URL + "/property/add", data, header).then(response => {
@@ -583,8 +585,26 @@ class CreateProperty extends Component {
                         </select>
                       </div>
                     </div>
+                    
                   </div>
+
+                  <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                      <label for="Contact">
+                        <h5>Contact Details</h5>
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="mobilenumber"
+                        placeholder="Mobile Number"
+                        onChange={this.changeHandler.bind(this, "mobileNumber")}
+                      />
+                    </div>
+                  </div>
+
                 </div>
+                
                 <div class="row">
                   <div class="col-sm-12 col-md-12">
                     <div class="form-group">
