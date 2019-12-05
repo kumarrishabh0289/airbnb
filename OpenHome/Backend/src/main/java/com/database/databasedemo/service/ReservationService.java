@@ -250,18 +250,20 @@ public List<Reservations> getReservationsToBeCheckedOut(){
                         System.out.println("Check out happened after 3 pm before one day so no change in charges");
                     } else {
                         System.out.println("Check out happened before 3 pm so 30% for current day and no charges for next day");
-                        if (checkOutDayVal.equals("SATURDAY") || checkOutDayVal.equals("SUNDAY")) {
-                            penalty = (float) (0.3 * reservation.getBookedPriceWeekend());
-                            returnAmount =reservation.getBookedPriceWeekend();
-                        } else {
-                            penalty = (float) (0.3 * reservation.getBookedPriceWeekday());
-                            returnAmount =reservation.getBookedPriceWeekend();
-                        }
+//                        if (checkOutDayVal.equals("SATURDAY") || checkOutDayVal.equals("SUNDAY")) {
+//                            penalty = (float) (0.3 * reservation.getBookedPriceWeekend());
+//                            returnAmount =reservation.getBookedPriceWeekend();
+//                        } else {
+//                            penalty = (float) (0.3 * reservation.getBookedPriceWeekday());
+//                            returnAmount =reservation.getBookedPriceWeekend();
+//                        }
 
                         if (nextDayVal.equals("SATURDAY") || nextDayVal.equals("SUNDAY")) {
-                            returnAmount  += (float) (reservation.getBookedPriceWeekend());
+                            penalty = (float) (0.3 * reservation.getBookedPriceWeekend());
+                           returnAmount =reservation.getBookedPriceWeekend();
                         } else {
-                            returnAmount += (float) (reservation.getBookedPriceWeekday());
+                            penalty = (float) (0.3 * reservation.getBookedPriceWeekend());
+                            returnAmount =reservation.getBookedPriceWeekend();
                         }
                         Property p=propertyService.getProperty(reservation.getPropertyId());
                         returnAmount+=p.getParkingFee();

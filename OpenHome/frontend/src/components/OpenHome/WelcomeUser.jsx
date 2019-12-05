@@ -222,6 +222,7 @@ class WelcomeUser extends Component {
         <h2>Openhome User Dashboard</h2>
         <br />
         <h4>Welcome {this.props.match.params.name}</h4>
+
         <h7><Link className="nav-link" to="/userbilling"  >Monthly Billing Overview</Link></h7>
 
 
@@ -421,9 +422,6 @@ class WelcomeUser extends Component {
                 <th>Booking Amount</th>
                 <th>Total Payable</th>
                 <th>Status</th>
-
-
-
               </tr>
               {this.state.booking.map(booking => {
                 if (booking.state === "CheckedOut") {
