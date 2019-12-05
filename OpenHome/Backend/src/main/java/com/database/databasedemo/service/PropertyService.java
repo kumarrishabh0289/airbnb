@@ -1,4 +1,6 @@
 package com.database.databasedemo.service;
+import com.database.databasedemo.mail.SendMail;
+import com.database.databasedemo.repository.PersonJPARepo;
 import com.database.databasedemo.service.ReservationService;
 
 import com.database.databasedemo.entity.Person;
@@ -13,12 +15,14 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
@@ -45,6 +49,9 @@ public class PropertyService {
     @Autowired
     ReservationService reservationService;
 
+    @Autowired
+    PersonJPARepo personJPARepo;
+
     public Property getProperty(int id) {
         return propertyRepo.findById(id).orElse(null);
     }
@@ -65,7 +72,7 @@ public class PropertyService {
         return propertyRepo.findByOwner(ownerId);
     }
 
-    public void updateProperty(Property property) {
+    public void updateProperty(Property property) throws MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
 
 
 
@@ -136,6 +143,16 @@ public class PropertyService {
         p1.setWeekdayPrice(property.getWeekdayPrice());
         p1.setWeekendPrice(property.getWeekendPrice());
         propertyRepo.save(p1);
+
+        Person p = personJPARepo.findById(p1.getOwner().getId());
+        String receiver = p.getEmail();
+
+        if(!receiver.equals("")) {
+            SendMail y = new SendMail();
+            y.sendEmail("You have updated Property in Open Home", receiver,
+                    "You have updated Property in Open Home.\n\n For more details check your dashboard\n\n " +
+                            "Thanks and Regards, \n OpenHome Team");
+        }
     }
 
     public void deductfor7Days(Property property, String day) {
@@ -238,11 +255,23 @@ public class PropertyService {
 
     }
 
-    public void createProperty(Property property) {
+    public void createProperty(Property property) throws MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
+
+
         propertyRepo.save(property);
+
+        Person p = personJPARepo.findById(property.getOwner().getId());
+        String receiver = p.getEmail();
+
+        if(!receiver.equals("")) {
+            SendMail y = new SendMail();
+            y.sendEmail("You have created new Property in Open Home", receiver,
+                    "You have created new Property in Open Home.\n\n For more details check your dashboard\n\n " +
+                            "Thanks and Regards, \n OpenHome Team");
+        }
     }
 
-    public void removeEntireProperty(Property property) {
+    public void removeEntireProperty(Property property) throws MessagingException, IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
 
         Property p1 = getProperty(property.getPropertyId());
 
@@ -256,6 +285,16 @@ public class PropertyService {
 
         p1.setStatus("Removed");
         propertyRepo.save(p1);
+
+        Person p = personJPARepo.findById(p1.getOwner().getId());
+        String receiver = p.getEmail();
+
+        if(!receiver.equals("")) {
+            SendMail y = new SendMail();
+            y.sendEmail("You have removed Property in Open Home", receiver,
+                    "You have removed Property in Open Home.\n\n For more details check your dashboard\n\n " +
+                            "Thanks and Regards, \n OpenHome Team");
+        }
     }
 
     public void removeProperty(int id) {
