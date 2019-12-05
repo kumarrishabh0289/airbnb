@@ -56,6 +56,17 @@ public class ReservationService {
         return reservationRepo.findByGuestId(id);
     }
 
+    public List<Reservations> getGuestReservationsByMonthYear(int id,String month,int year) {
+        List<Reservations> allReservations=getGuestReservations(id);
+        List<Reservations> respReservations=new ArrayList<>();
+        for (Reservations r:allReservations) {
+            System.out.println(r.getEndDate().getMonth().toString());
+            if(r.getEndDate().getMonth().toString().equals(month) && r.getEndDate().getYear()==year){
+                respReservations.add(r);
+            }
+        }
+        return respReservations;
+    }
 
 //    public List<Reservations> getHostReservations(int guestId) {
 //
@@ -96,6 +107,22 @@ public List<Reservations> getReservationsToBeCheckedOut(){
             propertyIdReservations = getReservationProperties(property.getPropertyId());
             for (Reservations r : propertyIdReservations) {
                 ownerPropertyReservations.add(r);
+            }
+        }
+        return ownerPropertyReservations;
+    }
+
+    public List<Reservations> getHostReservationsByMonthYear(int id,String month,int year) {
+        Person p = personSpringDataRepo.findById(id).orElse(null);
+        List<Property> ownerProperties = propertyService.getHostProperties(p);
+        List<Reservations> ownerPropertyReservations = new ArrayList<>();
+        List<Reservations> propertyIdReservations;
+        for (Property property : ownerProperties) {
+            propertyIdReservations = getReservationProperties(property.getPropertyId());
+            for (Reservations r : propertyIdReservations) {
+                System.out.println(r.getEndDate().getMonth().toString());
+                if(r.getEndDate().getMonth().toString().equals(month) && r.getEndDate().getYear()==year)
+                    ownerPropertyReservations.add(r);
             }
         }
         return ownerPropertyReservations;
@@ -213,6 +240,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
             float penalty = 0;
             System.out.println("Difference between end date and check out date " + diff);
             System.out.println("Check out hour is " + checkOutHour);
+            float returnAmount=0;
             if (diff == 0) {
                 System.out.println("No difference between check out date and end date");
             } else if (diff < 0) {
@@ -224,15 +252,19 @@ public List<Reservations> getReservationsToBeCheckedOut(){
                         System.out.println("Check out happened before 3 pm so 30% for current day and no charges for next day");
                         if (checkOutDayVal.equals("SATURDAY") || checkOutDayVal.equals("SUNDAY")) {
                             penalty = (float) (0.3 * reservation.getBookedPriceWeekend());
+                            returnAmount =reservation.getBookedPriceWeekend();
                         } else {
                             penalty = (float) (0.3 * reservation.getBookedPriceWeekday());
+                            returnAmount =reservation.getBookedPriceWeekend();
                         }
-                        float returnAmount=0;
+
                         if (nextDayVal.equals("SATURDAY") || nextDayVal.equals("SUNDAY")) {
-                            returnAmount  = (float) (reservation.getBookedPriceWeekend());
+                            returnAmount  += (float) (reservation.getBookedPriceWeekend());
                         } else {
-                            returnAmount = (float) (reservation.getBookedPriceWeekday());
+                            returnAmount += (float) (reservation.getBookedPriceWeekday());
                         }
+                        Property p=propertyService.getProperty(reservation.getPropertyId());
+                        returnAmount+=p.getParkingFee();
                         System.out.println("Updating return amount"+returnAmount);
                         reservation.setPaymentAmount(reservation.getPaymentAmount()-returnAmount);
                     }
@@ -241,30 +273,39 @@ public List<Reservations> getReservationsToBeCheckedOut(){
                         System.out.println("Check out happened after 3 pm before 2 days so full charges for current day and 30% for next day");
                         if (nextDayVal.equals("SATURDAY") || nextDayVal.equals("SUNDAY")) {
                             penalty = (float) (0.3 * reservation.getBookedPriceWeekend());
+                            returnAmount=reservation.getBookedPriceWeekend();
                         } else {
                             penalty = (float) (0.3 * reservation.getBookedPriceWeekday());
+                            returnAmount=reservation.getBookedPriceWeekday();
                         }
-                        int remainingWeekDays = getWeekdays(nextDate.plusDays(1), end_date);
-                        int remainingWeekEnds = getWeekdays(nextDate.plusDays(1), end_date);
+                        int remainingWeekDays = getWeekdays(nextDate.plusDays(1), end_date.minusDays(1));
+                        int remainingWeekEnds = getWeekdays(nextDate.plusDays(1), end_date.minusDays(1));
                         float remainingDaysPrice = (remainingWeekDays * reservation.getBookedPriceWeekday()) +
                                 (remainingWeekEnds* reservation.getBookedPriceWeekend());
+                        returnAmount+=remainingDaysPrice;
+                        returnAmount+=(remainingWeekDays+remainingWeekEnds)*(propertyService.getProperty(reservation.getPropertyId()).getParkingFee());
                         //penalty += ((reservation.getBookedPriceWeekday() * getWeekdays(nextDate.plusDays(1), end_date)) + (reservation.getBookedPriceWeekend() * getWeekends(nextDate.plusDays(1), end_date)));
                         System.out.println("Updating return amount"+remainingDaysPrice);
-                        reservation.setPaymentAmount(reservation.getPaymentAmount()-remainingDaysPrice);
+                        reservation.setPaymentAmount(reservation.getPaymentAmount()-returnAmount);
                     } else {
                         System.out.println("Check out happened before 3 pm before 2 days so 30% for current day and no further charges from next day");
                         if (checkOutDayVal.equals("SATURDAY") || checkOutDayVal.equals("SUNDAY")) {
                             penalty = (float) (0.3 * reservation.getBookedPriceWeekend());
+                            returnAmount=reservation.getBookedPriceWeekend();
                         } else {
                             penalty = (float) (0.3 * reservation.getBookedPriceWeekday());
+                            returnAmount=reservation.getBookedPriceWeekday();
                         }
-                        int remainingWeekDays = getWeekdays(nextDate, end_date);
-                        int remainingWeekEnds = getWeekdays(nextDate, end_date);
+                        int remainingWeekDays = getWeekdays(nextDate, end_date.minusDays(1));
+                        int remainingWeekEnds = getWeekdays(nextDate, end_date.minusDays(1));
+
                         float remainingDaysPrice = (remainingWeekDays * reservation.getBookedPriceWeekday()) +
                                 (remainingWeekEnds* reservation.getBookedPriceWeekend());
+                        returnAmount+=remainingDaysPrice;
+                        returnAmount+=(remainingWeekDays+remainingWeekEnds)*(propertyService.getProperty(reservation.getPropertyId()).getParkingFee());
                         //penalty += ((reservation.getBookedPriceWeekday() * getWeekdays(nextDate.plusDays(1), end_date)) + (reservation.getBookedPriceWeekend() * getWeekends(nextDate.plusDays(1), end_date)));
                         System.out.println("Updating return amount"+remainingDaysPrice);
-                        reservation.setPaymentAmount(reservation.getPaymentAmount()-remainingDaysPrice);
+                        reservation.setPaymentAmount(reservation.getPaymentAmount()-returnAmount);
                         //penalty += ((reservation.getBookedPriceWeekday() * getWeekdays(nextDate, end_date)) + (reservation.getBookedPriceWeekend() * getWeekends(nextDate, end_date)));
                     }
                 }
