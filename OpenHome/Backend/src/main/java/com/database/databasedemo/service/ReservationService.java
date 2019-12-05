@@ -177,7 +177,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
                 return 0;
             }
 
-            reservation.setCheckInDate(check_in_date);
+            reservation.setCheckInDate(check_in_date.plusHours(8));
             reservationRepo.save(reservation);
             return 1;
         }else{
@@ -256,7 +256,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
             }
             reservation.setStatus("Available");
             reservation.setState("CheckedOut");
-            reservation.setCheckOutDate(check_out_date);
+            reservation.setCheckOutDate(check_out_date.plusHours(8));
             reservationRepo.save(reservation);
             return 1;
         }
