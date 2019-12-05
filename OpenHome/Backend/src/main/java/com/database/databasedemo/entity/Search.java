@@ -1,6 +1,7 @@
 package com.database.databasedemo.entity;
 
 import javax.persistence.*;
+import java.time.OffsetDateTime;
 import java.util.Date;
 
 public class Search {
