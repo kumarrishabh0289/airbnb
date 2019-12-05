@@ -225,8 +225,6 @@ public List<Reservations> getReservationsToBeCheckedOut(){
                         } else {
                             penalty += (float) (reservation.getBookedPriceWeekday());
                         }
-
-
                     }
                 } else if (diff <= -2) {
                     if (checkOutHour >= 15) {
@@ -266,7 +264,7 @@ public List<Reservations> getReservationsToBeCheckedOut(){
         }
     }
 
-    public void cancelReservationByGuest(Reservations reservation) throws ParseException {
+    public int cancelReservationByGuest(Reservations reservation) throws ParseException {
         OffsetDateTime cancellation_date = timeservice.getCurrentTime();
         System.out.println("offset utc date cancellation " + cancellation_date);
         LocalDate current_date = cancellation_date.toLocalDate();
@@ -284,41 +282,47 @@ public List<Reservations> getReservationsToBeCheckedOut(){
         float penalty = 0;
         System.out.println("Difference between start date and cancellation date " + diff);
         System.out.println("cancellation hour is " + cancellationHour);
-        if (diff <= -2) {
-            System.out.println("No penalty as 2 days ahead cancellation");
-        } else if ((diff == -1 && cancellationHour >= 15) || (diff == 0 && cancellationHour < 15)) {
-            System.out.println("Cancellation done one day prior so only 30% of start date");
-            if (startDayVal.equals("SATURDAY") || startDayVal.equals("SUNDAY")) {
-                penalty = (float) (0.3 * reservation.getBookedPriceWeekend());
-            } else {
-                penalty = (float) (0.3 * reservation.getBookedPriceWeekday());
-            }
-        } else if ((diff == 0 && cancellationHour >= 15) || (diff == 1 && cancellationHour < 3)) {
-            System.out.println("cancellation happened before 3 pm before one day so 30% of first day");
-            if (startDayVal.equals("SATURDAY") || startDayVal.equals("SUNDAY")) {
-                penalty = (float) (0.3 * reservation.getBookedPriceWeekend());
-            } else {
-                penalty = (float) (0.3 * reservation.getBookedPriceWeekday());
-            }
-            System.out.println("check if user has next day booking");
-            if (nextDate.compareTo(reservation.getEndDate().toLocalDate()) != 0) {
-                if (nextDayVal.equals("SATURDAY") || nextDayVal.equals("SUNDAY")) {
-                    penalty += (float) (reservation.getBookedPriceWeekend());
+        if(reservation.getStatus().equals("Booked")) {
+            if (diff <= -2) {
+                System.out.println("No penalty as 2 days ahead cancellation");
+            } else if ((diff == -1 && cancellationHour >= 15) || (diff == 0 && cancellationHour < 15)) {
+                System.out.println("Cancellation done one day prior so only 30% of start date");
+                if (startDayVal.equals("SATURDAY") || startDayVal.equals("SUNDAY")) {
+                    penalty = (float) (0.3 * reservation.getBookedPriceWeekend());
                 } else {
-                    penalty += (float) (reservation.getBookedPriceWeekday());
+                    penalty = (float) (0.3 * reservation.getBookedPriceWeekday());
+                }
+            } else if ((diff == 0 && cancellationHour >= 15) || (diff == 1 && cancellationHour < 3)) {
+                System.out.println("cancellation happened before 3 pm before one day so 30% of first day");
+                if (startDayVal.equals("SATURDAY") || startDayVal.equals("SUNDAY")) {
+                    penalty = (float) (0.3 * reservation.getBookedPriceWeekend());
+                } else {
+                    penalty = (float) (0.3 * reservation.getBookedPriceWeekday());
+                }
+                System.out.println("check if user has next day booking");
+                if (nextDate.compareTo(reservation.getEndDate().toLocalDate()) != 0) {
+                    if (nextDayVal.equals("SATURDAY") || nextDayVal.equals("SUNDAY")) {
+                        penalty += (float) (reservation.getBookedPriceWeekend());
+                    } else {
+                        penalty += (float) (reservation.getBookedPriceWeekday());
+                    }
                 }
             }
+            System.out.println(penalty);
+            reservation.setPenaltyValue(penalty);
+            reservation.setPenaltyReason("Cancelled by Guest");
+            reservation.setStatus("Available");
+            reservation.setState("CancelledByGuest");
+            reservationRepo.save(reservation);
+            return 1;
         }
-        System.out.println(penalty);
-        reservation.setPenaltyValue(penalty);
-        reservation.setPenaltyReason("Cancelled by Guest");
-        reservation.setStatus("Available");
-        reservation.setState("CancelledByGuest");
-        reservationRepo.save(reservation);
-
+        else{
+            System.out.println("Can't cancel an invalid property");
+            return 0;
+        }
     }
 
-    public void cancelReservationByHost(Reservations reservation) throws ParseException {
+    public int cancelReservationByHost(Reservations reservation) throws ParseException {
         OffsetDateTime cancellation_date = timeservice.getCurrentTime();
         System.out.println("offset utc date cancellation " + cancellation_date);
         LocalDate current_date = cancellation_date.toLocalDate();
@@ -344,10 +348,6 @@ public List<Reservations> getReservationsToBeCheckedOut(){
         //need to get parking fee
         Property p = propertyService.getProperty(reservation.getPropertyId());
 
-
-// checkout hua check karna padega
-// checkout hua check karna padega
-// checkout date comparision
         float remainingDaysPrice = 0;
         if(reservation.getStatus().equals("Booked")) {
 
@@ -396,6 +396,10 @@ public List<Reservations> getReservationsToBeCheckedOut(){
             reservation.setStatus("Available");
             reservation.setState("CancelledByHost");
             reservationRepo.save(reservation);
+            return 1;
+        }
+        else{
+            return 0;
         }
 
     }
