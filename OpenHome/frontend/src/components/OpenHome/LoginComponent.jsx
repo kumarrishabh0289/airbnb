@@ -46,6 +46,7 @@ class LoginComponent extends Component {
                 sessionStorage.setItem("userRole", response.data.role)
                 sessionStorage.setItem("userName", response.data.name)
                 sessionStorage.setItem("JWT", response.data.token)
+                sessionStorage.setItem("verified", response.data.verified)
                 if(response.data.role === "user"){
                     this.props.history.push(`/welcomeuser/${response.data.name}`)
                 }
@@ -86,6 +87,7 @@ class LoginComponent extends Component {
                     sessionStorage.setItem("userRole", response.data.role)
                     sessionStorage.setItem("userName", response.data.name)
                     sessionStorage.setItem("JWT", response.data.token)
+                    sessionStorage.setItem("verified", response.data.verified)
                     if(response.data.role === "user"){
                         this.props.history.push(`/welcomeuser/${response.data.name}`)
                     }

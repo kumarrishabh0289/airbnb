@@ -34,7 +34,15 @@ class AuthenticationForApiService {
 
     isUserLoggedIn() {
         let user = sessionStorage.getItem(AUTHENTICATED_USER_SESSION)
-        if (user === null) return false
+        let verified = sessionStorage.getItem("verified")
+        if (user === null || verified === "no") return false
+        return true
+    }
+
+    isUserVerified() {
+
+        let verified = sessionStorage.getItem("verified")
+        if (verified === "no") return false
         return true
     }
 

@@ -85,6 +85,7 @@ public class PersonResource {
         map.put("role", person.get().getRole());
         map.put("email", person.get().getEmail());
         map.put("id", String.valueOf(person.get().getId()));
+        map.put("verified", String.valueOf(person.get().getVerification()));
 
         return map;
     }
@@ -188,6 +189,7 @@ public class PersonResource {
                 map.put("role", person.get().getRole());
                 map.put("email", person.get().getEmail());
                 map.put("id", String.valueOf(person.get().getId()));
+                map.put("verified", String.valueOf(person.get().getVerification()));
 
                 return map;
             }

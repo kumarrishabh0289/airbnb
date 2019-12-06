@@ -223,8 +223,9 @@ render() {
                                     <span>Previous Page</span>
                                 </button>
                                 &nbsp;
-                                    {(!(sessionStorage.getItem("authenticatedUser") === null) && (sessionStorage.getItem("userRole") === "user")) && <button class="btn btn-danger" name="BookButton" onClick={this.BookButton} > <span>Book Property</span></button>}
+                                    {(!(sessionStorage.getItem("authenticatedUser") === null) && (sessionStorage.getItem("userRole") === "user") && (sessionStorage.getItem("verified") === "yes")) && <button class="btn btn-danger" name="BookButton" onClick={this.BookButton} > <span>Book Property</span></button>}
                                 {(sessionStorage.getItem("authenticatedUser") === null) && <div><Link to="/login">Login</Link> to Continue Booking....</div>}
+                                {(sessionStorage.getItem("verified") === "no") && <div>Please Verify your Email to Start Booking.</div>}
                             </div>
                         </div>
                     </div>

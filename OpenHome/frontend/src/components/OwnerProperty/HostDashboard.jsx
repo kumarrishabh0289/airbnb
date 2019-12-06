@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { API_URL } from "../../Constants";
 import axios from "axios";
 import Draggable from "react-draggable";
+import AuthenticationForApiService from '../OpenHome/AuthenticationForApiService'
 class HostDashboard extends Component {
   constructor(props) {
     super(props);
@@ -30,6 +31,7 @@ class HostDashboard extends Component {
   };
 
   render() {
+    const isUserVerified = AuthenticationForApiService.isUserVerified();
     return (
       <div class="container">
         <div class="body-div">
@@ -39,11 +41,12 @@ class HostDashboard extends Component {
           <h4>Welcome {this.props.match.params.name}</h4>
           <h7><Link className="nav-link" to="/hostbilling"  >Monthly Billing Overview</Link></h7>
           <br></br>
-          <Link to="/property/new">
+          {isUserVerified && <li><h7 style={{ backgroundColor: "powderblue" }}><Link to="/property/new">
             <a href="/#" class="btn btn-info btn-lg">
               <span class="glyphicon glyphicon-plus">+</span> Property
             </a>
-          </Link>
+          </Link></h7></li>}
+          
           <br></br>
           <br></br>
           <div class="card-columns">

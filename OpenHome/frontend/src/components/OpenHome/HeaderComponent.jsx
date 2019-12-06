@@ -70,7 +70,8 @@ class HeaderComponent extends Component {
 
     render() {
         const isUserLoggedIn = AuthenticationForApiService.isUserLoggedIn();
-        
+        const isUserVerified = AuthenticationForApiService.isUserVerified();
+        console.log("isUserVerified",isUserVerified)
 
         return (
             <header>
@@ -88,6 +89,7 @@ class HeaderComponent extends Component {
                             &nbsp;<input type="submit" className="btn btn-danger" />
                             </form>
                         </li>
+                       {!isUserVerified && <li><h7 style={{ backgroundColor: "powderblue" }}>Email Not Verified</h7></li>}
                     </ul>
                     <ul className="navbar-nav navbar-collapse justify-content-end">
                     {!isUserLoggedIn && <li><Link className="nav-link" to="/signup"  onClick={AuthenticationForApiService.logout}>Sign Up</Link></li>}
