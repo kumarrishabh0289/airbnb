@@ -230,7 +230,11 @@ public List<Reservations> getReservationsToBeCheckedOut(){
                 y.sendEmail("You have checked in to one of your reservations in Open Home", recevier,
                         "You have checked in to one of your reservations in Open Home.\n\n For more details check the dashboard\n\n " +
                                 "Thanks and Regards, \n OpenHome Team");
+                y.sendEmail("Your payment for Open Home has been processed", recevier,
+                        "Your payment with the card details registered have been processed.\n\n For more details check the dashboard\n\n " +
+                                "Thanks and Regards, \n OpenHome Team");
             }
+
 
             return 1;
         }else{
