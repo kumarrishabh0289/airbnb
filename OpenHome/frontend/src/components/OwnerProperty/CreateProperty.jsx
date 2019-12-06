@@ -132,46 +132,34 @@ class CreateProperty extends Component {
       status: "Created"
     };
     console.log(data);
-    if(this.state.street === ""){
+    if (this.state.street === "") {
       alert("Street Address is Empty");
-    }
-    else if(this.state.city === ""){
+    } else if (this.state.city === "") {
       alert("City is Empty");
-    }
-    else if(this.state.zipcode === ""){
+    } else if (this.state.zipcode === "") {
       alert("ZipCode is Empty");
-    }
-    else if(this.state.phone === ""){
+    } else if (this.state.phone === "") {
       alert("Phone Number is Empty");
-    }
-    else if(this.state.totalSquareFootage === ""){
+    } else if (this.state.totalSquareFootage === "") {
       alert("Total Square Footage is Empty");
-    }
-    else if(this.state.weekdayPrice === ""){
+    } else if (this.state.weekdayPrice === "") {
       alert("Weekday Price/day is Empty");
-    }
-    else if(this.state.weekendPrice === ""){
+    } else if (this.state.weekendPrice === "") {
       alert("Weekend Price/day is Empty");
-    }
-    else if(this.state.picture === ""){
+    } else if (this.state.picture === "") {
       alert("Property Picture not added");
-    }
-    else if(this.state.propertyDescription === ""){
+    } else if (this.state.propertyDescription === "") {
       alert("Property Description is Empty");
-    }
-    else if(this.state.parkingFee === ""){
-      alert(" Parking fee per day not added");
-    }
-    else{
-    axios.post(API_URL + "/property/add", data, header).then(response => {
-      if (response.status === 201) {
-        this.setState({ status: "Success" });
-        this.props.history.push(`/hostdashboard/${sessionStorage.userName}`);
-      } else {
-        console.log(response);
-        alert("Error in creating property");
-        this.setState({ status: "Error in creating property" });
-      }
+    } else {
+      axios.post(API_URL + "/property/add", data, header).then(response => {
+        if (response.status === 201) {
+          this.setState({ status: "Success" });
+          this.props.history.push(`/hostdashboard/${sessionStorage.userName}`);
+        } else {
+          console.log(response);
+          alert("Error in creating property");
+          this.setState({ status: "Error in creating property" });
+        }
       });
     }
   };
@@ -475,29 +463,31 @@ class CreateProperty extends Component {
                       />
                     </div>
                   </div>
-                  {this.state.sharingType === "Full" && (<div class="col-sm-6 col-md-6">
-                    <div class="form-group">
-                      <label for="where">
-                        <h5>Number of Rooms</h5>
-                      </label>
+                  {this.state.sharingType === "Full" && (
+                    <div class="col-sm-6 col-md-6">
                       <div class="form-group">
-                        <select
-                          class="form-control"
-                          id="numberOfRooms"
-                          onChange={this.changeHandler.bind(
-                            this,
-                            "numberOfRooms"
-                          )}
-                        >
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="1">3</option>
-                          <option value="2">4</option>
-                          <option value="1">5</option>
-                        </select>
+                        <label for="where">
+                          <h5>Number of Rooms</h5>
+                        </label>
+                        <div class="form-group">
+                          <select
+                            class="form-control"
+                            id="numberOfRooms"
+                            onChange={this.changeHandler.bind(
+                              this,
+                              "numberOfRooms"
+                            )}
+                          >
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="1">3</option>
+                            <option value="2">4</option>
+                            <option value="1">5</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
-                  </div>)}
+                  )}
                 </div>
                 <div class="row">
                   <div class="col-sm-6 col-md-6">
@@ -620,10 +610,9 @@ class CreateProperty extends Component {
                         </select>
                       </div>
                     </div>
-                  
                   </div>
                 </div>
-                
+
                 <div class="row">
                   <div class="col-sm-12 col-md-12">
                     <div class="form-group">
