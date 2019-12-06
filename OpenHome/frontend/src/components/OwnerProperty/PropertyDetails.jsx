@@ -101,6 +101,8 @@ class PropertyDetails extends Component {
           weekdayp: this.state.properties.weekdayPrice,
           weekendp: this.state.properties.weekendPrice,
         });
+
+        console.log("Prop",this.state.properties);
        // console.log("properties",this.state.properties)
       });
   }
@@ -121,7 +123,7 @@ class PropertyDetails extends Component {
         tue:this.state.tue,
         wed:this.state.wed,
         thu:this.state.thu,
-        fri:false,
+        fri:this.state.fri,
         sat:this.state.sat,
         sun:this.state.sun,
         weekdayPrice:this.state.weekdayp,
@@ -129,6 +131,7 @@ class PropertyDetails extends Component {
         propertyDescription:propertyDescription
     }
 
+    console.log("data",data);
     var header = { "Content-Type": "application/JSON" };
     console.log("Data",data);
     axios.post(API_URL + "/property/availability", data, header).then(response => {
@@ -261,7 +264,7 @@ class PropertyDetails extends Component {
                               id="sun"
                             //  value="true"
                               defaultChecked={this.state.properties.sun}
-                              onChange={this.sunCheckboxHandler.bind()}
+                              onClick={this.sunCheckboxHandler.bind()}
                             />{" "}
                             Sunday
                           </label>
@@ -271,7 +274,7 @@ class PropertyDetails extends Component {
                               name="mon"
                              //value={this.state.properties.mon}
                              defaultChecked={this.state.properties.mon}
-                              onChange={this.monCheckboxHandler.bind()}
+                             onClick={this.monCheckboxHandler.bind()}
                             />{" "}
                             Monday
                           </label>
@@ -281,7 +284,7 @@ class PropertyDetails extends Component {
                               name="tue"
                             //  value="true"
                               defaultChecked={this.state.properties.tue}
-                              onChange={this.tueCheckboxHandler.bind()}
+                              onClick={this.tueCheckboxHandler.bind()}
                             />{" "}
                             Tuesday
                           </label>
@@ -291,7 +294,7 @@ class PropertyDetails extends Component {
                               name="wed"
                             //  value="true"
                               defaultChecked={this.state.properties.wed}
-                              onChange={this.wedCheckboxHandler.bind()}
+                              onClick={this.wedCheckboxHandler.bind()}
                             />{" "}
                             Wednesday
                           </label>
@@ -301,7 +304,7 @@ class PropertyDetails extends Component {
                               name="thu"
                              // value="true"
                               defaultChecked={this.state.properties.thu}
-                              onChange={this.thuCheckboxHandler.bind()}
+                              onClick={this.thuCheckboxHandler.bind()}
                             />{" "}
                             Thursday
                           </label>
@@ -311,7 +314,7 @@ class PropertyDetails extends Component {
                               name="fri"
                              // value="true"
                                defaultChecked={this.state.properties.fri}
-                               onChange={this.friCheckboxHandler.bind()}
+                               onClick={this.friCheckboxHandler.bind()}
                             />{" "}
                             Friday
                           </label>
@@ -321,7 +324,7 @@ class PropertyDetails extends Component {
                               name="sat"
                               //value="true"
                               defaultChecked={this.state.properties.sat}
-                              onChange={this.satCheckboxHandler.bind()}
+                              onClick={this.satCheckboxHandler.bind()}
                             />{" "}
                             Saturday
                           </label>
@@ -333,7 +336,7 @@ class PropertyDetails extends Component {
                               type="checkbox"
                               name="sat"
                               // value="true"
-                              onChange={this.agreeCheckboxHandler.bind()}
+                              onClick={this.agreeCheckboxHandler.bind()}
                             />{" "}
                             Agree
                           </label>
