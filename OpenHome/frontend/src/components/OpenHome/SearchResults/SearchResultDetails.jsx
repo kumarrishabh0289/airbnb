@@ -17,7 +17,9 @@ class SearchResultDetails extends Component {
             welcomeMessage: 'Hey You Are Authorized',
             responseData: '',
             responseData1: '',
-            bookingPrice: ''
+            bookingPrice: '',
+            rating:'',
+            showSuccessMessage:false
             //     moment: moment()
         }
 
@@ -25,6 +27,13 @@ class SearchResultDetails extends Component {
         this.BookButton = this.BookButton.bind(this);
         this.getLocation = this.getLocation.bind(this);
         this.showPosition = this.showPosition.bind(this);
+        this.submitRating = this.submitRating.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+    }
+    handleChange = (event) => {
+        this.setState({
+            [event.target.name]: event.target.value
+        })
     }
     getLocation() {
         if (navigator.geolocation) {
@@ -40,6 +49,43 @@ class SearchResultDetails extends Component {
               lon: parseFloat(position.coords.longitude)
           })
       }
+      submitRating = (e) => {
+        
+        console.log("submit login called")
+        console.log("rating", this.state.rating)
+      //  var headers = new Headers();
+        //prevent page from refresh
+        e.preventDefault();
+        
+        const data = {
+            propertyId:this.state.responseData.propertyId,
+            review:this.state.rating,
+        }
+        console.log("data", data)
+        //set the with credentials to true
+        //axios.defaults.withCredentials = true;
+        //make a post request with the user data
+        axios.post(API_URL + "/review/add", data)
+            .then((response) => {
+                console.log("Status Code : ", response.status);
+                if (response.status === 201) {
+
+                    console.log(response.data);
+                    this.setState({
+
+                        showSuccessMessage: true
+                    })
+                } else {
+                    console.log(response.data.error);
+                    this.setState({
+
+
+                        hasFailed: true
+                    })
+                }
+            });
+            
+    }
 
     componentDidMount() {
         this.getLocation();
@@ -240,6 +286,19 @@ render() {
                                 <p class="info">  <b>Number Of Rooms :</b> {this.state.responseData.numberOfRooms}</p>
                                 <p class="price"> ${this.state.responseData.weekendPrice} per  weekend night</p>
                                 <p class="price"> ${this.state.responseData.weekdayPrice} per  weekday night</p>
+                                </div>
+                            </div>
+                            <div class="row" >
+
+                            <div class="col-sm-7 col-md-7">
+                                {(!(sessionStorage.getItem("authenticatedUser") === null) && (sessionStorage.getItem("userRole") === "user") && (sessionStorage.getItem("verified") === "yes")) && <div class="price"> Give rating to this property <br/>
+                                <form onSubmit={this.submitRating}>
+                                
+                                <input  type="number" name="rating" id="rating" value={this.state.rating} onChange={this.handleChange} min="1" max="5" placeholder="number between 1-5" style={{width: "15em"}}/>
+                                &nbsp;&nbsp;&nbsp;
+                                <input type="submit"  />
+                                </form>
+                                </div>}
                                 <hr />
                                 <button class="btn btn-danger" name="BookButton" onClick={this.SearchButton} >
                                     <span>Previous Page</span>
@@ -248,8 +307,9 @@ render() {
                                     {(!(sessionStorage.getItem("authenticatedUser") === null) && (sessionStorage.getItem("userRole") === "user") && (sessionStorage.getItem("verified") === "yes")) && <button class="btn btn-danger" name="BookButton" onClick={this.BookButton} > <span>Book Property</span></button>}
                                 {(sessionStorage.getItem("authenticatedUser") === null) && <div><Link to="/login">Login</Link> to Continue Booking....</div>}
                                 {(sessionStorage.getItem("verified") === "no") && <div>Please Verify your Email to Start Booking.</div>}
-                            </div>
-                        </div>
+                                {this.state.showSuccessMessage && <div className="alert alert-warning">Rating was successfully registered</div>}
+                           </div>
+                           </div>
                     </div>
                 </div>
 
