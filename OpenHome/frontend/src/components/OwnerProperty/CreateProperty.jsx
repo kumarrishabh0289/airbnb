@@ -7,6 +7,8 @@ class CreateProperty extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      lat: 0.0,
+      lon: 0.0,
       ownerId: "",
       propertyType: "Apartment",
       sharingType: "Full",
@@ -36,7 +38,31 @@ class CreateProperty extends Component {
       sat: false,
       status: ""
     };
+    this.getLocation = this.getLocation.bind(this);
+    this.showPosition = this.showPosition.bind(this);
   }
+  getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(this.showPosition);
+    } else {
+      console.log("Geolocation is not supported by this browser.")
+    }
+  }
+  
+   showPosition(position) {
+      this.setState({
+          lat: parseFloat(position.coords.latitude),
+          lon: parseFloat(position.coords.longitude)
+      })
+  }
+
+  componentDidMount = () => {
+    this.getLocation();
+}
+
+
+
+
   changeHandler = (name, e) => {
     this.setState({
       [name]: e.target.value
@@ -686,6 +712,15 @@ class CreateProperty extends Component {
                           </label>
                         </fieldset>
                       </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 col-md-12">
+                    <div class="form-group">
+                      <br />
+                      <h4>Latitude :{this.state.lat}, Longitude: {this.state.lon}</h4>
+                      
                     </div>
                   </div>
                 </div>

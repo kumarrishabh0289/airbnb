@@ -12,6 +12,8 @@ class SearchResultDetails extends Component {
         super(props)
 
         this.state = {
+            lat: 0.0,
+            lon: 0.0,
             welcomeMessage: 'Hey You Are Authorized',
             responseData: '',
             responseData1: '',
@@ -21,10 +23,26 @@ class SearchResultDetails extends Component {
 
         this.SearchButton = this.SearchButton.bind(this);
         this.BookButton = this.BookButton.bind(this);
+        this.getLocation = this.getLocation.bind(this);
+        this.showPosition = this.showPosition.bind(this);
     }
+    getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(this.showPosition);
+        } else {
+          console.log("Geolocation is not supported by this browser.")
+        }
+      }
+      
+       showPosition(position) {
+          this.setState({
+              lat: parseFloat(position.coords.latitude),
+              lon: parseFloat(position.coords.longitude)
+          })
+      }
 
     componentDidMount() {
-        
+        this.getLocation();
 
 
         axios.get(API_URL + `/property/${this.props.match.params.propertyId}`)
@@ -205,6 +223,10 @@ render() {
                 <div className="container main-content">
                     <div class="property_details">
                         {displayImage}
+                        <br/>
+                          
+                  <iframe title="maplocation" src={"https://maps.google.com/maps?q="+this.state.lat+","+this.state.lon+"&z=15&output=embed"} width="300" height="270" frameborder="0" style={{border:0}}></iframe>
+                
                         <hr />
                         <div class="row" >
 

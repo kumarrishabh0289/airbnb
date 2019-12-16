@@ -9,6 +9,7 @@ class PropertyDetails extends Component {
     super(props);
 
     this.state = {
+      
       properties: [],
       sun: false,
       mon: false,
@@ -22,7 +23,10 @@ class PropertyDetails extends Component {
       weekdayp: '',
       weekendp :''
     };
+   
   }
+ 
+
 
 
   onChange (event) {
@@ -80,6 +84,7 @@ class PropertyDetails extends Component {
   };
 
   componentDidMount() {
+   
     console.log(this.props.match.params.propertyId);
     axios
       .get(API_URL + `/property/${this.props.match.params.propertyId}`, {
@@ -216,6 +221,8 @@ class PropertyDetails extends Component {
           <div className="container main-content">
               <div class="property_details">
                   {displayImage}
+                  <br/>
+                      
                   <div class="col-md-7 right-side">
                       <hr></hr>
                       <h3>{this.state.properties.propertyDescription}</h3>
