@@ -447,16 +447,16 @@ public List<Reservations> getReservationsToBeCheckedOut(){
             y.sendEmail(subject,recevier,body);
 
 
-            String recevier1 = personJPARepo.findById(propertyRepo.findById(reservation.getPropertyId())).getEmail();
-
-            String subject1 = "Customer cancelled your Home Reservation at OpenHome";
-
-
-            String body1 = "Dear Host, \n\n Customer have cancelled your Home booking. We regret any inconvenience caused you."  + "\n\n " +
-                    "Thanks and Regards, \n OpenHome Team";
-
-            SendMail y1 = new SendMail();
-            y1.sendEmail(subject1,recevier1,body1);
+//            String recevier1 = personJPARepo.findById(propertyRepo.findById(reservation.getPropertyId())).getEmail();
+//
+//            String subject1 = "Customer cancelled your Home Reservation at OpenHome";
+//
+//
+//            String body1 = "Dear Host, \n\n Customer have cancelled your Home booking. We regret any inconvenience caused you."  + "\n\n " +
+//                    "Thanks and Regards, \n OpenHome Team";
+//
+//            SendMail y1 = new SendMail();
+//            y1.sendEmail(subject1,recevier1,body1);
 
             return 1;
 
