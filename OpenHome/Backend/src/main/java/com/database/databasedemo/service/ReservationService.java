@@ -53,6 +53,10 @@ public class ReservationService {
     @Autowired
     PersonJPARepo personJPARepo;
 
+    @Autowired
+    @Qualifier("property")
+    PropertyRepo propertyRepo;
+
     public Reservations getReservation(int id) {
         return reservationRepo.findById(id).orElse(null);
     }
@@ -441,6 +445,18 @@ public List<Reservations> getReservationsToBeCheckedOut(){
 
             SendMail y = new SendMail();
             y.sendEmail(subject,recevier,body);
+
+
+//            String recevier1 = personJPARepo.findById(propertyRepo.findById(reservation.getPropertyId())).getEmail();
+//
+//            String subject1 = "Customer cancelled your Home Reservation at OpenHome";
+//
+//
+//            String body1 = "Dear Host, \n\n Customer have cancelled your Home booking. We regret any inconvenience caused you."  + "\n\n " +
+//                    "Thanks and Regards, \n OpenHome Team";
+//
+//            SendMail y1 = new SendMail();
+//            y1.sendEmail(subject1,recevier1,body1);
 
             return 1;
 

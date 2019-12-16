@@ -190,6 +190,8 @@ public class PropertyService {
                                 "Thanks and Regards, \n OpenHome Team");
             }
 
+
+
         }
     }
 
@@ -222,6 +224,7 @@ public class PropertyService {
                         "Dear Customer, \n\n Your Booking got Cancelled in Open Home\n\n For more details check your dashboard\n\n " +
                                 "Thanks and Regards, \n OpenHome Team");
             }
+
         }
 
     }
