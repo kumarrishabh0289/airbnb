@@ -9,9 +9,20 @@ class PropertyReservationDetails extends Component {
     this.state = {
       booking: [],
       msg: "",
-      flag: false
+      flag: false,
+      rating:'',
+      showSuccessMessage:false,
+      
     };
+    this.submitRating = this.submitRating.bind(this);
+        this.handleChange = this.handleChange.bind(this);
   }
+  handleChange = (event) => {
+    this.setState({
+        [event.target.name]: event.target.value
+    })
+}
+
 
   componentDidMount() {
     window.history.pushState(null, document.title, window.location.href);
@@ -30,6 +41,44 @@ class PropertyReservationDetails extends Component {
         });
       });
   }
+  submitRating = (e,booking) => {
+    e.preventDefault();
+        
+    console.log("submit login called")
+    console.log("rating", this.state.rating)
+  //  var headers = new Headers();
+    //prevent page from refresh
+   
+    
+    const data = {
+        personId:booking.guestId,
+        review:this.state.rating,
+    }
+    console.log("data", data)
+    //set the with credentials to true
+    //axios.defaults.withCredentials = true;
+    //make a post request with the user data
+    axios.post(API_URL + "/review/hostadd", data)
+        .then((response) => {
+            console.log("Status Code : ", response.status);
+            if (response.status === 201) {
+
+                console.log(response.data);
+                this.setState({
+
+                    showSuccessMessage: true
+                })
+            } else {
+                console.log(response.data.error);
+                this.setState({
+
+
+                    hasFailed: true
+                })
+            }
+        });
+        
+}
 
   cancelBooking = (booking) => {
 
@@ -135,6 +184,7 @@ class PropertyReservationDetails extends Component {
             <th>Booking Amount Per weekend</th>
             <th>Total Payable</th>
             <th>Status</th>
+            <th>Rating</th>
 
             <th></th>
             <th></th>
@@ -159,10 +209,20 @@ class PropertyReservationDetails extends Component {
                 <td>{booking.paymentAmount}</td>
 
                 <td>{booking.state}</td>
+                <td>
+                <form onSubmit={(event)=>this.submitRating(event,booking)}>
+                                
+                                <input  type="number" name="rating" id="rating" value={this.state.rating} onChange={this.handleChange} min="1" max="5" placeholder="number between 1-5" style={{width: "15em"}}/>
+                                &nbsp;&nbsp;&nbsp;
+                                <input type="submit"  />
+                                </form>
+                </td>
                 
                 <td> <button onClick={() => this.cancelBooking(booking)} class="btn btn-primary">Cancel</button></td>
               </tr>
+              
             )
+            
           }
           else{
             return(
@@ -171,6 +231,7 @@ class PropertyReservationDetails extends Component {
             )
           }
           })}
+          {this.state.showSuccessMessage && <div className="alert alert-warning">Rating was successfully registered</div>}
         </table>
       </div>
     <div id="menu1" class=" tab-pane fade"><br/>
@@ -218,6 +279,7 @@ class PropertyReservationDetails extends Component {
                 
                 <td> <button onClick={() => this.cancelBooking(booking)} class="btn btn-primary">Cancel</button></td>
               </tr>
+
             )
           }
           else{
