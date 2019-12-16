@@ -241,7 +241,7 @@ public class SearchPropertyService {
                 }
             }
             if (hashSet.contains(6)) {
-                if(!p.isSat()){
+                if(!p.isSat()){ 
                     array[6] = Boolean.FALSE;
                 }
             }
