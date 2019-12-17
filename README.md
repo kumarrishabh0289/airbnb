@@ -7,9 +7,16 @@ Further, the customer can do the reservation of that property, Once the user boo
 The time advancement management is the part the application’s time can be moved in the future and all of the operations like check-out performed automatically. It also has Cron jobs added, once the customer is done with his reservation, the Cron job automatically does check-out process. It acts as a batch job for our application. As part of bonus features, the user can able to view the searched place on google map, also, the user can able to rate the property.
 
 ## Members 
-   | Name                           | SJSU ID    |
-   |--------------------------------|------------|
-   | **Laxmikant Bhaskar Pandhare** | 013859989  |
-   | **Prachi Chouksey**            | 013828945  |
-   | **Ayushi Singh**               | 013820807  |
-   | **Kumar Rishabh**              | 011457914  |
+
+   | Name                           | SJSU ID    |             Email ID                  | 
+   |--------------------------------|------------|---------------------------------------|
+   | **Laxmikant Bhaskar Pandhare** | 013859989  |  laxmikantbhaskar.pandhare@sjsu.edu   |
+   | **Prachi Chouksey**            | 013828945  |     prachi.chouksey@sjsu.edu          |
+   | **Ayushi Singh**               | 013820807  |      ayushi.singh@sjsu.edu            | 
+   | **Kumar Rishabh**              | 011457914  |      kumarrishabh@sjsu.edu            |
+   
+
+## High Level Design Diagram
+
+
+
