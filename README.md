@@ -1,33 +1,22 @@
-# Airbnb OpenHome
-Airbnb Prototype for Group Project CMPE 275 (OpenHome)
+# OpenHome 
 
-#Commit Rules
-1) All Members should commit on their local git repo and will push on seperate branch. No one will be able to push directly on the Master.
-2) all Pull request will require atleast one approval.
-3) Resolve the conflicts before merging.
-# Conflict resolution Guidelines
-1) Will have team update meeting everyday. 
-2) All updates will be manages in the peoject managment application Trello. All developmental modules will be in the one of the specific categories and will be assigned to respective team member.
+OpenHome provides a platform for hosts to accommodate guests with short-term lodging and tourism-related activities. Customers can search for lodging using filters such as lodging type, dates, location, and price. Customers can search for specific types of homes, such as Condo and house, apartment, and Pent House. Before booking, users must provide personal and payment information.
 
-Please Join https://trello.com/invite/b/ZuH9QSyJ/a27cbb4953bc57392b88f75b208d4883/cmpe-274-airbnb-prototype
+Further, the customer can do the reservation of that property, Once the user book the property, he can see all the details on the dashboard. On the dashboard, the user can check-in, check-out and even cancel the reservation. If user check-in late or cancel’s the reservation then appropriate changes get applied and the rest of the amount gets refunded. The user cannot check-in early. The same functionality provided to host where the host can cancel the reservation or change the availability of the property. But, the host needs to pay the charges then only he is able to cancel the reservation which is within a week. For all these actions, the appropriate party gets notified through the mail. The user also can see his monthly billing history for last 12 months.
 
-3) All members will be aware about the updates and development of others. And before commiting or creating pull request one will update whole team.
+The time advancement management is the part the application’s time can be moved in the future and all of the operations like check-out performed automatically. It also has Cron jobs added, once the customer is done with his reservation, the Cron job automatically does check-out process. It acts as a batch job for our application. As part of bonus features, the user can able to view the searched place on google map, also, the user can able to rate the property.
 
-# Git Commands to be used:
-1) Git status
-2) Git checkout -b branchname
-3) git add * or git add .
-4) git commit -m "commit msg"
-5) git push 
+## Members 
+
+   | Name                           | SJSU ID    |             Email ID                  | 
+   |--------------------------------|------------|---------------------------------------|
+   | **Laxmikant Bhaskar Pandhare** | 013859989  |  laxmikantbhaskar.pandhare@sjsu.edu   |
+   | **Prachi Chouksey**            | 013828945  |     prachi.chouksey@sjsu.edu          |
+   | **Ayushi Singh**               | 013820807  |      ayushi.singh@sjsu.edu            | 
+   | **Kumar Rishabh**              | 011457914  |      kumarrishabh@sjsu.edu            |
+   
+
+## High Level Design Diagram
 
 
-# Fetch the latest version from Git
-1) git fetch origin
-2) git status
-3) git pull
 
-# To change Origin:
-1) git remote rm origin
-2) git remote add origin git@github.com:username/repositoryName.git
-3) git config master.remote origin
-4) git config master.merge refs/heads/master
